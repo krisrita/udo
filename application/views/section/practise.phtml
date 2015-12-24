@@ -1,0 +1,117 @@
+﻿<{extends file="layout.phtml"}> 
+<{block name="title" append}>
+课程信息
+<{/block}>
+
+ <{block name="header-css"}>
+ <script>
+ var pageInfo ={
+   section_id:<{$section['id'] }>
+ }
+
+ </script>
+     <link rel="stylesheet" href="public/css/bootbox.css"/>
+
+<link href="public/css/answer.css" rel="stylesheet"/>
+
+<script>
+  　　var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1 
+  if(isChrome){
+    document.write('<link rel="stylesheet" href="/css/mathml.css">')
+  }
+</script>
+
+
+
+
+
+
+ <{/block}>
+
+
+<{block name="page-content" }>
+
+<div class="navgation">
+  <div class="wrapper path"> <a href="/course/info/course_id/<{$course['id']}>"<span class="glyphicon glyphicon-arrow-left"></span>返回</a><em><{$chapter['name']}> 第<{$section.seq}>节<{$section['name']}></em></div>
+</div>
+ <div class="wrapper" id="index-cover-list">
+        <div class="row" >
+
+            <div class="col-lg-8">
+               <div class="panel panel-default">
+  <div class="panel-heading"><span class="pull-right">用时：<i id="timer">    <div id="show"></div></i></span>
+  <{if isset($chapter.id)}>随堂练习<{else}>章节练习<{/if}> (<span id="Cnum"></span> / <span id="Anum"></span>)</div>
+  <div class="panel-body" style="height:800px">
+
+
+
+
+
+   
+
+   <div id="pcontent" >  
+     <div class="loading">练习题加载中... ...</div>
+   </div>
+ 
+
+
+  </div>
+</div>
+                
+            </div>
+
+             <div class="col-lg-4">
+<div class="panel panel-default">
+  <div class="panel-heading">答题卡</div>
+  <div class="panel-body the-answer">
+  <ul id="navgation" class="clearfix"></ul>
+
+  <hr class="clearfix"/>
+    <button class="btn btn-block btn-success pull-center" id="sendbtn">提交并查看结果</button>
+
+  </div>
+</div>
+     
+            </div>
+
+        </div>
+    </div>
+
+ <!--<em>{{=item.letter_seq}} </em> --> 
+   <script id="practiseTpl" type="text/x-dot-template">
+
+   {{? typeof it.next_seq !=='undefined' }}
+   <div id="Q{{=it.subject_id}}" subject_id="{{=it.subject_id}}" index="{{=it.next_seq-1}}" class="animated qlist" >
+
+  {{??}}
+   <div id="Q{{=it.subject_id}}" subject_id="{{=it.subject_id}}"  index="{{=it.subject_num}}" class="animated qlist" >
+
+  {{?}}
+
+      <h2 class="title">{{=it.subject_title}}</h2>
+      <ul>
+      {{~it.option_list:item}}
+          <li> <label> 
+          <input subject_id=" {{=it.subject_id}}"  next="{{=it.next_seq}}" id="{{= item.id}}" value="{{= item.id}}" name="answer{{=it.subject_id}}" type="radio" >
+            <span class="abcd-style">{{=item.letter_seq}}.</span>  
+          {{= item.content}} </label></li>
+      {{~}}
+      </ul>
+      </div>
+</script>
+
+
+<{/block}>
+
+<{block name="footer-script"}> 
+<script src="public/js/bootbox.js">
+</script>
+
+<script src="public/js/doT.min.js">
+</script>
+
+<script  src="public/js/practise.js">
+
+</script>
+
+<{/block}>

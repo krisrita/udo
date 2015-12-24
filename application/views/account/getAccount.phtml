@@ -1,0 +1,492 @@
+<{extends file="adminLayout.phtml"}>
+<{block name="title" append}>
+活动编辑
+<{/block}>
+<{block name="page-content" }>
+<!-- page content -->
+<div class="">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>
+                账户查询
+            </h3>
+        </div>
+
+        <div class="title_right">
+            <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for...">
+                                    <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">Go!</button>
+                        </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+
+    <div class="row">
+
+        <div class="col-md-12 col-sm-12 col-xs-12">
+
+                    <div class="well" style="overflow: auto">
+
+                        <!-- 列表日期筛选 -->
+                        <label class="control-label col-md-1">选择日期</label>
+                        <div class="col-md-4">
+                            <div id="reportrange_right" class="pull-left" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
+                                <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                                <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
+                            </div>
+                        </div>
+                        <!--日期筛选-->
+
+                        <br><br><br>
+
+                        <!-- 用户名筛选 -->
+                        <!--<div class="form-group">-->
+                            <label class="control-label col-md-1 col-sm-1 col-xs-12">用户名</label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                <input type="text" class="form-control" placeholder="输入用户名筛选">
+                            </div>
+                        <!--</div>-->
+                        <!-- 用户名筛选-->
+
+                        <!-- 用户id筛选 -->
+                        <!--<div class="form-group">-->
+                            <label class="control-label col-md-1 col-sm-1 col-xs-12">用户id</label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                <input type="text" class="form-control" placeholder="输入用户id筛选">
+                            </div>
+                        <!--</div>-->
+                        <!-- 用户id筛选-->
+
+                        <br><br><br>
+                        <div class="ln_solid"></div>
+                        <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                            <button type="submit" class="btn btn-primary">清空条件</button>
+                            <button type="submit" class="btn btn-success">确认筛选</button>
+                        </div>
+                    </div>
+
+                    <!-- 表格2 U币日志-->
+    </div>
+</div>
+
+
+    <div class="" role="tabpanel" data-example-id="togglable-tabs">
+        <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">账户余额</a>
+            </li>
+            <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab"  aria-expanded="false">U币日志</a>
+            </li>
+            <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">学分日志</a>
+            </li>
+            <li role="presentation" class=""><a href="#tab_content4" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">购买记录</a>
+            </li>
+        </ul>
+        <div id="myTabContent" class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                <!-- 表格1 账户信息-->
+                <table id="example1" class="table table-striped responsive-utilities jambo_table">
+                    <!--表头-->
+                    <thead>
+                    <tr class="headings">
+                        <!--<th>
+                            <input type="checkbox" class="tableflat">
+                        </th>-->
+                        <th>用户id</th>
+                        <th>用户名</th>
+                        <th>用户姓名</th>
+                        <th>U币余额</th>
+                        <th>学分余额</th>
+                    </tr>
+                    </thead>
+                    <!--表头-->
+                    <tbody>
+                    <{foreach item=account from=$accountList}>
+                    <tr class="even pointer">
+                        <!--<td class="a-center ">
+                            <input type="checkbox" class="tableflat">
+                        </td>-->
+                        <td class=" "><{$account.sso_id}></td>
+                        <td class=" "><{$account.mobile}> </td>
+                        <td class=" "><{$account.user_name}> </td>
+                        <td class=" "><{$account.amt}>
+                        </td>
+                        <td class=" "><{$account.score}></td>
+                    </tr>
+                    <{/foreach}>
+                    </tbody>
+                </table>
+                <!-- 表格1 账户信息-->
+            </div>
+
+            <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                <!-- 表格2 U币日志-->
+                <table id="example2" class="table table-striped responsive-utilities jambo_table">
+                    <!--表头-->
+                    <thead>
+                    <tr class="headings">
+                        <!--<th>
+                            <input type="checkbox" class="tableflat">
+                        </th>-->
+                        <th>用户id</th>
+                        <th>用户名</th>
+                        <th>用户姓名</th>
+                        <th>信息</th>
+                        <th>数值</th>
+                        <th>时间</th>
+                    </tr>
+                    </thead>
+                    <!--表头-->
+                    <tbody>
+                    <{foreach item=coinLog from=$coinLogList}>
+                    <tr class="even pointer">
+                        <!--<td class="a-center ">
+                            <input type="checkbox" class="tableflat">
+                        </td>-->
+                        <td class=" "><{$coinLog.userId}></td>
+                        <td class=" "><{$coinLog.mobile}> </td>
+                        <td class=" "><{$coinLog.name}> </td>
+                        <td class=" "><{$coinLog.info}></td>
+                        <td class=" "><{$coinLog.amt}></td>
+                        <td class=" "><{$coinLog.convertedTime}></td>
+                    </tr>
+                    <{/foreach}>
+                    </tbody>
+                </table>
+                <!-- 表格2 U币日志-->
+            </div>
+
+
+            <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
+                <!-- 表格3 学分日志-->
+                <table id="example3" class="table table-striped responsive-utilities jambo_table">
+                    <!--表头-->
+                    <thead>
+                    <tr class="headings">
+                        <!--<th>
+                            <input type="checkbox" class="tableflat">
+                        </th>-->
+                        <th>用户id</th>
+                        <th>用户名</th>
+                        <th>用户姓名</th>
+                        <th>信息</th>
+                        <th>数值</th>
+                        <th>时间</th>
+                    </tr>
+                    </thead>
+                    <!--表头-->
+                    <tbody>
+                    <{foreach item=creditLog from=$creditLogList}>
+                    <tr class="even pointer">
+                        <!--<td class="a-center ">
+                            <input type="checkbox" class="tableflat">
+                        </td>-->
+                        <td class=" "><{$creditLog.userId}></td>
+                        <td class=" "><{$creditLog.mobile}> </td>
+                        <td class=" "><{$creditLog.name}> </td>
+                        <td class=" "><{$creditLog.info}></td>
+                        <td class=" "><{$creditLog.amt}></td>
+                        <td class=" "><{$creditLog.convertedTime}></td>
+                    </tr>
+                    <{/foreach}>
+                    </tbody>
+                </table>
+                <!-- 表格3 学分日志-->
+            </div>
+
+            <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="profile-tab">
+                <!-- 表格4 购买记录-->
+                <table id="example4" class="table table-striped responsive-utilities jambo_table">
+                    <!--表头-->
+                    <thead>
+                    <tr class="headings">
+                        <!--<th>
+                            <input type="checkbox" class="tableflat">
+                        </th>-->
+                        <th>用户id</th>
+                        <th>用户名</th>
+                        <th>用户姓名</th>
+                        <th>课程名称</th>
+                        <th>频道名称</th>
+                        <th>订单号</th>
+                        <th>购买时间</th>
+                    </tr>
+                    </thead>
+                    <!--表头-->
+                    <tbody>
+                    <{foreach item=bought from=$boughtList}>
+                    <tr class="even pointer">
+                        <!--<td class="a-center ">
+                            <input type="checkbox" class="tableflat">
+                        </td>-->
+                        <td class=" "><{$bought.userId}></td>
+                        <td class=" "><{$bought.mobile}> </td>
+                        <td class=" "><{$bought.userName}> </td>
+                        <td class=" "><{$bought.name}></td>
+                        <td class=" "><{$bought.schoolName}></td>
+                        <td class=" "><{$bought.orderId}></td>
+                        <td class=" "><{$bought.createTime}></td>
+                    </tr>
+                    <{/foreach}>
+                    </tbody>
+                </table>
+                <!-- 表格4 购买记录-->
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<{/block}>
+
+<{block name="footer-script"}>
+
+<!-- Datatables -->
+<script src="public/admin/js/datatables/js/jquery.dataTables.js"></script>
+<script src="js/datatables/tools/js/dataTables.tableTools.js"></script>
+<script>
+    $(document).ready(function () {
+        $('input.tableflat').iCheck({
+            checkboxClass: 'icheckbox_flat-green',
+            radioClass: 'iradio_flat-green'
+        });
+    });
+
+    var asInitVals = new Array();
+    $(document).ready(function () {
+        for(var i=1;i<5;i++){
+            var oTable = $('#example'+i).dataTable({
+                "oLanguage": {
+                    "sSearch": "Search all columns:"
+                },
+                "aoColumnDefs": [
+                    {
+                        'bSortable': false,
+                        'aTargets': [0]
+                    } //disables sorting for column one
+                ],
+                'iDisplayLength': 12,
+                "sPaginationType": "full_numbers",
+                "dom": 'T<"clear">lfrtip',
+                "tableTools": {
+                    "sSwfPath": "<?php echo base_url('assets2/js/Datatables/tools/swf/copy_csv_xls_pdf.swf'); ?>"
+                }
+            });
+        }
+
+        $("tfoot input").keyup(function () {
+            /* Filter on the column based on the index of this element's parent <th> */
+            oTable.fnFilter(this.value, $("tfoot th").index($(this).parent()));
+        });
+        $("tfoot input").each(function (i) {
+            asInitVals[i] = this.value;
+        });
+        $("tfoot input").focus(function () {
+            if (this.className == "search_init") {
+                this.className = "";
+                this.value = "";
+            }
+        });
+        $("tfoot input").blur(function (i) {
+            if (this.value == "") {
+                this.className = "search_init";
+                this.value = asInitVals[$("tfoot input").index(this)];
+            }
+        });
+    });
+</script>
+
+<!-- datepicker -->
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var cb = function (start, end, label) {
+            console.log(start.toISOString(), end.toISOString(), label);
+            $('#reportrange_right span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            //alert("Callback has fired: [" + start.format('MMMM D, YYYY') + " to " + end.format('MMMM D, YYYY') + ", label = " + label + "]");
+        }
+
+        var optionSet1 = {
+            startDate: moment().subtract(29, 'days'),
+            endDate: moment(),
+            minDate: '01/01/2012',
+            maxDate: '12/31/2015',
+            dateLimit: {
+                days: 60
+            },
+            showDropdowns: true,
+            showWeekNumbers: true,
+            timePicker: false,
+            timePickerIncrement: 1,
+            timePicker12Hour: true,
+            ranges: {
+                '今天': [moment(), moment()],
+                '昨天': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                '过去7天': [moment().subtract(6, 'days'), moment()],
+                '过去30天': [moment().subtract(29, 'days'), moment()],
+                '本月': [moment().startOf('month'), moment().endOf('month')],
+                '上月': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            },
+            opens: 'right',
+            buttonClasses: ['btn btn-default'],
+            applyClass: 'btn-small btn-primary',
+            cancelClass: 'btn-small',
+            format: 'MM/DD/YYYY',
+            separator: ' to ',
+            locale: {
+                applyLabel: 'Submit',
+                cancelLabel: 'Clear',
+                fromLabel: 'From',
+                toLabel: 'To',
+                customRangeLabel: '常规',
+                daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+                monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                firstDay: 1
+            }
+        };
+
+        $('#reportrange_right span').html(moment().subtract(29, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
+
+        $('#reportrange_right').daterangepicker(optionSet1, cb);
+
+        $('#reportrange_right').on('show.daterangepicker', function () {
+            console.log("show event fired");
+        });
+        $('#reportrange_right').on('hide.daterangepicker', function () {
+            console.log("hide event fired");
+        });
+        $('#reportrange_right').on('apply.daterangepicker', function (ev, picker) {
+            console.log("apply event fired, start/end dates are " + picker.startDate.format('MMMM D, YYYY') + " to " + picker.endDate.format('MMMM D, YYYY'));
+        });
+        $('#reportrange_right').on('cancel.daterangepicker', function (ev, picker) {
+            console.log("cancel event fired");
+        });
+
+        $('#options1').click(function () {
+            $('#reportrange_right').data('daterangepicker').setOptions(optionSet1, cb);
+        });
+
+        $('#options2').click(function () {
+            $('#reportrange_right').data('daterangepicker').setOptions(optionSet2, cb);
+        });
+
+        $('#destroy').click(function () {
+            $('#reportrange_right').data('daterangepicker').remove();
+        });
+
+    });
+</script>
+<!-- datepicker -->
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var cb = function (start, end, label) {
+            console.log(start.toISOString(), end.toISOString(), label);
+            $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            //alert("Callback has fired: [" + start.format('MMMM D, YYYY') + " to " + end.format('MMMM D, YYYY') + ", label = " + label + "]");
+        }
+
+        var optionSet1 = {
+            startDate: moment().subtract(29, 'days'),
+            endDate: moment(),
+            minDate: '01/01/2012',
+            maxDate: '12/31/2015',
+            dateLimit: {
+                days: 60
+            },
+            showDropdowns: true,
+            showWeekNumbers: true,
+            timePicker: false,
+            timePickerIncrement: 1,
+            timePicker12Hour: true,
+            ranges: {
+                '今天': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            },
+            opens: 'left',
+            buttonClasses: ['btn btn-default'],
+            applyClass: 'btn-small btn-primary',
+            cancelClass: 'btn-small',
+            format: 'MM/DD/YYYY',
+            separator: ' to ',
+            locale: {
+                applyLabel: 'Submit',
+                cancelLabel: 'Clear',
+                fromLabel: 'From',
+                toLabel: 'To',
+                customRangeLabel: 'Custom',
+                daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+                monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                firstDay: 1
+            }
+        };
+        $('#reportrange span').html(moment().subtract(29, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
+        $('#reportrange').daterangepicker(optionSet1, cb);
+        $('#reportrange').on('show.daterangepicker', function () {
+            console.log("show event fired");
+        });
+        $('#reportrange').on('hide.daterangepicker', function () {
+            console.log("hide event fired");
+        });
+        $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
+            console.log("apply event fired, start/end dates are " + picker.startDate.format('MMMM D, YYYY') + " to " + picker.endDate.format('MMMM D, YYYY'));
+        });
+        $('#reportrange').on('cancel.daterangepicker', function (ev, picker) {
+            console.log("cancel event fired");
+        });
+        $('#options1').click(function () {
+            $('#reportrange').data('daterangepicker').setOptions(optionSet1, cb);
+        });
+        $('#options2').click(function () {
+            $('#reportrange').data('daterangepicker').setOptions(optionSet2, cb);
+        });
+        $('#destroy').click(function () {
+            $('#reportrange').data('daterangepicker').remove();
+        });
+    });
+</script>
+<!-- /datepicker -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#single_cal1').daterangepicker({
+            singleDatePicker: true,
+            calender_style: "picker_1"
+        }, function (start, end, label) {
+            console.log(start.toISOString(), end.toISOString(), label);
+        });
+        $('#single_cal2').daterangepicker({
+            singleDatePicker: true,
+            calender_style: "picker_2"
+        }, function (start, end, label) {
+            console.log(start.toISOString(), end.toISOString(), label);
+        });
+        $('#single_cal3').daterangepicker({
+            singleDatePicker: true,
+            calender_style: "picker_3"
+        }, function (start, end, label) {
+            console.log(start.toISOString(), end.toISOString(), label);
+        });
+        $('#single_cal4').daterangepicker({
+            singleDatePicker: true,
+            calender_style: "picker_4"
+        }, function (start, end, label) {
+            console.log(start.toISOString(), end.toISOString(), label);
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#reservation').daterangepicker(null, function (start, end, label) {
+            console.log(start.toISOString(), end.toISOString(), label);
+        });
+    });
+</script>
+<!-- /datepicker -->
+<{/block}>

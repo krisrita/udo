@@ -1,0 +1,301 @@
+<{extends file="layout.phtml"}>
+  <{block name="title" append}>
+    手机验证
+    <{/block}>
+
+      <{block name="header-css"}>
+
+        <link href="public/css/index.css" rel="stylesheet"/>
+        <link href="public/css/bootbox.css" rel="stylesheet"/>
+        <link rel="stylesheet" href="public/css/user.css">
+        <style type="text/css">
+        #chengmbbox, .mob-right{ display:none }
+	 #vcode-error{color: #959595;float: left;line-height: 35px;padding-left: 10px;margin: 0;}
+       #vcode{width: 40%;}
+        </style>
+        <{/block}>
+
+          <{block name="page-content" }>
+
+            <div class="wrapper">
+              <div class="row">
+                <div class="col-lg-2">
+                  <div class="bordered">
+                    <ul class="nav nav-stacked ">
+                      <li >
+                        <a href="/user/setprofile">
+                          个人资料 <i class="glyphicon glyphicon-chevron-right"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="/user/sethead">
+                          上传头像 <i class="glyphicon glyphicon-chevron-right"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="/user/resetpassword">
+                          修改密码
+                          <i class="glyphicon glyphicon-chevron-right"></i>
+                        </a>
+                      </li>
+                      <li  class="active">
+                        <a href="/user/resetmobile">
+                          手机验证
+                          <i class="glyphicon glyphicon-chevron-right"></i>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-lg-10">
+                  <div class="main bordered">
+                    <h3 class="padding-left">手机验证</h3>
+                    <hr>
+                    <!--内容区开始-->
+                    <div class="mob-top-tit">
+                      <div class="col-lg-4 on">
+                        验证身份
+                        <span></span> <em></em>
+                      </div>
+                      <div class="col-lg-4">
+                        设置新手机号
+                        <span></span> <em></em>
+                      </div>
+                      <div class="col-lg-4 ">设置成功</div>
+                    </div>
+                    <div id="horizontal-form">
+                      <form role="form" class="form-horizontal" id="checkpassword" name="checkpassword">
+                        <div class="form-group">
+                          <label class="col-sm-3 control-label no-padding-right" for="firstname">当前手机号：</label>
+                          <div class="col-sm-9 ">
+                            <p class="form-control-static">
+                              <{$uInfo['mobile']}></p>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <div class="help-block col-sm-offset-3 col-sm-9">为了保障您的帐户安全，你们需要验证您的身份(请输入登录密码)</div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="password">请输入登录密码：</label>
+                            <div class="col-sm-9 ">
+                              <input type="password"  id="password" name='password' class="form-control"></div>
+                          </div>
+                          <div class="clearfix"></div>
+                          <hr>
+                          <div class="form-group">
+                            <div class="col-sm-offset-3 col-sm-9">
+                              <input class="btn btn-info" type="submit" value="确认修改"></input>
+                          </div>
+                        </div>
+                      </form>
+
+                      <div class="horizontal-form" id="chengmbbox" >
+                        <form role="form" class="form-horizontal" id="chengmb" >
+                          <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="phone">更换登录手机号：</label>
+                            <div class="col-sm-9 ">
+                              <input type="text"  id="phone" name='phone' class="form-control"></div>
+                          </div>
+                          <div class="form-group">
+                            <label for="vcode" class="col-sm-3 control-label no-padding-right">短信验证码</label>
+                            <div class="col-sm-4">
+                              <input type="text" required="" class="form-control" id="vcode" name="vcode" placeholder="验证码" aria-required="true"></div>
+                              <div class="codeTime"></div>
+                          </div>
+                          <div class="form-group"><div class="col-sm-5 col-sm-offset-3 ">
+
+                              <a id="JgetCode" class="btn btn-success" href="javascript:void(0)">获取动态短信验证码</a>
+                            </div></div>
+                          <div class="clearfix"></div>
+                          <hr>
+                          <div class="form-group">
+                            <div class="col-sm-offset-3 col-sm-9">
+                              <input class="btn btn-info" type="submit" value="确认修改"></input>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="mob-right">
+                    <div class="mob-msg text-center">
+                      <h4>设置成功，您的新登录用户名为<b></b></h4>
+                    </div>
+                    <hr>
+                    <div class="form-group " align="center"><a   href="/" class="btn btn-info pull-center">&nbsp;&nbsp;&nbsp;&nbsp;返回&nbsp;&nbsp;&nbsp;&nbsp;</a></div>
+                  </div>
+                  </div>
+                  <!--内容区结束--> </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <{/block}>
+
+            <{block name="footer-script"}>
+              <script src="public/js/jquery.validate.min.js"></script>
+              <script src="public/js/additional-methods.min.js"></script>
+              <script src="public/js/bootbox.js"></script>
+              <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
+              <script>
+
+
+   $.fn.serializeObject = function() {
+     var o = {};
+     var a = this.serializeArray();
+     $.each(a, function() {
+       if (o[this.name]) {
+         if (!o[this.name].push) {
+           o[this.name] = [o[this.name]];
+         }
+         o[this.name].push(this.value || '');
+       } else {
+         o[this.name] = this.value || '';
+       }
+     });
+     return o;
+   };
+
+   jQuery.validator.addMethod("isMobile", function(value, element) {
+     var length = value.length;
+     var mobile = /^(((13[0-9]{1})|(14[0-9]{1})|(18[0-9]{1})|(15[0-9]{1}))+\d{8})$/;
+     return this.optional(element) || (length == 11 && mobile.test(value));
+   }, "手机号码格式不正确！");
+
+   $("#checkpassword").validate({
+     submitHandler: function(form) {
+       var formdata = $("#checkpassword").serializeObject();
+       $.post('/user/checkpassword', formdata, function(data) {
+
+
+         if (parseInt(data.errno) < 0) {
+           bootbox.info(data.error, function() {}, 3000);
+
+         } else {
+             $("#checkpassword").fadeOut();
+             $("#chengmbbox").fadeIn();
+		 $('.mob-top-tit').children().removeClass('on');
+		 $('.mob-top-tit').find('div').eq(0).addClass('s');
+		 $('.mob-top-tit').find('div').eq(1).addClass('on');
+             $('.mob-msg b').text($('#phone').val())
+         checkMoble();
+
+
+
+
+           //window.location.href="/user/resetmobile"
+         }
+
+       })
+     },
+     rules: {
+        password: {
+         required: true,
+       }
+     },
+     messages: {
+       password: {
+         required: '请输入密码！',
+       }
+     }
+   }); 
+
+   function  checkMoble(){
+
+      $("#chengmb").validate({
+     submitHandler: function(form) {
+//  
+//new_mobile   变更后的手机号
+// password  密码
+// code  验证码 
+
+        var formdata={
+          new_mobile :$('#phone ').val(),
+          password:$('#password ').val(),
+          code:$('#vcode ').val(),
+
+        }
+       $.post('/user/resetmobile', formdata, function(data) {
+
+
+         if (parseInt(data.errno) < 0) {
+           bootbox.info(data.error, function() {}, 3000);
+
+         } else {
+         $("#chengmbbox").fadeOut();
+         $(".mob-right").fadeIn();
+		 $('.mob-top-tit').children().removeClass('on');
+		 $('.mob-top-tit').children().removeClass('s');
+		 $('.mob-top-tit').find('div').eq(2).addClass('on')
+         }
+
+       })
+     },
+     rules: {
+        phone: {
+         required: true,
+		 isMobile: true
+       },
+	   vcode: {
+         required: true,
+       }
+     },
+     messages: {
+       phone: {
+         required: '请输入新的手机号',
+		 phoneUS: '手机号码格式不正确！'
+       },
+	   vcode: {
+         required: '请输入验证码',
+		 
+       }
+     }
+   }); 
+
+   }
+
+
+
+/**
+    * 获取验证码
+    */
+   var code;
+   var codeTime;
+
+   function getCode() {
+     code = $('#JgetCode');
+     codeTime = $('.codeTime');
+     var mobile = $.trim($("#phone").val());
+     if (mobile == "") {
+       alert('请输入手机号');
+       return;
+     }
+     code.hide();
+     codeTime.show();
+     var count = 60;
+     codeTime.html('60s重新获取');
+     var inter = setInterval(function() {
+       if (count == 0) {
+         clearInterval(inter);
+         code.show();
+         codeTime.hide();
+       }
+       codeTime.html(--count + '秒后重新获取');
+     }, 1000);
+
+     $.getJSON('/user/sendcode', {
+       mobile: mobile
+     }, function(data) {
+
+       console.log(data);
+       $('#vcode').val('').focus()
+
+     })
+
+
+   }
+
+   $('#JgetCode').on('click', getCode)
+
+
+
+</script>
+              <{/block}>

@@ -1,0 +1,111 @@
+@charset "utf-8";
+/* CSS Document */
+
+.answer-box{overflow:hidden; margin:0 -15px;}
+.answer-main{ padding:15px 15px 30px;}
+.answer-main button{display:block;}
+.answer-main h4 { overflow:hidden;padding-bottom:5px}
+.answer-main h4 em{ font-style:normal;color:#20b698;}
+#course-header .item.answer-top{ padding-top:20px;}
+.answer-dt{ font-size:40px;  overflow:hidden;}
+.answer-dt em{ display:inline-block; font-size:20px;color:#fff; line-height:40px; font-style:normal; padding-left:10px;}
+.answer-dt em, .answer-dt span{ float:left;}
+.answer{ padding:15px; overflow:hidden;}
+.answer img{ max-width:100%; display:block; margin:0 auto;}
+.the-answer{ overflow:hidden; padding:20px 0;}
+.the-answer ul{ list-style-type:none; margin:0; padding:0;}
+.the-answer li{background:#1fb295;
+ list-style-type:none;
+        cursor:pointer;
+	color: #fff;
+	float:left;width:45px; height:45px; line-height: 45px; margin: 4px 6px; font-size:16px; font-weight:bold; text-align:center;border:2px solid #ddd; border-radius:100%;float:left; display:inline;}
+.the-answer li em{ display:block; margin:2px;width:37px; height:37px; line-height:37px;background:#fff; border-radius:100%; font-style:normal; color:#fff;}
+.the-answer li.right em{ background:#20b698;}
+
+.the-answer li.wrong{ background: #fff}
+.the-answer li.wrong em{ background:#d42c4c;}
+
+.the-answer li.hasdone{ background: #666;color: #333}
+
+.the-answer li.on{background: #e89213;color: #fff}
+.the-answer li.on.hasdone{ background: #e89213;color: #fff}
+
+
+.the-answer-btn button{width:45%;}
+
+#paperView .the-answer li{
+
+background:#f8f8f8;
+	color: #555;
+
+}
+
+#paperView .the-answer li.on{background: #e89213;color: #fff}
+
+#paperView li{
+
+  list-style-type:none;
+  margin:7px;
+  overflow:hidden
+
+}
+
+#paperView li p{
+
+  margin-left:15px
+
+}
+
+
+#pcontent{position: relative;}
+.qlist{ position: absolute;left: 0;top:0; max-width: 100%; background: #fff}
+.qlist img{
+	max-width: 90%
+}
+h2.title{
+	font-size: 20px;
+	line-height: 1.7
+}
+
+h2.title p,h2.title{
+	display: inline;
+	word-wrap:break-word;
+}
+
+h2.title p img{
+	max-width: 100%
+}
+
+
+.qlist p{
+	display: inline-block;
+}
+
+.qlist li{
+	padding: 10px 0;
+	list-style: none;
+}
+
+.qlist li p img{
+	max-width: 80%
+}
+
+#sendbtn{
+	margin: 0 auto;
+	width: 70%
+}
+
+#pcontent h4 img,.well img{
+	max-width: 100%;
+	margin-top: 5px
+}
+.right-answer{
+color:#1fb295 ;
+}
+.right-answer p{
+
+  display:inline;
+
+margin:0 6px
+
+}

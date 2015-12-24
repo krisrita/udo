@@ -1,0 +1,76 @@
+yaf扩展下载:
+http://pecl.php.net/package/yaf
+
+linux:
+进入到下载目录
+cd /下载
+$tar zxvf  yaf-2.2.9.tgz
+$sudo chmod -R 777 yaf-2.2.9
+$cd yaf-2.2.9
+$phpize //我们会看到文件开始执行 出现./configure
+$./configure
+$make
+$make install
+
+若出现以下错误：
+  pcre.h: No such file or directory 
+则在当前目录下执行
+apt-get update
+apt-get install libpcre3 libpcre3-dev 
+
+安装成功后，在php.ini文件中添加 extension=yaf.so
+重启apache即可
+
+
+git　clone 下YAF的代码
+按照自己的习惯做本地配置：
+虚拟主机的配置如下：
+<VirtualHost *:8524>
+        ServerAdmin webmaster@localhost
+        ServerName   localhost
+        DocumentRoot /var/www/UDO2_YAF/public/
+        ErrorLog /var/log/UDO2_YAF_error.log
+        CustomLog /var/log/UDO2_YAF_access.log combined
+        <Directory />
+                Options FollowSymLinks
+                AllowOverride All
+        </Directory>
+        <Directory /var/www/UDO2_YAF/public/>
+                Options Indexes FollowSymLinks Multiviews
+                AllowOverride All
+                Order allow,deny
+                allow from all
+        </Directory>
+</VirtualHost>
+
+注意在apache2下：
+sites-enabled
+sites-available
+这两个文件夹下的配置文件应该保持同步
+在apache2下的ports.conf文件中添加监听端口
+Listen 8524
+重启apache即可
+
+本地项目配置：
+在public下创建名为：.htaccess的文件，在文件中添加
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule .* index.php
+
+将library下的Common文件夹下的Config.php文件中的
+const SITE_DOMAIN = "182.92.110.119";
+const BASE_URL = "http://182.92.110.119";
+const STATIC_BASE_URL = "http://182.92.110.119/";
+的配置换成自己的
+例如：
+   const SITE_DOMAIN = "http://127.0.0.1:8524/";
+   const BASE_URL = "http://127.0.0.1:8524/";
+
+将library的User文件夹下的Cookie.php文件中的 setcookie()方法修改成如下所示：
+   private function setcookie($key, $val = 0, $expire_time = 0)
+    {
+        setcookie($key, $val, $expire_time, '/', false, $_SERVER['SERVER_PORT'] == 443 ? 1 : 0);
+
+    }
+
+

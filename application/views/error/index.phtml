@@ -1,0 +1,56 @@
+<{extends file="layout.phtml"}> 
+<{block name="title" append}>
+很抱歉，你访问的页面找不到了！
+<{/block}>
+
+ <{block name="header-css"}>
+<link href="public/css/index.css" rel="stylesheet"/>
+<style type="text/css">
+	body{
+	background: url(../../images/bg1.png);
+	font-family: "微软雅黑";
+	}
+.box404 p{
+	margin: 18px 0px 45px 0px;
+}
+.box404 p{
+	font-size:2em;
+	color:#666;
+	text-align:center;
+}
+.box404 p span{
+	color:#e54040;
+}
+.box404{
+	text-align:center;
+	padding:115px 0px 0px 0px;
+}
+.box404 a{
+	color:#fff;
+	background: #20b496; /* Old browsers */
+	padding: 10px 20px;
+	border-radius: 8px;
+}
+.box404 a:hover{
+	background:#1ca88c;
+}
+.box404 img{
+	width: 100%;
+	max-width: 500px;
+}
+</style>
+ <{/block}>
+
+
+<{block name="page-content" }>
+    <div class="box404">
+    <img src="../../images/error-img.png" title="error" />
+    <p><span><label><{$data.errno}></label> <label><{$data.error}></label> hh.....</span>您查看的页面找不到了！</p>
+    <a href="/">返回首页</a>
+　　</div>
+<{/block}>
+
+<{block name="footer-script"}> 
+<!--Basic Scripts-->
+<{/block}>
+

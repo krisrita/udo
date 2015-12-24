@@ -1,0 +1,9 @@
+@charset "utf-8";
+/* CSS Document */
+
+.back-bg {
+	background: #fff;
+	 padding-bottom:50px;
+}
+.back-bg .pub-editor-wrap textarea{ min-height:200px;}
+.back-bg .issques{ margin-bottom:50px;}

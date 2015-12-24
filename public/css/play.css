@@ -1,0 +1,8 @@
+@charset "utf-8";
+/* CSS Document */
+
+.video-box{ background:url(../images/video-bg.jpg); padding-top:20px;overflow:hidden;margin-bottom:25px;}
+#player{ background:#000000; height:460px;}
+.video-top{overflow:hidden; padding:5px 15px; background:#fff; margin-bottom:10px; color:#999; margin:0 -15px 10px;}
+.video-top h5{ width:70%}
+.video-top a.btn{margin-left:15px;}

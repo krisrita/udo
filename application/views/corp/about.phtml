@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>关于我们</title>
+
+<link rel="stylesheet" href="public/base/css/howdo-framework.css"/>
+<link rel="stylesheet" href="public/base/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="public/base/css/common.css"/>
+    <script src="public/js/jquery-2.1.4.min.js">
+        </script>
+<style>
+.mob-about-top{ padding:30px 0 0px; overflow:hidden;}
+.mob-about{margin-top:30px;}
+a.about-blue{ color:#1abc9c; font-weight:normal;}
+.about-footer{text-align:center; line-height:2em; margin-top:50px;}
+</style>
+</head>
+<body>
+<div class="wrapper">
+<div class="row mob-about-top"><div class="col-xs-12"><img src="public/images/logo1.jpg" width="33%" class="img-responsive center-block"   alt=""/></div></div>
+<h4 class="text-center">学生端<span id="version">
+
+        <{if $versionios}>  <{$versionios}> <{else}> <{$version.version}>  <{/if }>
+    </span></h4>
+<div class="row mob-about">
+<div class="list-group col-xs-10 col-xs-offset-1">
+  <li class="list-group-item">客服电话：<b ><a class="about-blue" href="tel:4006521530">4006-521-530</a></b>（周一至周五 10:00-18:00）</li>
+  <li class="list-group-item">客服邮箱：<a class="about-blue" href = "mailto:kf@howdo.cc?subject=给好度科技的反馈邮件&body=好度科技你好">kf@howdo.cc </a> </li>
+</div>
+</div>
+<div class="row mob-about-top"><div class="col-xs-12"><img src="public/images/code1.jpg" width="28%" class="img-responsive center-block"   alt=""/></div></div>
+<h4 class="text-center">微信公众号</h4>
+<div  class="row about-footer ">
+  <p class="col-xs-12"><b ><a class="about-blue" href="/corp/copyright" onclick='showCopyright()'>好度科技版权声明</a></b><br/>Copyright©2014-2015 好度科技. All Rights Reserved.</p>
+</div>
+</div>
+
+	
+	<script type='text/javascript'>
+
+
+function version() {
+
+	   return  appclient.getAppClientVersion();
+
+	}
+
+	$('#version').text(version());
+
+	function call(number) {
+
+		Android.call(number);
+	}
+	
+	function showCopyright(e) {
+		Android.showCopyright();
+	}
+</script>
+
+</body>
+</html>

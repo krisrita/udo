@@ -1,0 +1,80 @@
+#index-cover-list{
+	margin-top: 5px;
+	clear: both;
+}
+.last {
+    color: #f00;
+    overflow: hidden;
+    position: relative;
+    text-indent: 20px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+}
+
+.last a{
+	    color: #f00;
+
+}
+
+.last i{
+	font-size: 20px;
+	color: #999;
+	margin-top:3px;
+	position: absolute;
+	left: -20px;
+	top: -1px
+}
+
+.green{
+	color: green
+}
+.thumbnail-footer{
+	color: #888
+}
+
+#currCity{
+	font-size: 18px;
+	font-weight: bold;
+	color:#1fb295 
+}
+
+.city-list{
+	background: #fff;
+	line-height: 1.5;
+	height: 0;
+	overflow: hidden;
+	transition:all 0.5s;
+	margin-top: 10px;
+	margin-bottom: 15px;
+}
+.city-list.show{
+	height:53px
+}
+.city-ul{
+	padding:0 15px;
+}
+.city-ul li{
+	float: left;
+	list-style: none;
+	margin: 15px 8px 5px 0;
+	cursor: pointer;
+	padding:2px 5px;
+	border-radius: 3px
+
+}
+
+.city-ul li:hover,.city-ul li.on{
+	background: #1fb295;
+	color: #fff
+}
+
+a#changBtn{
+	color: #666
+}
+
+a#changBtn:hover{
+		color:#1fb295;
+		text-decoration: none; 
+
+};

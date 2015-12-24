@@ -1,0 +1,144 @@
+<{extends file="layout.phtml"}> 
+<{block name="title" append}>
+答题报告
+<{/block}>
+
+ <{block name="header-css"}>
+ <script>
+ var pageInfo ={
+   section_id:<{$section['id'] }>
+ }
+ </script>
+ <link rel="stylesheet" href="public/css/learn.css"/>
+<link href="public/css/answer.css" rel="stylesheet"/>
+<style type="text/css">
+  .answer-results{
+    padding: 15px;
+  }
+  .answer-results dt{
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 2em;
+  }
+   .answer-results dd{
+    line-height: 2em;
+  }
+  .answer-results b{
+    color: #1abc9c;
+  }
+  .answer-results .f36{
+    font-size: 30px;
+  }
+  .answer-time{
+    font-size: 19px;
+  }
+</style>
+ <{/block}>
+
+
+<{block name="page-content" }>
+
+ <div class="wrapper">
+   <div id="course-header" class="clearfix">
+     <div class="row">
+     	<div class="col-lg-3">
+
+     	<img class="cover-img" width="250" height="125" src="<{$course.image}>" alt=""></div>
+     	<div class="col-lg-3 bg">
+     	<div class="item answer-top ">
+     	   <div class="answer-dt"><span class="glyphicon glyphicon-calendar"></span><em>答题时间</em></div>
+           <h3 class="answer-time">
+           <{$practise['create_time_fmt']}>
+             
+
+           </h3>
+     	</div>
+     	</div>
+     	<div class="col-lg-3" >
+     	<div class="item answer-top">
+           <div class="answer-dt"><span class="glyphicon glyphicon-check"></span><em>正确率</em></div>
+           <h3><{$practise['correct_rate']}></h3>
+     	</div>
+
+     </div>
+     	<div class="col-lg-3 bg">
+     	<div class="item answer-top">
+           <div class="answer-dt"><span class="glyphicon glyphicon-time"></span><em>用时</em></div>
+           <h3><{$practise['spend_time_fmt']}></h3>
+     	</div>
+
+     </div>
+  	
+  </div>
+	
+ </div>
+<div class="answer-box" >
+
+            <div class="col-lg-8">
+               <div class="panel panel-default">
+  <div class="panel-heading">答题报告</div>
+  <div class="answer-main">
+    <div id="content">
+      <div class="answer-results">
+        <dl>
+          <dt>本次练习中</dt>
+          <dd>您的答案正确率击败了<b class='f36'><{$practise['score_win_rate']}></b>的学生</dd>
+          <dd>您的答题时间击败了<b> <{$practise['spendtime_win_rate']}> </b>的学生</dd>
+          <dd>综合排名： <{$practise['total_rank']}></dd>
+          <dd>您获得了<b> <{$practise['rank_level']}></b>  的称号</dd>
+        </dl>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+                
+            </div>
+
+             <div class="col-lg-4">
+<div class="panel panel-default">
+  <div class="panel-heading">答题卡</div>
+  <div class="the-answer">
+    <ul>
+
+
+     <{foreach item=it name=foo  from=$practise['answer_list'] }>
+
+    <li 
+   <{if $it.correct == 1 }>
+    class="right" title="本题答对了"
+
+   <{else}>
+    class="wrong" title="本题答错了"
+
+   <{/if}>
+    ><em><{$smarty.foreach.foo.index+1}></em></li>
+
+      <{/foreach }>
+
+    </ul>
+  </div>
+  
+</div>
+<div class="the-answer-btn">
+   <a class="btn btn-danger pull-left" href="/practise/wrong/section_id/<{$section['id']}>"> 错题解析 </a>
+
+<!--  <{if $practise.correct_num != $practise.practise_num }>
+   <a class="btn btn-danger pull-left" href="/practise/wrong/section_id/<{$section['id']}>"> 错题解析 </a>
+ <{/if}> -->
+
+  <a class="btn btn-success pull-right" href="/practise/parse/section_id/<{$section['id']}>"> 全部解析 </a>
+  </div>
+     
+            </div>
+
+        </div>
+</div>
+
+
+<{/block}>
+
+<{block name="footer-script"}> 
+
+<{/block}>

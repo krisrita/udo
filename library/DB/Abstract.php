@@ -1,0 +1,313 @@
+<?php
+/**
+ * mod模型扩展类
+ * @author 4491277272@qq.com
+ * @date 2013/6/13 16:02:25
+ */
+class DB_Abstract
+{
+	//库
+	protected $db_name;
+	//表
+	protected $tbl_name;
+	//主键
+	protected $pri_key = 'id';
+	//cache开启
+	protected $cache = false;
+	//数据库连接
+	public $db = null;
+
+
+	/**
+	 * 创建连接
+	 * @param      none
+	 * @access     public
+	 * @return     void
+	 * @update     2013/6/14 11:48:16
+	*/
+	public function __construct()
+	{
+		$this->getDBConn( $this->db_name );
+	} // end func
+
+
+	/**
+	 * 获取一个数据库连接 数据库必须在conf/mysql.ini下有配置节信息
+	 * 
+	 * @param string $dbname 数据库名
+	 * @return Ap_DB_Mysqli
+	 */
+	private function getDBConn( $dbname ) 
+	{
+		$file = APP_PATH . '/conf/mysql.ini';
+		if ( !file_exists( $file ) ) {
+			$file = APP_PATH . '/conf/mysql.ini';
+		}
+		$ini = new Yaf_Config_Ini($file);
+		$conf = $ini->get($dbname);
+		$this->db = DB_Mysqli::getInstance($conf['host'], $conf['user'], $conf['pass'], $conf['db'], $conf['port']);
+	}
+
+	
+	/**
+	 * 插入一条记录
+	 * @param      array $data
+	 * @access     public
+	 * @return     boolean|int
+	 * @update     2013/6/14 11:12:58
+	*/
+	public function insert( $data )
+	{
+		return $this->db -> insert($this->tbl_name, $data);	    
+	} // end func
+
+	/**
+	 * replace into
+	 */
+	public function replace( $data )
+	{
+		return $this->db -> replace($this->tbl_name, $data);		 
+	} // end func
+	
+	/**
+	 * 更新一条记录
+	 * @param      int $id
+	 * @param      array $data
+	 * @access     public
+	 * @return     boolean
+	 * @update     2013/6/14 11:13:35
+	*/
+	public function update( $id, $data )
+	{
+		if(!is_array($data) || empty($data)) {
+		    throw new Exception("the updated data is empty");
+		}
+        
+		$set = "";		
+		foreach( $data as $k=>$v )
+		{
+			$set .= mysqli_real_escape_string(mysqli_connect(),strval($k)) . " = '" . mysqli_real_escape_string(mysqli_connect(),strval($v)) . "',";
+		}
+		$set = rtrim($set, ',');
+		$sql = "update {$this->tbl_name} set {$set} where {$this->pri_key}='{$id}'";
+
+		return $this->db->query($sql);
+	} // end func
+	
+	
+	/**
+	 * 根据id逻辑删除一条记录
+	 * @param      int $id
+	 * @access     public
+	 * @return     boolean
+	 * @update     2013/6/14 11:14:34
+	*/
+	public function delete($id)
+	{
+		return $this->db->delete($this->tbl_name,  $id);
+	} // end func
+    
+    
+	
+	/**
+	 * 通过id获得一条记录
+	 * @param      int $id
+	 * @access     public
+	 * @return     array
+	 * @update     2013/6/14　11:13:53
+	*/
+	public function fetchRow( $id, $columns = '*' )
+	{
+		$sql = "SELECT $columns FROM {$this->tbl_name} WHERE {$this->pri_key}={$id}";
+		return $this->db->fetchRow( $sql );
+	} // end func
+
+
+
+	/**
+	 * 条件查询一条记录
+	 * @param string $columns 返回列
+	 * @param array $where 查询条件 $where["sql"]绑定变量的sql, $where["bind"]绑定变量
+	 * @param string $order_by 排序
+	 * @return array|false
+	 * @update     2013/6/14　11:13:53
+	 */
+	public function scalar( $columns, $where_clause = '', $order_by = NULL )
+	{
+        $order_by = $order_by ? $order_by : "order by {$this->pri_key} desc";
+		$sql = "select {$columns} from {$this->tbl_name} {$where_clause} {$order_by} limit 1";
+		return $this->db->fetchRow($sql);
+	}
+
+	
+	/**
+	 * 分页查询,app和瀑布流建意使用fetchLimit();
+	 * @param string $columns 返回列
+	 * @param string $where_clause 查询条件
+	 * @param string $order_by 排序条件
+	 * @param string $page 当前页
+	 * @param string $pagesize 每页记录数
+	 * @return array
+	 * @update     2013/6/14 11:47:20
+	*/
+	public function fetchLimit( $columns = "*", $where_clause = '', $order_by = '', $page = 1, $pagesize = 15 )
+	{
+		$limit_begin = $pagesize * ( $page-1 );
+		//$sql = "select sql_calc_found_rows {$columns} from {$this->tbl_name} {$where_clause} {$order_by} limit {$limit_begin}, {$pagesize}";
+		$sql = "select {$columns} from {$this->tbl_name} {$where_clause} {$order_by} limit {$limit_begin}, {$pagesize}";
+		return $this->db->fetchAll( $sql );
+	} // end func
+
+	
+	/**
+	 * 获得所有记录
+	 * @param string $columns 返回列
+	 * @param string $where_clause 查询条件
+	 * @param string $order_by 排序条件
+	 * @return array
+	 * @update     2013/6/14 11:47:20
+	*/
+	public function fetchAll( $columns = "*", $where_clause = '', $order_by = '' )
+	{
+		$sql = "select {$columns} from {$this->tbl_name} {$where_clause} {$order_by}";
+		return $this->db->fetchAll( $sql );
+	} // end func
+
+
+
+
+	/**
+	 * 数量查询-根据条件
+	 * @param string $where_clause
+	 * @return int
+	 * @update 2013/6/14 11:47:20
+	 */
+	public function queryCount( $where_clause = "", $count_cache = false )
+	{
+		$sql = "select count(1) as total from {$this->tbl_name} {$where_clause}";
+		return $this->db->fetchValue( $sql, 'total' );
+	}
+
+
+    
+	/**
+	 * 递增
+	 * @param      array ex:array('collect_num'=>1);
+	 * @param      int $id
+	 * @access     public
+	 * @return     boolean
+	 * @update     2013/6/18
+	 */
+	public function increase( $id, $columns ) 
+	{
+		$set = "";
+		foreach( $columns as $k=>$v )
+		{
+		    $set .= mysql_escape_string(strval($k)) . " = " .mysql_escape_string(strval($k)) . " + " . (int)$v . "," ;
+		}
+		$set = 'set ' . rtrim($set, ',');
+		$sql = "update {$this->tbl_name} {$set} where {$this->pri_key}={$id}";
+
+		return $this->db->query( $sql );
+	} // end func
+    
+  
+    
+	/**
+	* 批量删除
+	* @param      string $where_clause
+	* @access     public
+	* @return     boolean
+	* @update     2013/6/19
+	*/
+	public function batchDelete( $where_clause ) 
+	{
+		return $this->db->batchDelete($this->tbl_name, $where_clause); 
+	} // end func
+    
+
+	/**
+	 * 批量更新
+	 * @param      array $data
+	 * @param      string $where_clause
+	 * @access     public
+	 * @return     boolean
+	 * @update     2013/6/19
+	 */
+	public function batchUpdate( $data, $where_clause )
+	{
+		return $this->db->batchUpdate($this->tbl_name, $data, $where_clause);
+	}
+	
+	/**
+	 * 计算一个数字字段的和-根据条件
+	 * @param string $where_clause
+	 * @return int
+	 * @update 2013/6/14 11:47:20
+	 */
+	public function sum( $columns, $where_clause )
+	{
+		$sql = "select sum({$columns}) as total from {$this->tbl_name} {$where_clause}";
+		return $this->db->fetchValue( $sql, 'total' );
+	}
+	
+	
+
+
+	/**
+	 * 转换array($id=>array())
+	 * @param array $rows
+	 * @return array
+	 */
+	public function kv($rows = array(), $key = "id")
+	{
+		$list = array();
+		foreach($rows as $row) {
+		    $list[$row[$key]] = $row;
+		}
+		unset($rows);
+		return $list;
+	}
+
+
+	/**
+	 * 生成map结果1对多array($colum=>array( array(), array() ))
+	 * @param $rows
+	 * @param $colum
+	 * @return array
+	 */
+	public function map($rows, $colum, $mapColum = null)
+	{
+		$multi = array();
+		foreach($rows as $row) {
+		    $multi[$row[$colum]][] = $mapColum ? $row[$mapColum] : $row;
+		}
+
+		unset($rows);
+		return $multi;
+	}
+
+    /**
+     * 把指定的列放在一行
+     * @param array $list
+     * @param string $column
+     * @return row
+     */
+    public function columnRow($list, $column) 
+    {
+        $row = array();
+
+        foreach ($list as $record) {
+            $row[] = $record[$column];
+        }
+        
+        return $row;
+    }
+
+
+    public function query($sql)
+    {
+        return $this->db->query($sql);
+    }
+	
+}

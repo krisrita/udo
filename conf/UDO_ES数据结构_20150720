@@ -1,0 +1,626 @@
+#题目表数据结构
+{
+    "_index": "udo_index",
+    "_type": "udo_item",
+    "_id": "1425633482",
+    "_version": 2,
+    "_score": 1,
+    "_source": {
+        "item_id": 1425633482,		//题目ID
+        "user_id": 0,			//作者ID
+        "sub_id": "2",			//科目ID
+        "type_id": "38",		//题目类型ID
+        "difficulty": "0",		//难度
+        "item_hash": "f6c98fa67299c0204e13ed98dab2d2be",	//验重hash
+        "create_time": "2015-03-06 09:18:02",			//发布时间
+	"parse": "<p><img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABQUAAAA" //题目解析
+	"answer": "<p><img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABQUAAAA" //题目答案
+	"content": "<p><img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABQUAAAA" //题目内容
+        "nested_four_level_controls": {
+            "province": 0,	//省
+            "city": 0,		//市				
+            "district": 0,	//区
+            "school": 0		//学校
+        },
+        "exam_type_id": 19,	//考试类型
+        "nested_other_controls": {
+            "academic_year": 0,		//学年
+            "education_type": 0,	//教育类型
+            "grade": 0,			//年级
+            "semester": 0,		//适用学期
+            "month": 0,			//月
+            "exam_branch": 0		//考试分科
+        },
+        "nested_content_raw": [
+            {
+                "content": "<p>11111111111111</p> "	//题目内容
+            },
+            {
+                "content": "<p>1111111111</p> "
+            },
+            {
+                "content": "<p>11111111111</p> "
+            },
+            {
+                "content": "<p>111111111</p> "
+            },
+            {
+                "content": "<p>1111111</p> "
+            }
+        ],
+        "nested_knows_raw": [],
+        "nested_skill_raw": [],
+        "nested_node_tree": {
+            "node_index": 0,				//节点索引号
+            "node_type": 0,				//节点类型
+            "node_content": "<p>11111111111111</p> ",	//节点内容
+            "node_answer": "<p></p>",			//节点答案
+            "node_parse": "<p></p>",			//节点解析
+            "node_degree": 0,				//节点难度
+            "nested_node_knows": [],			//节点知识点
+            "nested_node_skill": [],			//节点解析技巧
+            "nested_node_children": [			//子节点
+                {
+                    "node_index": 1,
+                    "node_type": 0,
+                    "node_content": "<p>1111111111</p> ",
+                    "node_answer": "<p></p>",
+                    "node_parse": "<p></p>",
+                    "node_degree": 0,
+                    "nested_node_knows": [],
+                    "nested_node_skill": [],
+                    "nested_node_children": []
+                },
+                {
+                    "node_index": 2,
+                    "node_type": 0,
+                    "node_content": "<p>11111111111</p> ",
+                    "node_answer": "<p></p>",
+                    "node_parse": "<p></p>",
+                    "node_degree": 0,
+                    "nested_node_knows": [],
+                    "nested_node_skill": [],
+                    "nested_node_children": []
+                },
+                {
+                    "node_index": 3,
+                    "node_type": 0,
+                    "node_content": "<p>111111111</p> ",
+                    "node_answer": "<p></p>",
+                    "node_parse": "<p></p>",
+                    "node_degree": 0,
+                    "nested_node_knows": [],
+                    "nested_node_skill": [],
+                    "nested_node_children": []
+                },
+                {
+                    "node_index": 4,
+                    "node_type": 0,
+                    "node_content": "<p>1111111</p> ",
+                    "node_answer": "<p></p>",
+                    "node_parse": "<p></p>",
+                    "node_degree": 0,
+                    "nested_node_knows": [],
+                    "nested_node_skill": [],
+                    "nested_node_children": []
+                }
+            ]
+        }
+    }
+}
+
+#模版表数据结构
+{
+    "_index": "udo_index",
+    "_type": "udo_model",
+    "_id": "4",
+    "_version": 1,
+    "_score": 1,
+    "_source": {
+        "model_id": 4,				//模版ID
+        "model_name": "选择题",			//模版名称
+        "user_id": 0,				//作者ID
+        "sub_id": "2",				//科目ID
+        "type_id": 38,				//类型ID
+        "create_time": "2015-03-04 11:27:55",	//发布时间
+        "nested_four_level_controls": {
+            "province": 0,	//省
+            "city": 0,		//市				
+            "district": 0,	//区
+            "school": 0		//学校
+        },
+        "exam_type_id": 19,		//考试类型
+        "nested_other_controls": {
+            "academic_year": 0,		//学年
+            "education_type": 0,	//教育类型
+            "grade": 0,			//年级
+            "semester": 0,		//适用学期
+            "month": 0,			//月
+            "exam_branch": 0		//考试分科
+        },
+        "nested_node_tree": {
+            "node_index": 0,		//节点索引号
+            "node_type": 0,		//节点类型
+            "node_content": "<p></p>",	//节点内容
+            "node_answer": "<p></p>",	//节点答案
+            "node_parse": "<p></p>",	//节点解析
+            "node_degree": 0,		//节点难度
+            "nested_node_knows": [],	//节点知识点
+            "nested_node_skill": [],	//节点解析技巧
+            "nested_node_children": [	//子节点
+                {
+                    "node_index": 1,
+                    "node_type": 0,
+                    "node_content": "<p></p>",
+                    "node_answer": "<p></p>",
+                    "node_parse": "<p></p>",
+                    "node_degree": 0,
+                    "nested_node_knows": [],
+                    "nested_node_skill": [],
+                    "nested_node_children": []
+                },
+                {
+                    "node_index": 2,
+                    "node_type": 0,
+                    "node_content": "<p></p>",
+                    "node_answer": "<p></p>",
+                    "node_parse": "<p></p>",
+                    "node_degree": 0,
+                    "nested_node_knows": [],
+                    "nested_node_skill": [],
+                    "nested_node_children": []
+                },
+                {
+                    "node_index": 3,
+                    "node_type": 0,
+                    "node_content": "<p></p>",
+                    "node_answer": "<p></p>",
+                    "node_parse": "<p></p>",
+                    "node_degree": 0,
+                    "nested_node_knows": [],
+                    "nested_node_skill": [],
+                    "nested_node_children": []
+                },
+                {
+                    "node_index": 4,
+                    "node_type": 0,
+                    "node_content": "<p></p>",
+                    "node_answer": "<p></p>",
+                    "node_parse": "<p></p>",
+                    "node_degree": 0,
+                    "nested_node_knows": [],
+                    "nested_node_skill": [],
+                    "nested_node_children": []
+                }
+            ]
+        }
+    }
+}
+
+
+#作业表数据结构
+{
+    "_index": "udo_index",
+    "_type": "udo_homework",
+    "_id": "1426064762",
+    "_version": 1,
+    "_score": 1,
+    "_source": {
+        "homework_id": 1426064762,	//作业ID
+        "teacher_id": "196",		//教师ID
+        "need_feedback": null,		//是否需要反馈
+        "item_num": 2,
+        "nested_item": [
+            {
+                "item_id": "1425965557",	//题目ID
+                "item_order": 0			//题目排序
+            },
+            {
+                "item_id": "1425793935",
+                "item_order": 1
+            }
+        ],
+        "status": 1,				//是否为草稿（1-不是草稿，2-是草稿）
+        "create_time": "2015-03-12 18:06:14"	//发布时间
+    }
+}
+
+#题目表Mapping
+public function getItemMapping()
+{
+	$mapping = array(
+		'_source' => array(
+			'enabled' => true
+		),
+		'properties' => array(
+			'user_id' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'item_id' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'sub_id' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'type_id' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'difficulty' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'create_time' => array(
+				'type' => 'date',
+				'store' => 'yes',
+				'format' => "YYYY-mm-dd HH:mm:ss"
+			),
+			'exam_type_id' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'nested_four_level_controls' => array(
+				'type' => 'nested'
+			),
+			'province' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'city' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'district' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'school' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'nested_other_controls' => array(
+				'type' => 'nested'
+			),
+			'academic_year' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'education_type' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'grade' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'semester' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'month' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'exam_branch' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'nested_node_tree' => array(
+				'type' => 'nested'
+			),
+			'node_index' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'node_type' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'node_content' => array(
+				'type' => 'string',
+				'store' => 'no',
+				'index' => "analyzed"
+			),
+			'node_answer' => array(
+				'type' => 'string',
+				'store' => 'no',
+				'index' => "analyzed"
+			),
+			'node_parse' => array(
+				'type' => 'string',
+				'store' => 'no',
+				'index' => "analyzed"
+			),
+			'nested_node_knows' => array(
+				'type' => 'nested'
+			),
+			'know_id' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'know_name' => array(
+				'type' => 'string',
+				'store' => 'no',
+				'index' => "analyzed"
+			),
+			'nested_node_skill' => array(
+				'type' => 'nested'
+			),
+			'skill_id' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'skill_name' => array(
+				'type' => 'string',
+				'store' => 'no',
+				'index' => "analyzed"
+			),
+			'nested_node_children' => array(
+				'type' => 'nested'
+			),
+			'nested_knows_raw' => array(
+				'type' => 'nested'
+			),
+			'nested_skill_raw' => array(
+				'type' => 'nested'
+			),
+			'nested_content_raw' => array(
+				'type' => 'nested'
+			),
+			'content' => array(
+				'type' => 'string',
+				'store' => 'no',
+				'index' => "analyzed"
+			),
+			'item_raw' => array(
+				'type' => 'string',
+				'store' => 'no',
+				'index' => "analyzed"
+			),
+		)
+	);
+
+	return $mapping;
+}
+
+#模版表Mapping
+public function getModelMapping()
+{
+	$mapping = array(
+		'_source' => array(
+			'enabled' => true
+		),
+		'properties' => array(
+			'user_id' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'model_id' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'model_name' => array(
+				'type' => 'string',
+				'store' => 'no',
+				'index' => "analyzed"
+			),
+			'sub_id' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'type_id' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'create_time' => array(
+				'type' => 'date',
+				'store' => 'yes',
+				'format' => "YYYY-mm-dd HH:mm:ss"
+			),
+			'exam_type_id' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'nested_four_level_controls' => array(
+				'type' => 'nested'
+			),
+			'province' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'city' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'district' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'school' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'nested_other_controls' => array(
+				'type' => 'nested'
+			),
+			'academic_year' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'education_type' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'grade' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'semester' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'month' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'exam_branch' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'nested_node_tree' => array(
+				'type' => 'nested'
+			),
+			'node_index' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'node_type' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'node_content' => array(
+				'type' => 'string',
+				'store' => 'no',
+				'index' => "analyzed"
+			),
+			'node_answer' => array(
+				'type' => 'string',
+				'store' => 'no',
+				'index' => "analyzed"
+			),
+			'node_parse' => array(
+				'type' => 'string',
+				'store' => 'no',
+				'index' => "analyzed"
+			),
+			'nested_node_knows' => array(
+				'type' => 'nested'
+			),
+			'know_id' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'know_name' => array(
+				'type' => 'string',
+				'store' => 'no',
+				'index' => "analyzed"
+			),
+			'nested_node_skill' => array(
+				'type' => 'nested'
+			),
+			'skill_id' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'skill_name' => array(
+				'type' => 'string',
+				'store' => 'no',
+				'index' => "analyzed"
+			),
+			'nested_node_children' => array(
+				'type' => 'nested'
+			),
+
+		)
+	);
+
+	return $mapping;
+}
+
+#作业表Mapping
+public function getHomeworkMapping()
+{
+	$mapping = array(
+		'_source' => array(
+			'enabled' => true
+		),
+		'properties' => array(
+			'homework_id' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'teacher_id' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'need_feedback' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'publish_time' => array(
+				'type' => 'date',
+				'store' => 'yes',
+				'format' => "YYYY-mm-dd HH:mm:ss"
+			),
+			'publish_type' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'create_time' => array(
+				'type' => 'date',
+				'store' => 'yes',
+				'format' => "YYYY-mm-dd HH:mm:ss"
+			),
+			'nested_item' => array(
+				'type' => 'nested'
+			),
+			'item_id' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+			'item_order' => array(
+				'type' => 'long',
+				'store' => 'yes',
+				'precision_step' => "1"
+			),
+		)
+	);
+	return $mapping;
+}

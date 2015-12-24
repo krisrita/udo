@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="mathml.xsl"?>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="UTF-8">
+	<title>试题解析</title>
+	    <meta name="viewport" content="width=device-width,user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="public/base/css/howdo-framework.css">
+    <link rel="stylesheet" href="public/base/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/mathml.css">
+    <style>
+    img{ max-width: 100%}
+    .span12{ padding: 0 15px}
+    .btn{ display:block; margin:0 auto}
+    ul,li{
+    	list-style: none;
+    }
+    .break{
+      word-wrap:break-word; 
+    word-break:break-all;
+    max-width: 100%;
+    overflow: hidden;
+    }
+    </style>
+
+</head>
+<body>
+<div class="wrapper">
+	<div class="row">
+		<div class="span12">
+			
+<h4 class="break"><{$practise.subject_title}></h4>
+<ul class="break">
+	<{if isset($practise['option_list']) }>
+	<{foreach from= $practise['option_list'] item=opt}>
+	<li class="break"><span class="pull-left"><{$opt['letter_seq']}>.</span> <{$opt['content']}> </li>
+  <{/foreach}>
+	<{/if}>
+</ul>
+<a class="btn btn-success btn-sm" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+  查看解析
+</a>
+<div class="collapse" id="collapseExample">
+
+  <div class="well">
+                                                            <div class="right-answer">正确答案是：<{$practise.answer}></div>
+                                                            <br/>
+                                                            解析：
+                                                           <{$practise.parse}>
+                                                            </div>
+                                                            </div>
+
+
+
+</div>
+
+</div>
+		</div>
+	</div>
+	
+
+	<script src="http://cdn.bootcss.com/jquery/2.1.4/jquery.js"></script>
+    <script src="public/base/js/ht-framework.js"></script>
+    <script>
+    $('.btn').click(function(){
+    	$(this).hide()
+    })
+    </script>
+</body>
+</html>

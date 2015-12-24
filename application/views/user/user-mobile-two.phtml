@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>手机验证</title>
+<link rel="stylesheet" href="public/base/css/howdo-framework.css">
+<link rel="stylesheet" href="public/base/css/common.css">
+<link rel="stylesheet" href="public/css/user.css">
+</head>
+
+<body>
+<header>头部</header>
+<hr>
+<div class="wrapper">
+  <div class="row">
+    <div class="col-lg-2">
+      <div class="bordered">
+        <ul class="nav nav-stacked ">
+          <li> <a href=""> 个人资料 <i class="glyphicon glyphicon-chevron-right"></i></a></li>
+          <li><a href=""> 上传头像 <i class="glyphicon glyphicon-chevron-right"></i></a></li>
+          <li><a href=""> 修改密码 <i class="glyphicon glyphicon-chevron-right"></i></a></li>
+          <li class="active"> <a href=""> 手机验证 <i class="glyphicon glyphicon-chevron-right"></i></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-lg-10">
+      <div class="main bordered">
+        <h3 class="padding-left">手机验证</h3>
+        <hr>
+        <!--内容区开始-->
+        <div class="mob-top-tit">
+          <div class="col-lg-4 s">验证身份<span></span><em></em></div>
+          <div class="col-lg-4 on">设置新手机号<span></span><em></em></div>
+          <div class="col-lg-4 ">设置成功</div>
+        </div>
+        <div id="horizontal-form">
+          <form role="form" class="form-horizontal" id="dataForm" >
+            <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" for="phone">更换登录手机号：</label>
+              <div class="col-sm-9 ">
+                <input type="text"  id="phone" name='phone' class="form-control">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" for="message">短信验证对码：</label>
+              <div class="col-sm-9 ">
+                <input type="text"  id="message" name='message' class="form-control">
+              </div>
+            </div>
+            <div class="help-block col-sm-offset-3 col-sm-9"><a class="btn btn-info" href="###">获取动态短信验证码</a></div>
+            <div class="help-block col-sm-offset-3 col-sm-9">60秒未收到验证骂，请在次发送</div>
+            <div class="clearfix"></div>
+            <hr>
+            <div class="form-group">
+              <div class="col-sm-offset-3 col-sm-9">
+                <input class="btn btn-info" type="submit" value="确认修改"></input>
+              </div>
+            </div>
+          </form>
+        </div>
+        <!--内容区结束--> 
+      </div>
+    </div>
+  </div>
+</div>
+<hr>
+<footer>尾部</footer>
+</body>
+
+<script src="public/js/jquery-2.1.4.min.js"></script> 
+<script src="public/base/js/howdo-framework.min.js"></script> 
+<script src="public/js/validate.min.js"></script> 
+<script>
+$(document).ready(function() {
+   $("#dataForm").validate({
+        rules: { //验证规则
+           phone:{
+			   required:true,
+		   },
+		   message:{
+			   required:true,
+		   }  
+        },
+        messages: { //错误消息
+		   phone:{
+			   required:'手机号不能为空',
+		   },
+		   message:{
+			   required:'验证码不能为空',
+		   }     
+        },
+    });
+})
+</script>
+</body>
+</html>

@@ -1,0 +1,241 @@
+ <?php
+/**
+ * 课程相关接口
+ */
+class CourseController extends Base_Contr
+{
+
+    function listAction()
+    {
+        $pagesize = 15;
+        $courseId = (int)$this -> get('course_id', 0);
+        $type = (int)$this -> get('type', 0);
+        $page = (int)$this -> get('page', 1);
+        $schoolId = (int)$this -> get('school_id', 0);
+
+        if ($schoolId < 1) {
+            $this->redirect("/error/?errno=" . Common_Error::ERROR_PARAM);
+        }
+
+        //查询学校
+        $schoolModel = new SchoolModel();
+        $school = $schoolModel -> getSchool($schoolId); 
+        
+        if (empty($school)) {
+            $this->redirect("/error/?errno=" . Common_Error::ERROR_SCHOOL_NOT_EXISTS);
+        }
+
+        $courseModel = new CourseModel();
+        if ($this->isMobile) {
+            $list = $courseModel -> getCourseListById($schoolId, $courseId, $type, $pagesize, $this->uid);
+        } else {
+            $data = $courseModel -> getList($schoolId, $page, $pagesize, $this->uid);
+            $list = $data['list'];
+        }
+
+        if($this->uid && $list) {
+            $courseIds = array();
+            foreach ($list as $course) {
+                $courseIds[] = $course['id'];
+            }
+            $lastLearn = $courseModel -> getUserCourseLastSection($this->uid, $courseIds);
+            foreach ($list as &$course) {
+                $course['last_section_id'] = (int)@$lastLearn[$course['id']]['last_section_id'];
+                $course['last_section_name'] = (string)@$lastLearn[$course['id']]['last_section_name'];
+                $course['last_section_seq'] = (int)@$lastLearn[$course['id']]['last_section_seq'];
+                $course['last_chapter_id'] = (int)@$lastLearn[$course['id']]['last_chapter_id'];
+                $course['last_chapter_name'] = (string)@$lastLearn[$course['id']]['last_chapter_name'];
+                $course['last_chapter_seq'] = (int)@$lastLearn[$course['id']]['last_chapter_seq'];
+            }
+            unset($course);
+        }
+
+
+        if($this->isMobile) {
+            $this->displayJson(Common_Error::ERROR_SUCCESS, $list);
+        }
+
+
+        $this->assign('school', $school['name']);
+        $this->assign('course_list', $list);
+        $this->assign('course_count', $data['count']);
+        $this->assign('page_count', ceil($data['count'] / $pagesize));
+    }
+    
+
+    /**
+     * 课程章节
+     */
+    function infoAction()
+    {
+        $courseId = (int)$this->get('course_id', 0);
+        if (!$courseId) {
+            $this->redirect("/error/?errno=" . Common_Error::ERROR_PARAM);
+        }
+
+
+        $courseModel = new CourseModel();
+        $practiseModel = new PractiseModel();
+        $noteModel = new NoteModel();
+        $course = $courseModel->getCourse($courseId);
+        if (!$course) {
+            $this->redirect("/error/?errno=" . Common_Error::ERROR_COURSE_NOT_EXISTS);
+        }
+        
+        
+        $course['duration_minute'] = round($course['duration']/60, 0);
+        $chapterList = $courseModel -> getChapterList($course['id']);
+        $sectionList = $courseModel -> getSectionList($course['id']);
+
+        if ($this->uid) {
+            //用户已学节
+            $uSecList = $courseModel -> getUserCourseSection($this->uid, $courseId);
+            $uPracList = $courseModel -> hasCoursePractiseFinished($this->uid, $courseId);
+            $userSpendTime = 0;
+            if ($uSecList) {
+                $uSectionIds = array_keys($uSecList);
+                //sectionList是一个1:N的章节关系
+                foreach ($sectionList as &$chapter) {
+                    foreach($chapter as &$section) {
+                        //各章节的状态                        
+                        $section['finished'] = isset($uSecList[$section['id']]) ? 1 : 0;
+                        $section['practise_finished'] = isset($uPracList[$section['id']]) ? 1 : 0;
+                        $section['last'] = $section['id'] == @$uSectionIds[0] ? 1 : 0;
+                        $userSpendTime += isset($uSecList[$section['id']]) ? $section['duration'] : 0;
+                    }
+                }
+                unset($chapter);
+                unset($section);
+            }
+            //用户习题
+            $course['user_practise_num'] = $courseModel -> getUserCoursePractiseNum($this->uid, $course['id']);
+            //学习时长
+            $course['user_spend_time'] = $userSpendTime;            
+            $course['user_spend_minute'] = round($course['user_spend_time']/60, 0);
+            $course['is_learned'] = $course['user_practise_num'] > 0 && $course['user_spend_time'] > 0;
+        } 
+
+	    $coursePractiseNum = 0;
+
+        foreach ($sectionList as &$chapter) {
+            foreach($chapter as &$section) {
+                //各章节的状态                        
+                $section['practise_num'] = $practiseModel->getSectionPractiseNum($section['id']);
+                $section['note_num'] = $noteModel->getSectionNoteNum($section['id']);
+		        $coursePractiseNum += $section['practise_num']; 
+            }
+        }
+        unset($chapter);
+        unset($section);
+
+        //章节合并
+        foreach ($chapterList as &$chapter) {            
+            $chapter['practise_num'] = $practiseModel->getSectionPractiseNum($chapter['id']);
+	        $coursePractiseNum += $chapter['practise_num']; 
+            $chapter['practise_finished'] = isset($uPracList[$chapter['id']]) ? 1 : 0;
+            $chapter['section_list'] = @$sectionList[$chapter['id']];
+        }
+	    $course['practise_num'] = $coursePractiseNum;
+        unset($chapter);
+
+
+        if ($this->isMobile) {
+            $this->displayJson(Common_Error::ERROR_SUCCESS, $chapterList);
+        }
+
+        $course['chapter_list'] = $chapterList;
+        $course['teachers'] = $courseModel->getCourseTeachers($courseId);
+        $this->assign('course', $course);
+
+    }
+
+    /**
+     * android版课程章节列表
+     */
+    function infoForAndroidAction()
+    {
+        $courseId = (int)$this->get('course_id', 0);
+        if (!$courseId) {
+            $this->displayJson(Common_Error::ERROR_PARAM);
+        }
+        $practiseModel = new PractiseModel();
+        $courseModel = new CourseModel();
+        $noteModel = new NoteModel();
+        $course = $courseModel->getCourse($courseId);
+        if (!$course) {
+            $this->displayJson(Common_Error::ERROR_PARAM);
+        }
+
+        $chapterList = $courseModel -> getChapterList($course['id']);
+        $sectionList = $courseModel -> getSectionList($course['id']);
+        if ($this->uid) {
+            //用户已学节
+            $uSecList = $courseModel -> getUserCourseSection($this->uid, $courseId);
+            $uPracList = $courseModel -> hasCoursePractiseFinished($this->uid, $courseId);
+            $userSpendTime = 0;
+            if ($uSecList) {
+                $uSectionIds = array_keys($uSecList);
+                //sectionList是一个1:N的章节关系
+                foreach ($sectionList as &$chapter) {
+                    foreach($chapter as &$section) {
+                        //各章节的状态
+                        $section['type'] = 2;
+                        $section['practise_num'] = $practiseModel->getSectionPractiseNum($section['id']);
+                        $section['note_num'] = $noteModel->getSectionNoteNum($section['id']);
+                        $section['finished'] = isset($uSecList[$section['id']]) ? 1 : 0;
+                        $section['practise_finished'] = isset($uPracList[$section['id']]) ? 1 : 0;
+                        $section['last'] = $section['id'] == @$uSectionIds[0] ? 1 : 0;
+                        $userSpendTime += isset($uSecList[$section['id']]) ? $section['duration'] : 0;
+                    }
+                }
+                unset($chapter);
+                unset($section);
+            }
+            //用户习题
+            $course['user_practise_num'] = $courseModel -> getUserCoursePractiseNum($this->uid, $course['id']);
+            //学习时长
+            $course['user_spend_time'] = $userSpendTime;
+        }
+
+        //章节合并
+        $data = array();
+        foreach ($chapterList as $chapter) {
+            $chapter['practise_num'] = $practiseModel->getSectionPractiseNum($chapter['id']);
+            $chapter['practise_finished'] = isset($uPracList[$chapter['id']]) ? 1 : 0;
+            $chapter['type'] = 1;
+            $data[] = $chapter;
+            foreach ($sectionList[$chapter['id']] as &$sec) {
+                $sec['open_time_remain'] = $chapter['open_time_remain'];
+            }
+            unset($sec);
+            $data = array_merge($data, $sectionList[$chapter['id']]);
+        }
+
+        if ($this->isMobile) {
+            $this->displayJson(Common_Error::ERROR_SUCCESS, $data);
+        }
+
+    }
+
+    /**
+     * 课程介绍(app内嵌)
+     */
+    function profileAction()
+    {
+        $profile = array();
+        $courseId = $this->get('course_id', 0);  
+        $courseModel = new CourseModel();      
+        $course = $courseModel->getCourse($courseId);
+        if($course) {
+            $profile['id'] = $course['id'];
+            $profile['name'] = $course['name'];
+            $profile['info'] = $course['info'];
+            $profile['teachers'] = $courseModel->getCourseTeachers($courseId);
+        }
+
+        if ($this->ajax || $this->platform == 'ios') {
+            $this->displayJson(Common_Error::ERROR_SUCCESS, $profile);  
+        }
+        $this->assign("profile", $profile);
+    }
+}

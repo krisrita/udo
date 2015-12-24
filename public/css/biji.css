@@ -1,0 +1,19 @@
+@charset "utf-8";
+/* CSS Document */
+
+body{ background:#232d33;}
+#notelist{ margin-top:50px;}
+#notelist .thumbnail {
+	border-color: #21b99a;
+}
+#notelist .thumbnail .number{
+	position:absolute;
+	bottom:0;
+	left:0;
+	width:100%;
+	line-height:30px;
+	 background:#21b99a;
+	 color:#fff;
+	 text-align:center;
+	 margin:0;
+}

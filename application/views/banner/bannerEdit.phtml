@@ -1,0 +1,475 @@
+<{extends file="adminLayout.phtml"}>
+<{block name="title" append}>
+活动编辑
+<{/block}>
+<{block name="page-content" }>
+<div class="">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>运营活动编辑-请选择活动类型</h3>
+        </div>
+    </div>
+                    <div class="clearfix"></div>
+
+                    <div class="">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="x_panel">
+
+                                <div class="x_content">
+
+
+                                    <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                                        <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                                            <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">webview </a>
+                                            </li>
+                                            <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab"  aria-expanded="false">频道推荐</a>
+                                            </li>
+                                        </ul>
+                                        <div id="myTabContent" class="tab-content">
+                                            <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                                                <div class="row">
+                                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                                        <div class="x_panel">
+                                                            <div class="x_content">
+
+                                                                <form class="form-horizontal form-label-left" novalidate>
+                                                                    <span class="section">请填写webview banner的相关信息</span>
+
+                                                                    <div class="item form-group">
+                                                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="website">Webview URL <span class="required">*</span>
+                                                                        </label>
+                                                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                                                            <input type="url" id="website" name="website" required="required" placeholder="www.website.com" class="form-control col-md-7 col-xs-12">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="item form-group">
+                                                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="occupation">是否立即发布 <span class="required">*</span>
+                                                                        </label>
+                                                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                                                                是:
+                                                                                <input type="radio" class="flat" name="gender" id="isPublish" value="Y"  required /> 否:
+                                                                                <input type="radio" class="flat" name="gender" id="notPublish" checked="" value="N" />
+
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="item form-group">
+                                                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">备注
+                                                                        </label>
+                                                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                                                            <textarea id="textarea" required="required" name="textarea" class="form-control col-md-7 col-xs-12"></textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="item form-group">
+                                                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">上传logo
+                                                                        </label>
+                                                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                                                            <div class="x_panel">
+                                                                                <div class="x_content">
+
+                                                                                    <p>将文件拖拽至该区域上传</p>
+                                                                                    <form action="choices/form_upload.html" class="dropzone" style="border: 1px solid #e5e5e5; height: 300px; "></form>
+                                                                                    <br />
+                                                                                    <br />
+                                                                                    <br />
+                                                                                    <br />
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="ln_solid"></div>
+                                                                    <div class="form-group">
+                                                                        <div class="col-md-6 col-md-offset-3">
+                                                                            <button type="submit" class="btn btn-primary">Cancel</button>
+                                                                            <button id="send" type="submit" class="btn btn-success">Submit</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                                                <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="clearfix"></div>
+
+                    </div>
+                    <div class="clearfix"></div>
+
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="x_panel">
+
+                            <div class="x_content">
+
+                                <!-- modals -->
+                                <!-- Large modal -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Large modal</button>
+
+                                <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h4>Text in a modal</h4>
+                                                <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+                                                <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary">Save changes</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Small modal -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Small modal</button>
+
+                                <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog modal-sm">
+                                        <div class="modal-content">
+
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel2">Modal title</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h4>Text in a modal</h4>
+                                                <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+                                                <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary">Save changes</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /modals -->
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2><i class="fa fa-bell"></i> Notifications <small>Styled & Custom notifications</small></h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="#">Settings 1</a>
+                                            </li>
+                                            <li><a href="#">Settings 2</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                    </li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+
+                                <p>Regular notifications</p>
+                                <button class="btn btn-default source" onclick="new PNotify({
+                                title: 'Regular Success',
+                                text: 'That thing that you were trying to do worked!',
+                                type: 'success'
+                            });">Success</button>
+
+                                <button class="btn btn-default source" onclick="new PNotify({
+                                title: 'New Thing',
+                                text: 'Just to let you know, something happened.',
+                                type: 'info'
+                            });">Info</button>
+
+                                <button class="btn btn-default source" onclick="new PNotify({
+                                title: 'Regular Notice',
+                                text: 'Check me out! I\'m a notice.'
+                            });">Notice</button>
+
+                                <button class="btn btn-default source" onclick="new PNotify({
+                                title: 'Oh No!',
+                                text: 'Something terrible happened.',
+                                type: 'error'
+                            });">Error</button>
+
+                                <button class="btn btn-default source" onclick="new PNotify({
+                                title: 'Oh No!',
+                                text: 'Something terrible happened.',
+                                type: 'dark'
+                            });">Dark</button>
+
+                                <hr />
+
+                                <p>Sticky notifications.. these wont close unless user closes them.</p>
+                                <button class="btn btn-default source" onclick="new PNotify({
+                                title: 'Sticky Success',
+                                text: 'Sticky success... I\'m not even gonna make a joke.',
+                                type: 'success',
+                                hide: false
+                            });">Success</button>
+
+
+                                <button class="btn btn-default source" onclick="new PNotify({
+                                title: 'Sticky Info',
+                                text: 'Sticky Info... I\'m not even gonna make a joke.',
+                                type: 'info',
+                                hide: false
+                            });">Info</button>
+
+
+                                <button class="btn btn-default source" onclick="new PNotify({
+                                title: 'Sticky Warning',
+                                text: 'Sticky Warning... I\'m not even gonna make a joke.',
+                                hide: false
+                            });">Warning</button>
+
+
+                                <button class="btn btn-default source" onclick="new PNotify({
+                                title: 'Sticky Danger',
+                                text: 'Sticky Danger... I\'m not even gonna make a joke.',
+                                type: 'error',
+                                hide: false
+                            });">Error</button>
+
+
+                                <button class="btn btn-default source" onclick="new PNotify({
+                                title: 'Sticky Success',
+                                text: 'Sticky success... I\'m not even gonna make a joke.',
+                                type: 'dark',
+                                hide: false
+                            });">Dark</button>
+
+                                <hr/>
+
+                                <button class="btn btn-default source" onclick="new PNotify({
+                                title: 'Non-Blocking Notice',
+                                type: 'dark',
+                                text: 'When you hover over me I\'ll fade to show the elements underneath. Feel free to click any of them just like I wasn\'t even here.',
+                                nonblock: {
+                                    nonblock: true,
+                                    nonblock_opacity: .2
+                                }
+                            });">Non-Blocking Notice</button>
+
+
+                                <hr />
+
+                                <div id="antoox">
+                                    <div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                    </div>
+
+                                </div>
+
+                                <button class="btn btn-default source" onclick="new TabbedNotification({
+                                title: 'Tabbed Notificat',
+                                text: 'Sticky success... Raw denim you probably haven\'t heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. ',
+                                type: 'success',
+                                sound: false
+                            })">Success</button>
+
+                                <button class="btn btn-default source" onclick="new TabbedNotification({
+                                title: 'Tabbed Notificat',
+                                text: 'Custom Info... Raw denim you probably haven\'t heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica.',
+                                type: 'info',
+                                sound: false
+                            })">Info</button>
+
+                                <button class="btn btn-default source" onclick="new TabbedNotification({
+                                title: 'Tabbed Notificat',
+                                text: 'Custom Warning... Raw denim you probably haven\'t heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. ',
+                                type: 'warning',
+                                sound: false
+                            })">Warning</button>
+
+                                <button class="btn btn-default source" onclick="new TabbedNotification({
+                                title: 'Custom Notification error',
+                                text: 'Custom Error... Raw denim you probably haven\'t heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. ',
+                                type: 'error',
+                                sound: false
+                            })">Error</button>
+
+                                <button class="btn btn-default source" onclick="new TabbedNotification({
+                                title: 'Tabbed notification dark',
+                                text: 'Custom Dark... Raw denim you probably haven\'t heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. ',
+                                type: 'dark',
+                                sound: false
+                            })">Dark</button>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <div class="clearfix"></div>
+
+<{/block}>
+
+<{block name="footer-script"}>
+
+
+
+    <!-- PNotify -->
+    <script type="text/javascript" src="public/admin/js/notify/pnotify.core.js"></script>
+    <script type="text/javascript" src="public/admin/js/notify/pnotify.buttons.js"></script>
+    <script type="text/javascript" src="public/admin/js/notify/pnotify.nonblock.js"></script>
+
+    <script>
+        $(function () {
+            var cnt = 10; //$("#custom_notifications ul.notifications li").length + 1;
+            TabbedNotification = function (options) {
+                var message = "<div id='ntf" + cnt + "' class='text alert-" + options.type + "' style='display:none'><h2><i class='fa fa-bell'></i> " + options.title + "</h2><div class='close'><a href='javascript:;' class='notification_close'><i class='fa fa-close'></i></a></div><p>" + options.text + "</p></div>";
+
+                if (document.getElementById('custom_notifications') == null) {
+                    alert('doesnt exists');
+                } else {
+                    $('#custom_notifications ul.notifications').append("<li><a id='ntlink" + cnt + "' class='alert-" + options.type + "' href='#ntf" + cnt + "'><i class='fa fa-bell animated shake'></i></a></li>");
+                    $('#custom_notifications #notif-group').append(message);
+                    cnt++;
+                    CustomTabs(options);
+                }
+            }
+
+            CustomTabs = function (options) {
+                $('.tabbed_notifications > div').hide();
+                $('.tabbed_notifications > div:first-of-type').show();
+                $('#custom_notifications').removeClass('dsp_none');
+                $('.notifications a').click(function (e) {
+                    e.preventDefault();
+                    var $this = $(this),
+                        tabbed_notifications = '#' + $this.parents('.notifications').data('tabbed_notifications'),
+                        others = $this.closest('li').siblings().children('a'),
+                        target = $this.attr('href');
+                    others.removeClass('active');
+                    $this.addClass('active');
+                    $(tabbed_notifications).children('div').hide();
+                    $(target).show();
+                });
+            }
+
+            CustomTabs();
+
+            var tabid = idname = '';
+            $(document).on('click', '.notification_close', function (e) {
+                idname = $(this).parent().parent().attr("id");
+                tabid = idname.substr(-2);
+                $('#ntf' + tabid).remove();
+                $('#ntlink' + tabid).parent().remove();
+                $('.notifications a').first().addClass('active');
+                $('#notif-group div').first().css('display','block');
+            });
+        })
+    </script>
+    <script type="text/javascript">
+        var permanotice, tooltip, _alert;
+        $(function () {
+            new PNotify({
+                title: "PNotify",
+                type: "dark",
+                text: "Welcome. Try hovering over me. You can click things behind me, because I'm non-blocking.",
+                nonblock: {
+                    nonblock: true
+                },
+                before_close: function (PNotify) {
+                    // You can access the notice's options with this. It is read only.
+                    //PNotify.options.text;
+
+                    // You can change the notice's options after the timer like this:
+                    PNotify.update({
+                        title: PNotify.options.title + " - Enjoy your Stay",
+                        before_close: null
+                    });
+                    PNotify.queueRemove();
+                    return false;
+                }
+            });
+
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('.progress .bar').progressbar(); // bootstrap 2
+            $('.progress .progress-bar').progressbar(); // bootstrap 3
+        });
+    </script>
+
+
+<!-- form validation -->
+<script src="public/admin/js/validator/validator.js"></script>
+<script>
+    // initialize the validator function
+    validator.message['date'] = 'not a real date';
+
+    // validate a field on "blur" event, a 'select' on 'change' event & a '.reuired' classed multifield on 'keyup':
+    $('form')
+        .on('blur', 'input[required], input.optional, select.required', validator.checkField)
+        .on('change', 'select.required', validator.checkField)
+        .on('keypress', 'input[required][pattern]', validator.keypress);
+
+    $('.multi.required')
+        .on('keyup blur', 'input', function () {
+            validator.checkField.apply($(this).siblings().last()[0]);
+        });
+
+    // bind the validation to the form submit event
+    //$('#send').click('submit');//.prop('disabled', true);
+
+    $('form').submit(function (e) {
+        e.preventDefault();
+        var submit = true;
+        // evaluate the form using generic validaing
+        if (!validator.checkAll($(this))) {
+            submit = false;
+        }
+
+        if (submit)
+            this.submit();
+        return false;
+    });
+
+    /* FOR DEMO ONLY */
+    $('#vfields').change(function () {
+        $('form').toggleClass('mode2');
+    }).prop('checked', false);
+
+    $('#alerts').change(function () {
+        validator.defaults.alerts = (this.checked) ? false : true;
+        if (this.checked)
+            $('form .alert').remove();
+    }).prop('checked', false);
+</script>
+<script src="public/admin/js/dropzone/dropzone.js"></script>
+<{/block}>

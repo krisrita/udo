@@ -1,0 +1,88 @@
+<!DOCTYPE html><html>
+  <head>
+    <title>登录</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="base/css/howdo-framework.css">
+        <link rel="stylesheet" href="base/css/font-awesome.min.css">
+    <style>
+    	html,body{ font:14px/40px "微软雅黑"; width: 100%; height: 100%; overflow: hidden;}
+		.wrap{ width:100%; background:url(images/wrapbg_01.jpg) no-repeat center top; background-size:cover; height: 100% ; overflow:hidden;}
+		.login_wrap{width:414px; height:653px; position:relative; margin:100px auto 0;}
+		.login_wrap .login_bg{width:414px; height:653px; position:absolute; left:0px; top:0px; background:#FFF; filter:alpha(opacity=50); -moz-opacity:0.5; opacity:0.5;border-radius:5px;}
+		.login{ width:414px; height:653px; position:absolute; left:0px; top:0px; }
+		.login .logo{ width:144px; height:115px; margin:0 auto; padding-top:32px;}
+		.login .logo a{ display:inline-block; width:144px; height:83px;}
+		.login .title{ font:bold 18px/40px "黑体"; margin-top:10px; color:#232d33; text-align:center;}
+		.foot_info{ font:12px/34px "宋体"; font-size:12px; line-height:34px; text-align:center; height:34px; color:#f5f5f5; background:#232323; position:fixed; bottom:0px; width:100%; left:0px; _position: absolute; _top:expression(documentElement.scrollTop + documentElement.clientHeight-this.offsetHeight);}
+		.from_box{ overflow:hidden; padding:20px 0 0 43px;}
+		.from_box .inp_bg{ width:331px; height:59px; background:url(images/input_03.png) no-repeat; margin-top:18px;}
+		.inp_bg i{ display:inline-block; width:24px; height:38px; float:left; margin:12px 0 0 19px;}
+		.inp_bg i.phone_i{ font-size:36px; color:#fff; margin-left:13px;}
+		.inp_bg i.pass_i{ color:#fff; margin-top:15px; font-size:27px;}
+		.inp_bg input{ border:none; background:none; font-size:18px; line-height:57px; font-family:"微软雅黑"; height:57px; color:#fff; width:287px; *width:265px; padding-left:22px; float:left;}
+		@media screen and (-webkit-min-device-pixel-ratio:0) {.inp_bg input{ line-height:normal; }}
+		.inp_bg .pad_l{ padding-left:25px;}
+		.other_oper{ height:40px; line-height:40px; width:331px; font:14px/40px "黑体"; color:#232d33;}
+		.other_oper a{ color:#232d33; text-decoration:underline; font-weight:bold;}
+		.other_oper .register{ float:left;}
+		.other_oper .forgot{ float:right;}
+		.login_btn{ width:331px; height:56px;  font:18px/56px "微软雅黑"; color:#fff; text-align:center; margin-top:80px; border-radius:5px;}
+		.login_btn a{ display:block; color:#fff; line-height:56px;}
+		.form-control{ color:#fff;}
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+    	<div class="login_wrap">
+            <div class="login_bg"></div>
+            <div class="login animated fadeInDown" ng-app="login">
+                <div class="logo"><a href="#" target="_blank" title=""><img src="images/logo_03.png" width="144" height="83" alt=""/></a></div>
+                <p class="title">UDO互动教学与个性化学习辅助系统</p>
+                <div class="from_box">
+                <form name="loginform" ng-controller="FormController" class="my-form" novalidate  ng-submit="submit()">
+                            <div class="form-group inp_bg"><i class="phone_i glyphicon glyphicon-phone"></i>
+                           <input type="text"  class="form-control" placeholder="用户名" ng-model="user.name" ng-minlength=3  required  />
+                        </div>
+                        <div class="form-group inp_bg"><i class="pass_i glyphicon glyphicon-lock"></i>
+                           <input type="password" class="form-control" placeholder="密码" required   ng-model="user.pwd" ng-minlength=6 ng-maxlength=28 required/>
+
+                        </div>
+                        <div class="other_oper"><a class="register" href="#" target="_blank" title="">注册</a><a class="forgot" href="#" target="_blank" title="">忘记密码</a></div>
+                        <div class="form-group login_btn">   <input type="submit" ng-disabled="!loginform.$valid"  class="btn btn-primary btn-block" value="登 录">
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="foot_info">Copyright @ 2015 © 2008-2015  好度科技有限公司</div>
+
+    <script src="js/angular.min.js"></script>
+    <script>
+  angular.module('login', [])
+    .controller('FormController', ['$scope','$http', function($scope,$http) {
+      $scope.user = {};
+      console.log($scope.user);
+      $scope.submit=function(){
+
+          $http.post('/user/login', $scope.user).
+          success(function(data, status, headers, config) {
+            alert(data);
+                if(data.errors){
+                    $scope.status = data.errors.reason;             
+                }else{
+                    window.location.href="/";
+                }
+          }).
+          error(function(data, status, headers, config) {
+             $scope.status = status;
+          });
+      }
+    }]);
+  </script>
+
+    
+  </body></html>

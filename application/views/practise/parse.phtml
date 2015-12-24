@@ -1,0 +1,259 @@
+<{extends file="layout.phtml"}> 
+<{block name="title" append}>
+全部解析
+<{/block}>
+
+
+ <{block name="header-css"}>
+
+    <link rel="stylesheet" href="public/css/bootbox.css"/>
+    <link rel="stylesheet" href="public/css/learn.css"/>
+        <link rel="stylesheet" href="public/css/answer.css"/>
+<script>
+  　　var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1 
+  if(isChrome){
+    document.write('<link rel="stylesheet" href="/css/mathml.css">')
+  }
+</script>
+
+        <style>
+        .carousel-control{
+          opacity: 0.2
+        }
+        .carousel-control.right,.carousel-control.left{
+          background-image: none;
+        }
+        .answer-time {
+    font-size: 19px;
+}
+        </style>
+
+        <script>
+        var pageInfo={
+          subject_num: <{$practise['subject_num']}> ,
+          section_id: <{$practise['section_id']}> ,
+        }
+        </script>
+
+ <{/block}>
+
+<{block name="page-content" }>
+
+ <div class="wrapper">
+   <div id="course-header" class="clearfix">
+     <div class="row">
+    
+      <div class="col-lg-3">
+
+      <img class="cover-img" width="250" height="125" src="<{$course.image}>" alt=""></div>
+      <div class="col-lg-3 bg">
+      <div class="item answer-top ">
+         <div class="answer-dt"><span class="glyphicon glyphicon-calendar"></span><em>答题时间</em></div>
+           <h3 class="answer-time">
+           <{$practise['create_time_fmt']}>
+             
+
+           </h3>
+      </div>
+      </div>
+      <div class="col-lg-3" >
+      <div class="item answer-top">
+           <div class="answer-dt"><span class="glyphicon glyphicon-check"></span><em>正确率</em></div>
+           <h3><{$practise['correct_ratio']}></h3>
+      </div>
+
+     </div>
+      <div class="col-lg-3 bg">
+      <div class="item answer-top">
+           <div class="answer-dt"><span class="glyphicon glyphicon-time"></span><em>用时</em></div>
+           <h3><{$practise['spend_time_fmt']}></h3>
+      </div>
+
+     </div>
+    
+    
+  </div>
+  
+ </div>
+<div class="answer-box" >
+
+            <div class="col-lg-8">
+               <div class="panel panel-default">
+  <div class="panel-heading">全部解析</div>
+  <div class="answer-main">
+
+
+                                   <div id="carousel-example-generic" class="carousel slide">
+                                       
+                                            <!-- Wrapper for slides -->
+                                            <div class="carousel-inner" role="listbox">
+                                              <div id="pcontent" class="item active">
+
+                                                
+
+
+
+                                              </div>
+
+                                            </div>
+
+                                            <!-- Controls -->
+                                            <a id="carousel-control-left" class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                                              <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                              <span class="sr-only"></span>
+                                            </a>
+                                            <a id="carousel-control-right" class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                                              <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                              <span class="sr-only"></span>
+                                            </a>
+                                          </div>
+                                              
+                                               
+
+   
+  </div>
+</div>
+                
+            </div>
+
+             <div class="col-lg-4">
+<div class="panel panel-default">
+  <div class="panel-heading">答题卡</div>
+  <div class="the-answer">
+    <ul id="navgation">
+    </ul>
+  </div>
+  
+</div>
+<div class="the-answer-btn">
+   <a class="btn btn-danger pull-left" href="/practise/wrong/section_id/<{$section['id']}>"> 错题解析 </a>
+
+<!--  <{if $practise.correct_num != $practise.practise_num }>
+   <a class="btn btn-danger pull-left" href="/practise/wrong/section_id/<{$section['id']}>"> 错题解析 </a>
+ <{/if}> -->
+
+  <a class="btn btn-success pull-right" href="/practise/parse/section_id/<{$section['id']}>"> 全部解析 </a>
+  </div>
+     
+            </div>
+
+        </div>
+</div>
+
+
+   <script id="parseTpl" type="text/x-dot-template">
+
+                                              
+                                                            <h4>{{=it.subject_title}}</h4>
+                                                            <ul>
+
+                                                          {{~it.option_list:item}}
+                                                    
+                                                              <li><span class="pull-left">{{=item.letter_seq}}.</span> {{=item.content}} </li>
+
+                                                           {{~}}
+                                                            </ul>
+                                                            <div class="well">
+							    {{=it.word}}
+                                                               {{=it.parse}}
+                                                            </div>
+
+
+<div align="center">
+{{?it.video_id == 0}}
+
+<a class="btn btn-success" href="javascript:alert('暂无视频！');">视频讲解</a>
+{{??}}
+<a class="btn btn-success" href="/section/info/section_id/{{=it.section_id}}/video_id/{{=it.video_id}}">视频讲解</a>
+
+{{?}}
+
+</div>
+
+
+  </script>
+
+
+<{/block}>
+
+<{block name="footer-script"}> 
+<script src="public/js/doT.min.js">
+</script>
+<script>
+
+var snumber=1;
+
+//pageInfo.subject_num
+
+  for (var i =1  ; i <= pageInfo.subject_num; i++) {
+    $('<li class="navitem" index="'+i+'" id="nav'+i+'">'+i+'</li>').appendTo($('#navgation'));
+    };
+
+     $('#navgation').delegate('li','click',function(){
+
+  var cNumber=parseInt($(this).attr('index'));
+  getParseContent(cNumber);
+  snumber=cNumber
+
+  })
+
+
+   function getParseContent(number) {
+
+     $.getJSON('/practise/parse', {
+       section_id: pageInfo.section_id,
+       seq: number
+     }, function(data) {
+       console.log(data);
+
+          var pText = doT.template($("#parseTpl").text());
+          if(typeof data!=='undefined'){
+                       $("#pcontent").html(pText(data.data));
+
+                     }else{
+                      alert('data 返回数据错误！')
+                     }
+
+       // body...
+     })
+
+     setNav(number);
+
+
+   }
+
+  function setNav(number){
+
+   $('.navitem').removeClass('on');
+    $('.navitem').eq(number-1).addClass('on')
+
+  }  
+
+   getParseContent(snumber);
+
+   $('#carousel-control-right').on('click',function(){
+
+         snumber++;
+         if(snumber>pageInfo.subject_num){
+          snumber=1
+         }
+         getParseContent(snumber)
+
+   })
+
+      $('#carousel-control-left').on('click',function(){
+
+         snumber--;
+         if(snumber<1){
+          snumber=pageInfo.subject_num;
+         }
+         getParseContent(snumber)
+
+   })
+
+
+
+
+</script>
+
+<{/block}>

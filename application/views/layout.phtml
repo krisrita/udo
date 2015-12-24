@@ -1,0 +1,142 @@
+<?xml-stylesheet type="text/xsl" href="mathml.xsl"?>
+<!DOCTYPE html>
+<html >
+<head>
+	<meta charset="UTF-8">
+    <title><{block name="title"}>好度-UDO课堂-<{/block}></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+    
+
+     <script>
+ <{if isset($uInfo) }>
+
+     var uInfo={
+
+        stuff_id:" <{$uInfo['stuff_id']}>",
+        stuff_name:" <{$uInfo['stuff_name']}>",
+        gender:" <{$uInfo['gender']}>",
+        avator:"<{$uInfo['avator']}> ",
+        prov_id:" <{$uInfo['prov_id']}>",
+        city_id:" <{$uInfo['city_id']}>",
+        area_id:" <{$uInfo['area_id']}>",
+        grade:" <{$uInfo['grade']}>",
+        school:" <{$uInfo['school']}>"
+     }
+ <{else}>
+
+ //window.location.href="/user/login"
+
+ <{/if}>
+
+ </script>
+
+
+    <!--Basic Styles-->
+    <link rel="stylesheet" href="public/base/css/howdo-framework.css">
+    <link rel="stylesheet" href="public/base/css/font-awesome.min.css">
+    <link rel="stylesheet" href="public/base/css/common.css">
+
+    <{block name="header-css"}> <{/block}>
+    <{block name="header-script"}> <{/block}>
+</head>
+<body>
+<!--header-->
+    <div id="header">
+        <div class="wrapper">
+            <div class="navbar-header"><a href="/" class="navbar-brand"><img src="public/images/logo.png" alt=""></a></div>
+            <div class="collapse navbar-collapse bs-navbar-collapse">
+                <ul class="nav navbar-nav main-nav">
+                    <li class="active" ><a href="/">UDO课堂</a></li>
+<!--                     <li ><a href="list-video.html">豆币</a></li>
+ -->           
+                </ul>
+                <ul id="userLogin" class="nav navbar-nav navbar-right">
+                    <li class="dropdown"><a  data-toggle="dropdown" class="share" href="index.html"><i class="glyphicon glyphicon-share"></i> 分享</a>
+                        <div aria-labelledby="drop3" role="menu" class="share-menu dropdown-menu">
+              
+<div class="bshare-custom icon-medium-plus">
+
+    <a title="分享到微信" class="bshare-weixin"></a>
+    <a title="分享到新浪微博" class="bshare-sinaminiblog"></a>
+    <a title="分享到QQ空间" class="bshare-qzone"></a>
+    <a title="分享到QQ好友" class="bshare-qqim"></a>
+
+</div>
+   <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=2&amp;lang=zh"></script><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
+
+ <script type="text/javascript" charset="utf-8">
+bShare.addEntry({
+    title: "老师还能这样讲？看到评论我都疯了！",
+    url: "http://www.howdo.cc/xjk.html",
+    summary: "",
+    pic: "http://www.howdo.cc/img/home/home_slide1.png"
+});
+</script> 
+
+
+              </div>
+                    </li>
+
+
+
+
+<{if isset($uInfo) }>
+<li class="dropdown"><a data-toggle="dropdown" href=""><img  class="img-circle" width="40" height="40"  src="<{$uInfo['avator']}>?imageView2/1/w/40/h/40" alt=""></a>
+   
+
+     <div aria-labelledby="drop3" role="menu" class="share-menu dropdown-menu" id="userinfoDropdown">
+     
+             <p><a><{$uInfo['stuff_name']}></a></p>
+             <p><a href="/user/setprofile">个人设置</a></p>
+            <p> <a href="/user/logout">退出</a></p>
+        
+     </ul>
+   </div>
+                    </li>
+                   
+
+<{else}>
+
+ <li><a href="/user/register"><i class="glyphicon glyphicon-edit"></i>注册</a> </li>
+   <li>   <a href="/user/login"><i class="glyphicon glyphicon-user"></i>登录</a></li>
+
+<{/if}>
+
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+<!--header-->
+<!-- Main Container -->
+    <{block name="page-content"}> <{/block}>
+    <!--右导航-->
+     <div id="J_GotoTop" class="elevator">
+      <a class="elevator-weixin" href="javascript:;">
+          <div class="elevator-weixin-box">
+          </div>
+      </a>
+      <a class="elevator-msg" href="/feedback" target="_blank"></a>
+      <a class="elevator-app" href="#">
+          <div class="elevator-app-box">
+          </div>
+      </a>
+      <a class="elevator-top" href="#header"></a>
+     </div>
+
+
+
+
+    <script src="http://cdn.bootcss.com/jquery/2.1.4/jquery.js"></script>
+    <script src="public/base/js/ht-framework.js"></script>
+
+    <{block name="footer-script"}> <{/block}>
+    <div class="footer">Copyright © 2014-2015 天津好度科技有限公司 | 津ICP备14007114号</div>
+
+        <script>
+    $('.footer').pushFooter();
+    </script>
+</body>
+</html>
