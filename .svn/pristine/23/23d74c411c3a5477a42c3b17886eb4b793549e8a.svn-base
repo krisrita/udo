@@ -1,0 +1,287 @@
+<{extends file="layout.phtml"}> 
+<{block name="title" append}>
+课程信息
+<{/block}>
+
+ <{block name="header-css"}>
+ <script>
+ var courseid = <{$course['id']}> 
+ </script>
+    <link rel="stylesheet" href="public/css/bootbox.css"/>
+    <link rel="stylesheet" href="public/css/learn.css"/>
+    <link rel="stylesheet" href="public/css/comments.css"/>
+    <style type="text/css">
+    .lh34{line-height: 34px;}
+    a.btn-success {color: #fff;background-color: #20b496;border-color: #1ca88c;}
+    a.btn-warning {color: #fff;background-color: #e89213;border-color: #dc8910;}
+    a:hover.btn-success {background-color: #1ca88c;border-color: #159b80;}
+    a:hover.btn-warning {background-color: #dc8910;border-color: #d07f08;}
+    .course-chapter-list .list-group-item{ height: 56px;}
+    .list-group-item i{ vertical-align: top; margin-top: 3px;}
+    .list-group-item em{font-style: normal; vertical-align: top;}
+    .list-group-item .link{  width: 65%;display: inline-block;  padding: 0px;margin: 0px;}
+    .fa-circle{ top: 10px;}
+    </style>
+ <{/block}>
+
+
+<{block name="page-content" }>
+ <div class="wrapper">
+   <div id="course-header" class="clearfix">
+     <div class="row">
+        <div class="col-lg-3">
+
+        <img class="cover-img" width="250" height="125" src="<{$course['image']}>" alt=""></div>
+        <div class="col-lg-3 bg">
+        <div class="item "><i class="glyphicon glyphicon-time"></i> <span class="large"><{$course['user_spend_minute']}>/</span>
+        <span class="white"><{$course['duration_minute']}><br/>分钟</span>
+        </div>
+        </div>
+        <div class="col-lg-3" >
+        <div class="item">
+                <i class="glyphicon glyphicon-edit"></i>
+                <span class="large"><{$course['user_practise_num']}>/</span>
+            <span class="white"><{$course['practise_num']}><br/>道题</span>
+        </div>
+
+     </div>
+        <div class="col-lg-3 bg">
+        <div class="item ">
+
+        <i class="glyphicon glyphicon-user"></i> <span class="large">   <{$course['view_num']}></span></div>
+        </div>
+
+     </div>
+    
+  </div>
+
+  <div class="row">
+    <div class="col-lg-8">
+
+    <div class="course-chapter-list">
+        
+        <div role="tabpanel">
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">专题</a></li>
+    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">评论</a></li>
+
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="home">
+
+                  
+                 <div role="tablist" class="panel-group">
+                <div class="panel ">
+
+                              <ul class="list-group">
+                <{foreach item=chapter  from=$paper_list }>
+
+
+              <li class="list-group-item">
+              <{if $chapter.last == 1}>      
+
+              <i class="fa fa-flag" style="font-size:18px;color:#f00"></i>
+              <{/if}>
+
+
+        <{if $chapter.practise_video_list|@count neq 0}>
+
+     <a href="/practise/exam/section_id/<{$chapter.id}>" >
+
+              <{else}>
+
+
+       <a style="color:#999" href="javascript:void(0)" class="no-paper">
+              <{/if}>
+
+
+        <{$chapter.name}></a>
+
+              </li>
+          <{/foreach}>
+
+
+                   </ul>
+
+                </div>
+              </div>
+
+
+
+
+
+
+
+
+        
+    </div>
+    
+    <div role="tabpanel" class="tab-pane" id="profile">
+     <div class="comments-box">
+    <!--评论-->
+          <div class="issques clearfix padding" id="js-pub-container">
+          <div id="js-pl-input-fake" class="pub-editor-wrap">
+            <textarea placeholder="扯淡、吐槽、表扬、鼓励……想说啥就说啥！" minlenth="5" maxlength="200" class="form-control" id="js-pl-textarea"></textarea>
+          </div>
+          <div class="pub-btm clearfix" id="pub-btm">
+                    <input type="button" value="发表评论" data-cid="33" class="pull-right btn btn-success" id="js-pl-submit">
+          </div>
+          <p class="global-errortip js-global-error"></p>
+        </div>
+
+        <!--评论列表-->
+        <div id="course_note">
+        <ul class="commentcon">
+
+
+                 <li class="loading">评论加载中...</li>
+
+             
+            </ul>
+            <button id="J_getmore" class="btn btn-default block-center">
+              加载更多
+            </button>
+       
+          </div>
+    </div>
+    </div>
+  </div>
+
+</div>
+
+    </div>
+
+    </div>
+    <div class="col-lg-4">
+        
+        <div class="course_right">
+                <dl>
+          <dt>讲师简介</dt>
+
+
+          <{foreach item=teacher from=$course['teachers'] }>
+
+          <dd>
+                        <div class="course_teacher">
+               <a class="teacer_pic">  <img width="80" height="80" src="<{$teacher.avator}>"> </a>
+                <h3>
+                 <{$teacher.name}>
+                </h3>
+                <p> <{$teacher.job_title}></p>
+
+                <br class="clearfix">
+    
+            </div>
+                      </dd>
+
+
+
+         <{/foreach}>
+
+
+
+
+          
+        </dl>
+                        <dl>
+          <dt>专题简介</dt>
+          <dd>
+
+          
+
+
+            <pre class="wrd_break"> <{$course['info']}></pre></dd>
+        </dl>
+
+              </div>
+
+
+    </div>
+  </div>
+    
+ </div>
+
+<script id="commentListTpl" type="text/x-dot-template">
+{{~it.data:item}}
+
+    <li id="{{= item.id}}" comment_id="{{= item.comment_id}}">
+        <div class="notelist_headpic">
+        <img width="40" height="40" src="{{= item.author_avator}}">
+        </div>
+        <div class="notelist_content">
+          <div class="u_name">
+           <strong> {{= item.author_name}}</strong>  {{= item.create_time_fmt}}
+          </div>
+          {{? item.chapter_name}}
+          <h5>{{= item.chapter_name}} {{= item.section_name}}</h5>
+          {{?}}
+
+          <p>
+
+
+       {{? item.parent_comment}}
+       回复 {{= item.parent_comment.author_name}}:
+          
+        
+       {{?}}
+          {{= item.content}}</p>
+
+                 {{? item.videolike==1 }}
+               <div class="status">他  <i class="glyphicon glyphicon-thumbs-up green"></i> 了该视频</div>
+
+            {{?? item.videolike==2}}
+             <div class="status">他  <i class="glyphicon glyphicon-thumbs-down green"></i> 了该视频</div>
+
+          {{?}} 
+
+
+          <div class="notelist-bottom clearfix">
+
+        <div class="notelist-actions">
+             <span class="glyphicon glyphicon-info-sign"></span> <a class="report" href="javascript:void(0)">举报</a> | <a class="reply" href="#">回复</a> <div>
+        </div>
+      </li>
+
+{{~}}
+</script>
+
+
+<!-- 判断顶踩使用！
+          {{? item.videolike==0 }}
+               <div class="status">他  <i class="glyphicon glyphicon-thumbs-up green"></i> 
+
+            {{??}}
+             <div class="status">他  <i class="glyphicon glyphicon-thumbs-down green"></i> 了该视频</div>
+
+          {{?}} -->
+
+<{/block}>
+
+<{block name="footer-script"}> 
+
+<script src="public/js/bootbox.js">
+</script>
+<script src="public/js/bootstrap-maxlength.min.js">
+</script>
+<script src="public/js/doT.min.js">
+</script>
+<script src="public/js/comment.js">
+</script>
+
+<script>
+  
+  $('.no-paper').on('click',function(){
+    bootbox.warning('正在绞尽脑汁出题中...');
+    window.setTimeout(function(){
+      bootbox.hideAll()
+    },3000)
+  })
+</script>
+
+
+<!--Basic Scripts-->
+<{/block}>

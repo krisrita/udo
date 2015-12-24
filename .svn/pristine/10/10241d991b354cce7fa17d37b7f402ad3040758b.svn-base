@@ -1,0 +1,46 @@
+﻿ 	   body{ font:14px/40px "微软雅黑"; width: 100%; height: 100%;  background:url(../images/wrapbg_01.jpg) no-repeat center top; background-size:cover; overflow:hidden}
+		.wrap{ width:100%; height: 100% ; width:100%;}
+		.login_wrap{width:414px; height:468px; position:relative; margin:50px auto}
+		.login_wrap .login_bg{width:414px; height:468px; position:absolute; left:0px; top:0px; background:#FFF; filter:alpha(opacity=50); -moz-opacity:0.5; opacity:0.5;border-radius:5px;}
+		.login{ width:414px; height:653px; position:absolute; left:0px; top:0px; }
+		.login .logo{ width:144px; height:115px; margin:0 auto; padding-top:32px;}
+		.login .logo a{ display:inline-block; width:144px; height:83px;}
+		.login .title{ font:bold 18px/40px "黑体"; margin-top:10px; color:#232d33; text-align:center;}
+		.from_box{ overflow:hidden; padding:0px 0 0 43px;}
+		.from_box .inp_bg{ width:331px; height:59px; background:url(../images/input_03.png) no-repeat; margin-top:18px;}
+		.inp_bg i{ display:inline-block; width:24px; height:38px; float:left; margin:12px 0 0 19px;}
+		.inp_bg i.phone_i{ font-size:36px; color:#fff; margin-left:13px;}
+		.inp_bg i.pass_i{ color:#fff; margin-top:15px; font-size:27px;}
+		.inp_bg input{ border:none; background:none; font-size:18px; line-height:57px; font-family:"微软雅黑"; height:57px; color:#fff; width:287px; *width:265px; padding-left:22px; float:left;}
+		@media screen and (-webkit-min-device-pixel-ratio:0) {.inp_bg input{ line-height:normal; }}
+		.inp_bg .pad_l{ padding-left:25px;}
+		.other_oper{ height:40px; line-height:40px; width:331px; font:14px/40px "黑体"; color:#232d33;}
+		.other_oper a{ color:#232d33; text-decoration:underline; font-weight:bold;}
+		.other_oper .register{ float:left;}
+		.other_oper .forgot{ float:right;}
+		.login_btn{ width:331px; height:56px;  font:18px/56px "微软雅黑"; color:#fff; text-align:center;  border-radius:5px;}
+		.login_btn a{ display:block; color:#fff; line-height:56px;}
+		.form-control{ color:#fff;}
+.alert-danger {
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    color: #a94442;
+    font-weight: bold;
+    left: 122px;
+    line-height: 2;
+    padding: 0 10px;
+    position: absolute;
+    top: 159px;
+}
+.btn-primary {
+    background-color: #337ab7;
+    border-color: #337ab0;
+    color: #fff;
+}
+
+ .btn-primary[disabled]{
+    border-color: #666;
+ 	 background-color: #666;
+
+
+ }

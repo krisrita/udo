@@ -1,0 +1,80 @@
+<?php
+
+class SchoolModel
+{
+
+    /**
+     * 拥有学校的城市
+     */
+    function getCities()
+    {
+        $tbl = new DB_Haodu_School();
+        $cities = $tbl -> fetchAll("city_id");
+
+        if(!$cities) {
+            return false;
+        }
+
+        $cityIds = $tbl -> columnRow($cities, "city_id");
+        $tblRegion = new DB_Howdo_Region();
+        $cities = $tblRegion -> fetchAll("region_id as id, region_name as name", "where region_id in (".implode(",", $cityIds).")");
+        if (!$cities) {
+            return false;
+        }
+
+        return $cities;
+    }
+
+    /**
+     * 用户可以看到的学校
+     */
+    function getUserSchoolIds($uid)
+    {
+        $tbl = new DB_Haodu_SchoolUser();
+        $list = $tbl->fetchAll("school_id", "where uid={$uid}");
+
+        if(!$list) return false;
+
+        return $tbl->columnRow($list, "school_id");
+    }
+    
+    /**
+     * 学校列表
+     */
+    function getSchoolList($cityId = 0, $uid = 0)
+    {
+
+        $schoolIds = $this->getUserSchoolIds($uid);        
+        if ($schoolIds) {
+            $where = "where (open_mode = 0 or id in (" . implode(",", $schoolIds) . "))";
+        } else {            
+            $where = "where open_mode = 0";
+        }
+
+        if($cityId > 0) {
+            $where .= " and city_id={$cityId}";
+        }
+
+        $tbl = new DB_Haodu_School();
+        $list = $tbl->fetchAll("id,name,title,image,flag", $where, "order by id desc");
+
+        foreach ($list as &$school) {
+            $school["image"] = Common_Config::getShoolImageUrl($school['image'], $school['flag']);
+            unset($school['flag']);
+        }
+        unset($school);
+
+        return $list;
+    }
+
+    /**
+     * 查询一座学校
+     */
+    function getSchool($schoolId)
+    {        
+        $tbl = new DB_Haodu_School();
+        return $tbl->fetchRow($schoolId, "id,name");
+    }
+
+
+}

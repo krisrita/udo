@@ -1,0 +1,177 @@
+<{extends file="layout.phtml"}> 
+<{block name="title" append}>
+上传头像
+<{/block}>
+
+ <{block name="header-css"}>
+<link href="public/css/avatar.css" rel="stylesheet"/>
+
+<style>
+    .error{
+        color: #f00
+    }
+    .radio-inline label{
+      font-weight: 100
+    }
+    a.btn-success {
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+    color: #fff;
+    }
+    #file{padding: 20px 1px;}
+    #save{ display:block; margin-bottom: 20px;}
+    #btnZoomIn,#btnZoomOut{ padding: 0 5px;}
+</style>
+ <{/block}>
+
+ <{block name="page-content" }>
+
+<div class="wrapper">
+  <div class="row">
+    <div class="col-lg-2">
+      <div class="bordered">
+        <ul class="nav nav-stacked ">
+          <li > <a href="/user/setprofile"> 个人资料 <i class="glyphicon glyphicon-chevron-right"></i></a></li>
+          <li><a href="/user/sethead"  class="active"> 上传头像 <i class="glyphicon glyphicon-chevron-right"></i></a></li>
+          <li><a href="/user/resetpassword"> 修改密码 <i class="glyphicon glyphicon-chevron-right"></i></a></li>
+          <li><a href="/user/resetmobile"> 手机验证 <i class="glyphicon glyphicon-chevron-right"></i></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-lg-10">
+      <div class="main bordered">
+        <h3 class="padding-left">上传头像</h3>
+        <hr>
+        <!--内容区开始-->
+        <div class="row">
+              <div class="col-lg-6">
+
+           <div class="imageBox">
+        <div class="thumbBox"></div>
+        <div class="spinner" style="display: none">Loading...</div>
+    </div>
+
+    <div class="action">
+        <input type="file" id="file" >
+        <input type="button"  id="btnCrop" value="Crop" style="display:none">
+        <label class="control-label" > 放大缩小图像: </label>
+        <div class="btn-group" role="group" aria-label="...">
+        <input type="button" class="btn btn-default" id="btnZoomIn" value="+" >
+        <input type="button"  class="btn btn-default" id="btnZoomOut" value="-">
+      </div>
+    </div>
+
+  </div>
+                <div class="col-lg-6">
+    效果预览:
+    <div class="cropped"> 
+    <img class="img-circle" src="" alt="">
+    </div>
+   </div>
+        </div>
+<hr>
+             <button class="btn btn-success btn-lg pull-center" id="save">保存</button>
+
+        
+        <!--内容区结束--> 
+      </div>
+    </div>
+  </div>
+</div>
+<hr>
+<{/block}>
+
+<{block name="footer-script"}> 
+
+   <script src="public/js/cropbox.js"></script>
+   <script src="public/js/bootbox.js"></script>
+
+   <script>
+
+
+$(window).load(function() {
+  var options = {
+    thumbBox: '.thumbBox',
+    spinner: '.spinner',
+    imgSrc:uInfo.avator
+  }
+
+    console.log(options.imgSrc);
+
+
+
+  var cropper = $('.imageBox').cropbox(options);
+  $('#btnCrop').trigger('click');
+
+  $('#file').on('change', function() {
+
+    if (!/image\/\w+/.test(this.files[0].type)) {
+      alert("请确保文件为图像类型");
+      return false;
+    }
+
+    if (this.files[0].size > 512000) {
+      alert('图片不能大于500K');
+      return
+    }
+
+
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      options.imgSrc = e.target.result;
+      cropper = $('.imageBox').cropbox(options);
+      $('#btnCrop').trigger('click')
+
+    }
+    reader.readAsDataURL(this.files[0]);
+    this.files = [];
+  })
+  $('#btnCrop').on('click', function() {
+    var img = cropper.getDataURL();
+    $('.cropped').find('img').attr('src', img)
+  })
+  $('#btnZoomIn').on('click', function() {
+    cropper.zoomIn();
+    $('#btnCrop').trigger('click')
+  })
+  $('#btnZoomOut').on('click', function() {
+    cropper.zoomOut();
+    $('#btnCrop').trigger('click')
+
+  })
+
+function upload(file) {
+    var xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function(e) {
+      if (xhr.readyState == 4) {
+        if (xhr.status == 200) {
+
+         var data= $.parseJSON(xhr.responseText);
+        alert(data.error);
+
+        } else {
+          alert('网络问题上传失败，请重试')
+        }
+      }
+
+    }
+    var formdata = new FormData();
+    formdata.append("avator", file);
+    // xhr.setRequestHeader("Content-Type", "application/octet-stream"); 
+    xhr.open("POST", '/user/sethead', true);
+    xhr.send(formdata);
+}
+
+$('#save').on('click', function() {
+
+  var img = cropper.getDataURL();
+  upload(img);
+
+})
+
+});
+
+   </script>
+
+<{/block}>

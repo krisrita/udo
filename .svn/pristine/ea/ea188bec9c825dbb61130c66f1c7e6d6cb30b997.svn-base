@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>课程主页</title>
+
+    <link rel="stylesheet" href="public/base/css/howdo-framework.css"/>
+        <link rel="stylesheet" href="public/base/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="public/base/css/common.css"/>
+    <link rel="stylesheet" href="public/css/learn.css"/>
+    <link rel="stylesheet" href="public/css/answer.css"/>
+
+</head>
+<body>
+    <div id="header">
+        <div class="wrapper">
+            <div class="navbar-header"><a href="index.html" class="navbar-brand"><img src="public/images/logo.png" alt=""></a></div>
+            <div class="collapse navbar-collapse bs-navbar-collapse">
+                <ul class="nav navbar-nav main-nav">
+                    <li class="active" ><a href="index.html">新东方衔接课</a></li>
+                    <li ><a href="list-video.html">逗比</a></li>
+            
+                </ul>
+                <ul id="userLogin" class="nav navbar-nav navbar-right">
+                    <li class="dropdown"><a  data-toggle="dropdown" class="share" href="index.html"><i class="fa fa-share-alt"></i> 分享</a>
+                      <div aria-labelledby="drop3" role="menu" class="share-menu dropdown-menu">
+              
+<div class="bshare-custom icon-medium-plus">
+
+  <a title="分享到微信" class="bshare-weixin"></a>
+  <a title="分享到新浪微博" class="bshare-sinaminiblog"></a>
+  <a title="分享到QQ空间" class="bshare-qzone"></a>
+  <a title="分享到QQ好友" class="bshare-qqim"></a>
+
+</div>
+  <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=2&amp;lang=zh"></script><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
+
+
+              </div>
+                    </li>
+                    <li><a href=""><img  class="img-circle" width="40" height="40"  src="http://sfault-avatar.b0.upaiyun.com/322/472/3224729831-54d4162dcfadb_huge256" alt=""></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+ <div class="wrapper">
+   <div id="course-header" class="clearfix">
+     <div class="row">
+     	<div class="col-lg-3">
+
+     	<img class="cover-img" width="250" height="125" src="public/images/index-cover.jpg" alt=""></div>
+     	<div class="col-lg-3 bg">
+     	<div class="item answer-top ">
+     	   <div class="answer-dt"><span class="glyphicon glyphicon-calendar"></span><em>答题时间</em></div>
+           <h3>2015.5.14   08：04</h3>
+     	</div>
+     	</div>
+     	<div class="col-lg-3" >
+     	<div class="item answer-top">
+           <div class="answer-dt"><span class="glyphicon glyphicon-check"></span><em>正确率</em></div>
+           <h3>20/20</h3>
+     	</div>
+
+     </div>
+     	<div class="col-lg-3 bg">
+     	<div class="item answer-top">
+           <div class="answer-dt"><span class="glyphicon glyphicon-time"></span><em>用时</em></div>
+           <h3>2小时20分钟00秒</h3>
+     	</div>
+
+     </div>
+  	
+  </div>
+	
+ </div>
+<div class="answer-box" >
+
+            <div class="col-lg-8">
+               <div class="panel panel-default">
+  <div class="panel-heading">错题解析</div>
+  <div class="answer-main">
+    <h4>随堂练习/课后练习（<em>1</em>/6）</h4>
+    <div class="answer"><img src="public/images/answer.jpg" /></div>
+    <button class="btn btn-success pull-center"> 视频讲解 </button>
+  </div>
+</div>
+                
+            </div>
+
+             <div class="col-lg-4">
+<div class="panel panel-default">
+  <div class="panel-heading">答题卡</div>
+  <div class="the-answer">
+    <ul>
+    <li class="right"><em>01</em></li>
+    <li class="wrong"><em>02</em></li>
+    <li class="right"><em>03</em></li>
+    <li class="wrong"><em>04</em></li>
+    <li class="right"><em>05</em></li>
+    </ul>
+  </div>
+  
+</div>
+<div class="the-answer-btn">
+  <button class="btn btn-danger pull-left"> 错题解析 </button>
+  <button class="btn btn-success pull-right"> 全部解析 </button>
+  </div>
+     
+            </div>
+
+        </div>
+</div>
+
+    <script src="http://cdn.bootcss.com/jquery/2.1.4/jquery.js"></script>
+    <script src="public/base/js/howdo-framework.js"></script>
+
+</body>
+</html>

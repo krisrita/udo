@@ -1,0 +1,149 @@
+<{extends file="layout.phtml"}> 
+<{block name="title" append}>
+意见反馈
+<{/block}>
+
+ <{block name="header-css"}>
+
+
+<link href="public/css/comments.css" rel="stylesheet"/>
+
+<style>
+.back-bg {
+	background: #fff;
+	 padding-bottom:50px;
+}
+.back-bg .pub-editor-wrap textarea{ min-height:200px;}
+.back-bg .issques{ margin-bottom:50px;}
+.elevator {
+  position: fixed;
+  right: 15px;
+  bottom: 10px;
+  z-index: 1030;
+}
+</style>
+ <{/block}>
+
+ <{block name="page-content" }>
+ 
+<div class="wrapper">
+      <div class="row back-bg">
+    <div class="col-lg-12">
+          <h2>意见反馈</h2>
+          <hr/>
+          <form role="form" class="form-horizontal" id="dataForm" >
+          <div class="issques clearfix padding" id="js-pub-container">
+        <div id="js-pl-input-fake" class="pub-editor-wrap">
+              <textarea placeholder="扯淡、吐槽、表扬、鼓励……想说啥就说啥！"  minlenth="5" maxlength="200"  name="content" class="form-control" id="message"></textarea>
+            </div>
+        <p class="errortip" style="display: none;">您还没有填写内容！</p>
+      
+        <p class="global-errortip js-global-error"></p>
+      </div>
+      
+                  <div class="form-group">
+              <label class="col-sm-2 control-label no-padding-right" for="contact">联系方式：</label>
+              <div class="col-sm-3 ">
+                <input type="text"  id="contact" name='contact' class="form-control">
+              </div>
+              <div class="help-block ">请留下你的手机号或QQ邮箱，我们会尽快给你回复，谢谢！</div>
+              
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <input class="btn btn-info" type="submit" value="提交反馈"></input>
+              </div>
+              </div>
+            </form>
+        </div>
+  </div>
+    </div>
+<{/block}>
+
+
+<{block name="footer-script"}> 
+
+   <script src="public/js/jquery.validate.min.js"></script>
+   <script src="public/js/additional-methods.min.js"></script>
+   <script src="public/js/bootbox.js"></script>
+   <script src="public/js/bootstrap-maxlength.min.js">
+</script>
+<script>
+
+//maxlength
+$('#message').maxlength(
+{
+          alwaysShow: true,
+          threshold: 5,
+          warningClass: "label label-success",
+          limitReachedClass: "label label-danger",
+          separator: ' / ',
+          validate: true,
+          placement: 'bottom-left-inside',
+          appendToParent:true
+
+
+}
+); 
+
+
+   
+   $.fn.serializeObject = function() {
+     var o = {};
+     var a = this.serializeArray();
+     $.each(a, function() {
+       if (o[this.name]) {
+         if (!o[this.name].push) {
+           o[this.name] = [o[this.name]];
+         }
+         o[this.name].push(this.value || '');
+       } else {
+         o[this.name] = this.value || '';
+       }
+     });
+     return o;
+   };
+
+   $("form").validate({
+	 submitHandler: function(form) {
+       var formdata = $("form").serializeObject();
+
+       $.post('/feedback/publish', formdata, function(data) {
+
+
+         if (parseInt(data.errno) < 0) {
+           bootbox.info(data.error, function() {}, 3000);
+
+         } else {
+           bootbox.success('你的建议已提交成功，谢谢！', function() {
+           }, 3000);
+
+         }
+
+       })
+     },
+     rules: {
+       message: {
+         required: true,
+         minlength: 5,
+         maxlength:200
+
+       },
+        contact: {
+         required: true
+       }
+     },
+     messages: {
+       message: {
+         required: '请留下你的宝贵建议！',
+         minlength: '内容长度最少为5个字',
+         maxlength: '内容长度最多为200个字'
+
+       },
+        contact: {
+         required: '请填写你的联系方式（手机号或邮箱）！'
+       }
+     }
+   });
+</script>
+<{/block}>

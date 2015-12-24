@@ -1,0 +1,32 @@
+<?php
+
+/**
+ * 学校
+ */
+class SchoolController extends Base_Contr
+{
+
+    
+    function listAction()
+    {
+        $cityId = (int)$this->get("city_id", 0);
+
+        $schoolModel = new SchoolModel();
+        $list = $schoolModel -> getSchoolList($cityId, $this->uid);
+
+        if($this->isMobile) {
+            $this->displayJson(Common_Error::ERROR_SUCCESS, $list);
+        }
+    }
+
+    /**
+     * 学校地区
+     */
+    function getCitiesAction()
+    {
+        $school = new SchoolModel();
+        $cities = $school -> getCities();
+        $this->displayJson(Common_Error::ERROR_SUCCESS, $cities);
+    }
+
+}

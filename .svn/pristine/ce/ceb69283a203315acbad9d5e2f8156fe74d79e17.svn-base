@@ -1,0 +1,15 @@
+[product]
+host = 127.0.0.1
+port = 3306
+user = root 
+pass =
+
+[db_haodu : product]
+db = db_haodu
+
+[db_howdo : product]
+db = howdo
+host = 182.92.115.116
+port = 3306
+user = root
+pass = HowDo2014

@@ -1,0 +1,27 @@
+@charset "utf-8";
+/* CSS Document */
+
+#firstname{float:left;width:30%}
+#school{width:40%;float:left;}
+#firstname-error,#school-error,#password-error,#phone-error,#message-error{color: #959595;float:left; line-height:35px; padding-left:10px; margin:0}
+
+.form-control{float:left;width:30%}
+#activePassword-error, #newPassword-error, #confirmPassword-error{color: #959595;float:left; line-height:35px; padding-left:10px; margin:0}
+.
+
+
+.form-photo{overflow:hidden; padding:50px 0;}
+.pic{border:2px solid #666;float:left; margin-left:30%; display:inline}
+
+
+.mob-msg{ padding:50px 0;}
+
+.mob-top-tit{background:#232d33; color:#838383; font-size:1em; font-weight:bold;width:100%;float:left;overflow:hidden; margin-bottom:50px;}
+.mob-top-tit>div{ position:relative; text-align:center;height:38px; line-height:38px;}
+.mob-top-tit>div>span{position:absolute;top:0;right:-19px; border-top:19px solid transparent;border-bottom: 19px solid transparent;border-left: 19px solid #fff; z-index:88}
+.mob-top-tit>div>em{position:absolute;top:0;right:-17px; border-top:19px solid transparent;border-bottom: 19px solid transparent;border-left: 19px solid #232d33; z-index:99}
+.mob-top-tit>div.on{ background:#20b799; color:#fff;}
+.mob-top-tit>div.on>em{ border-left-color:#20b799;}
+.mob-top-tit>div.on>span{ background:#232d33;}
+.mob-top-tit>div.s>em{ border-left-color:#232d33;}
+.mob-top-tit>div.s>span{ background:#20b799;}

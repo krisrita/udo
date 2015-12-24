@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>简介</title>
+<link rel="stylesheet" href="public/base/css/howdo-framework.css"/>
+<link rel="stylesheet" href="public/base/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="public/base/css/common.css"/>
+<link rel="stylesheet" href="public/css/learn.css"/>
+
+<style>
+.course_right{ margin:0}
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="row">
+    <div class=" col-xs-12">
+      <div class="course_right">
+
+
+        <dl>
+          <dt>讲师简介</dt>
+          
+          <{foreach item=teacher from=$profile['teachers'] }>
+
+          <dd>
+                        <div class="course_teacher">
+               <a class="teacer_pic">  <img width="80" height="80" src="<{$teacher.avator}>"> </a>
+                <h3>
+                 <{$teacher.name}>
+                </h3>
+                                <p> <{$teacher.job_title}>
+</p>
+                                <br class="clear">
+               <div class="discrip autowrap"><{$teacher.info}>
+</div>
+            </div>
+                      </dd>
+
+
+
+         <{/foreach}>
+
+        </dl>
+        <dl>
+          <dt>专题简介</dt>
+          <dd>
+          <div class="discrip autowrap"><{$profile.info}></div>
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

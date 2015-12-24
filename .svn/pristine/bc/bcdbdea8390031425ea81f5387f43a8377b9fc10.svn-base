@@ -1,0 +1,327 @@
+<{extends file="layout.phtml"}> 
+<{block name="title" append}>
+个人资料
+<{/block}>
+
+ <{block name="header-css"}>
+
+<link href="public/css/index.css" rel="stylesheet"/>
+<link href="public/css/bootbox.css" rel="stylesheet"/>
+
+<style>
+    .error{
+        color: #f00
+    }
+    .radio-inline label{
+      font-weight: 100
+    }
+    a.btn-success {
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+    color: #fff;
+}
+</style>
+ <{/block}>
+
+ <{block name="page-content" }>
+
+<div class="wrapper">
+  <div class="row">
+    <div class="col-lg-2">
+      <div class="bordered">
+        <ul class="nav nav-stacked ">
+          <li  class="active"> <a href="/user/setprofile"> 个人资料 <i class="glyphicon glyphicon-chevron-right"></i></a></li>
+          <li><a href="/user/sethead"> 上传头像 <i class="glyphicon glyphicon-chevron-right"></i></a></li>
+          <li><a href="/user/resetpassword"> 修改密码 <i class="glyphicon glyphicon-chevron-right"></i></a></li>
+          <li><a href="/user/resetmobile"> 手机验证 <i class="glyphicon glyphicon-chevron-right"></i></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-lg-10">
+      <div class="main bordered">
+        <h3 class="padding-left">个人资料</h3>
+        <hr>
+        <!--内容区开始-->
+        <div id="horizontal-form">
+          <form role="form" class="form-horizontal" id="dataForm" >
+
+             <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="name">姓名</label>
+                                <div class="col-sm-4">
+                                    <input type="text" placeholder="姓名" value="" name="name" id="name" class="form-control">
+                                </div>
+                                  <div class="col-sm-5">
+                                    <p class="help-block"></p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="gender">性别</label>
+                                <div class="col-sm-10">
+                                    <div class="radio-inline">
+                                        <label>
+                                            <input type="radio" name="gender" id="optionsRadios1" value="1" > 男
+                                        </label>
+                                    </div>
+                                    <div class="radio-inline">
+                                        <label>
+                                            <input type="radio" name="gender" id="optionsRadios2" value="2"> 女 </label>
+                                    </div>
+                                    <!-- <div class="radio-inline">
+                                        <label>
+                                            <input type="radio" name="gender" id="optionsRadios2" value="-1" checked> 保密 </label>
+                                    </div> -->
+                                </div>
+                            </div>
+
+
+<div class="form-group">
+              <label for="grade" class="col-sm-2 control-label no-padding-right">年级</label>
+              <div class="col-sm-9 ">
+                <div class="radio-inline">
+                  <label>
+                    <input type="radio" checked="" value="11" id="gradeRadios1" name="grade">
+                    初一</label>
+                </div>
+                <div class="radio-inline">
+                  <label>
+                    <input type="radio" value="12" id="gradeRadios2" name="grade">
+                    初二</label>
+                </div>
+                <div class="radio-inline">
+                  <label>
+                    <input type="radio" value="13" id="gradeRadios3" name="grade">
+                    初三</label>
+                </div>
+              </div>
+              <div class="col-sm-offset-2 col-sm-9 ">
+                <div class="radio-inline">
+                  <label>
+                    <input type="radio" value="21" id="gradeRadios4" name="grade">
+                    高一</label>
+                </div>
+                <div class="radio-inline">
+                  <label>
+                    <input type="radio" value="22" id="gradeRadios5" name="grade">
+                    高二</label>
+                </div>
+                <div class="radio-inline">
+                  <label>
+                    <input type="radio" value="23" id="gradeRadios6" name="grade">
+                    高三</label>
+                </div>
+              </div>
+            </div>
+
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="">地区</label>
+                                <div class="col-sm-2">
+                                   <select  class="form-control " name="prov_id" id="prov_id" >
+                                                    <option value="">选择省</option>
+
+                                   </select>
+
+                                </div>
+
+                                               <div class="col-sm-2">
+                                   <select  class="form-control "  name="city_id" id="city_id">
+                                                    <option value="">选择市</option>
+
+                                   </select>
+
+                                </div>
+
+                                               <div class="col-sm-2">
+                                   <select  class="form-control " name="area_id" id="area_id" >
+                                                    <option value="">选择区</option>
+
+                                   </select>
+
+                                </div>
+                            </div>
+
+
+                                   <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="school">学校</label>
+                                <div class="col-sm-4">
+                                    <input type="text" placeholder="学校" value="<{$uInfo['school']}>" name="school" id="school" class="form-control">
+                                </div>
+                            </div>
+                   <hr>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-4">
+                                    <button class="btn btn-success btn-lg" >保存</button>
+                                </div>
+                            </div>
+            
+          </form>
+        </div>
+        <!--内容区结束--> 
+      </div>
+    </div>
+  </div>
+</div>
+<hr>
+<{/block}>
+
+<{block name="footer-script"}> 
+
+   <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
+   <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
+   <script src="public/js/bootbox.js"></script>
+<script>
+var cityData = {}
+
+   $.getJSON('/datasource/region', function(data) {
+
+     cityData = data;
+
+     $.each(data.data[0], function(k, v) {
+
+       $('<option value="' + k + '">' + v + '</option>').appendTo($('#prov_id'))
+
+     });
+
+
+    //如果选过地区，则已选的显示地区
+   if(uInfo.prov_id ){
+    $("#prov_id").find("option[value='<{$uInfo['prov_id']}>']").attr("selected",true);
+    $("#prov_id").trigger('change');
+    $("#city_id").find("option[value='<{$uInfo['city_id']}>']").attr("selected",true);
+    $("#city_id").trigger('change');
+    $("#area_id").find("option[value='<{$uInfo['area_id']}>']").attr("selected",true);
+       }
+
+
+   })
+
+   $('#prov_id').on('change', function() {
+     setCity($(this).val())
+   })
+
+   $('#city_id').on('change', function() {
+     setContry($(this).val())
+   })
+
+   function setCity(provinceID) {
+     console.log('setCity')
+     if (!cityData.data[provinceID]) {
+       $('#area_id').hide();
+       $('#city_id').hide();
+
+       return
+
+     } else {
+       $('#city_id').show();
+     }
+
+     $('#city_id').html('<option value="">选择市</option>');
+     console.log(cityData.data[provinceID]);
+     $.each(cityData.data[provinceID], function(k, v) {
+       $('<option value="' + k + '">' + v + '</option>').appendTo($('#city_id'))
+     })
+
+     $('#area_id').html('<option value="">选择区</option>');
+
+
+
+   }
+
+   function setContry(cityID) {
+
+     if (!cityData.data[cityID]) {
+       $('#area_id').hide();
+       return
+
+     } else {
+       $('#area_id').show();
+     }
+
+     $('#area_id').html('<option value="">选择区</option>');
+     $.each(cityData.data[cityID], function(k, v) {
+       $('<option value="' + k + '">' + v + '</option>').appendTo($('#area_id'))
+     })
+
+   }
+
+   //js写这里
+   // just for the demos, avoids form submit
+
+   $.fn.serializeObject = function() {
+     var o = {};
+     var a = this.serializeArray();
+     $.each(a, function() {
+       if (o[this.name]) {
+         if (!o[this.name].push) {
+           o[this.name] = [o[this.name]];
+         }
+         o[this.name].push(this.value || '');
+       } else {
+         o[this.name] = this.value || '';
+       }
+     });
+     return o;
+   };
+
+
+   $("form").validate({
+     submitHandler: function(form) {
+       var formdata = $("form").serializeObject();
+       $.post('/user/setprofile', formdata, function(data) {
+
+
+         if (parseInt(data.errno) < 0) {
+           bootbox.info(data.error, function() {}, 3000);
+
+         } else {
+           bootbox.success('修改成功！', function() {
+           }, 3000);
+
+         }
+
+       })
+     },
+     rules: {
+       name: {
+         rangelength:[2,6]
+       },
+       school: {
+         minlength: 4
+       }
+     },
+     messages: {
+       name: {
+         rangelength: '姓名字数在2`6个字符之间!',
+       },
+       school: {
+         minlength: '学习名称字数不够！'
+
+       }
+     }
+   });
+
+   //修改时设置默认值
+
+   $('#name').val("<{$uInfo['stuff_name']}>");
+      $('#school').val("<{$uInfo['school']}>");
+
+
+   $("input[name='gender']").each(function(){
+            if($(this).val()=="<{$uInfo['gender']}>"){
+                $(this).attr("checked",true);
+            }
+        });
+
+      $("input[name='grade']").each(function(){
+            if($(this).val()=="<{$uInfo['grade']}>"){
+                $(this).attr("checked",true);
+            }
+        });
+
+
+
+</script>
+<{/block}>

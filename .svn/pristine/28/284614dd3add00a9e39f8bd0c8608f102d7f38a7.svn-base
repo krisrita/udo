@@ -1,0 +1,442 @@
+<{extends file="layout.phtml"}> 
+<{block name="title" append}>
+注册成为会员
+<{/block}>
+
+ <{block name="header-css"}>
+<link href="public/css/index.css" rel="stylesheet"/>
+<link href="public/css/bootbox.css" rel="stylesheet"/>
+
+<style>
+    .error{
+        color: #f00
+    }
+    .radio-inline label{
+      font-weight: 100
+    }
+    a.btn-success {
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+    color: #fff;
+}
+</style>
+ <{/block}>
+
+
+<{block name="page-content" }>
+
+    <div class="wrapper">
+        <div class="row">
+       
+            <div class="col-lg-12">
+                <div class="main bordered">
+                    <h3 class="padding-left">注册新用户</h3>
+                    <hr>
+                    <!--内容区开始-->
+                    <div id="horizontal-form">
+                        <form name="reg" id="reg" role="form" class="form-horizontal" action="/user/register">
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="mobile">手机号码</label>
+                                <div class="col-sm-4">
+                                    <input type="text" placeholder="请输入手机号码" name="mobile" id="mobile" class="form-control" required>
+                                </div>
+                                  <div class="col-sm-5">
+                                    <p class="help-block">请输入手机号码</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="vcode">短信验证码</label>
+                                <div class="col-sm-4">
+                                        <input type="text" placeholder="验证码" name="vcode" id="vcode" class="form-control" required>
+
+                                </div>
+                                  <div class="col-sm-5">
+
+                                      <a href="javascript:void(0)" class="btn btn-success" id="JgetCode" >获取动态短信验证码</a>
+
+                                    <p class="help-block"></p>
+                                </div>
+                            </div>
+
+                 <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="password">密码</label>
+                                <div class="col-sm-4">
+                                    <input type="password" placeholder="密码" id="password" name="password" class="form-control" required> 
+                                </div>
+                                  <div class="col-sm-5">
+                                    <p class="help-block"></p>
+                                </div>
+                            </div>
+
+
+                                             <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="password_again">确认密码</label>
+                                <div class="col-sm-4">
+                                    <input type="password" placeholder="确认密码" id="password_again" name="password_again" class="form-control" required>
+                                </div>
+                                  <div class="col-sm-5">
+                                    <p class="help-block"></p>
+                                </div>
+                            </div>
+                    <h4 class="padding-left">选填信息</h4>
+
+<hr>
+
+        <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="name">姓名</label>
+                                <div class="col-sm-4">
+                                    <input type="text" placeholder="姓名" name="name" id="name" class="form-control">
+                                </div>
+                                  <div class="col-sm-5">
+                                    <p class="help-block"></p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="gender">性别</label>
+                                <div class="col-sm-10">
+                                    <div class="radio-inline">
+                                        <label>
+                                            <input type="radio" name="gender" id="optionsRadios1" value="1" checked> 男
+                                        </label>
+                                    </div>
+                                    <div class="radio-inline">
+                                        <label>
+                                            <input type="radio" name="gender" id="optionsRadios2" value="2"> 女 </label>
+                                    </div>
+                                    <!-- <div class="radio-inline">
+                                        <label>
+                                            <input type="radio" name="gender" id="optionsRadios2" value="-1"> 保密 </label>
+                                    </div> -->
+                                </div>
+                            </div>
+
+
+<div class="form-group">
+              <label for="grade" class="col-sm-2 control-label no-padding-right">年级</label>
+              <div class="col-sm-9 ">
+                <div class="radio-inline">
+                  <label>
+                    <input type="radio" checked="" value="11" id="gradeRadios1" name="grade">
+                    初一</label>
+                </div>
+                <div class="radio-inline">
+                  <label>
+                    <input type="radio" value="12" id="gradeRadios2" name="grade">
+                    初二</label>
+                </div>
+                <div class="radio-inline">
+                  <label>
+                    <input type="radio" value="13" id="gradeRadios3" name="grade">
+                    初三</label>
+                </div>
+              </div>
+              <div class="col-sm-offset-2 col-sm-9 ">
+                <div class="radio-inline">
+                  <label>
+                    <input type="radio" value="21" id="gradeRadios4" name="grade">
+                    高一</label>
+                </div>
+                <div class="radio-inline">
+                  <label>
+                    <input type="radio" value="22" id="gradeRadios5" name="grade">
+                    高二</label>
+                </div>
+                <div class="radio-inline">
+                  <label>
+                    <input type="radio" value="23" id="gradeRadios6" name="grade">
+                    高三</label>
+                </div>
+              </div>
+            </div>
+
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="">地区</label>
+                                <div class="col-sm-2">
+                                   <select  class="form-control " name="prov_id" id="prov_id" >
+                                                    <option value="">选择省</option>
+
+                                   </select>
+
+                                </div>
+
+                                               <div class="col-sm-2">
+                                   <select  class="form-control "  name="city_id" id="city_id">
+                                                    <option value="">选择市</option>
+
+                                   </select>
+
+                                </div>
+
+                                               <div class="col-sm-2">
+                                   <select  class="form-control " name="area_id" id="area_id" >
+                                                    <option value="">选择区</option>
+
+                                   </select>
+
+                                </div>
+                            </div>
+
+
+                                   <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="school">学校</label>
+                                <div class="col-sm-4">
+                                    <input type="text" placeholder="学校" name="school" id="school" class="form-control">
+                                </div>
+                            </div>
+                   <hr>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-4">
+                                    <button class="btn btn-success btn-lg" type="submit">立即注册</button>
+                                </div>
+                            </div>
+                            <br><br>
+                        </form>
+                    </div>
+                    <!--内容区结束-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+<{/block}>
+
+<{block name="footer-script"}> 
+<!--Basic Scripts-->
+   <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
+   <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
+   <script src="public/js/bootbox.js"></script>
+
+   <script>
+
+   var cityData = {}
+
+   $.getJSON('/datasource/region', function(data) {
+
+     cityData = data;
+
+     $.each(data.data[0], function(k, v) {
+
+       $('<option value="' + k + '">' + v + '</option>').appendTo($('#prov_id'))
+
+     })
+
+   })
+
+   $('#prov_id').on('change', function() {
+     setCity($(this).val())
+   })
+
+   $('#city_id').on('change', function() {
+     setContry($(this).val())
+   })
+
+   function setCity(provinceID) {
+     console.log('setCity')
+     if (!cityData.data[provinceID]) {
+       $('#area_id').hide();
+       $('#city_id').hide();
+
+       return
+
+     } else {
+       $('#city_id').show();
+     }
+
+     $('#city_id').html('<option value="">选择市</option>');
+     console.log(cityData.data[provinceID]);
+     $.each(cityData.data[provinceID], function(k, v) {
+       $('<option value="' + k + '">' + v + '</option>').appendTo($('#city_id'))
+     })
+
+     $('#area_id').html('<option value="">选择区</option>');
+
+
+
+   }
+
+   function setContry(cityID) {
+
+     if (!cityData.data[cityID]) {
+       $('#area_id').hide();
+       return
+
+     } else {
+       $('#area_id').show();
+     }
+
+     $('#area_id').html('<option value="">选择区</option>');
+     $.each(cityData.data[cityID], function(k, v) {
+       $('<option value="' + k + '">' + v + '</option>').appendTo($('#area_id'))
+     })
+
+   }
+
+   //js写这里
+   // just for the demos, avoids form submit
+
+   $.fn.serializeObject = function() {
+     var o = {};
+     var a = this.serializeArray();
+     $.each(a, function() {
+       if (o[this.name]) {
+         if (!o[this.name].push) {
+           o[this.name] = [o[this.name]];
+         }
+         o[this.name].push(this.value || '');
+       } else {
+         o[this.name] = this.value || '';
+       }
+     });
+     return o;
+   };
+
+   jQuery.validator.addMethod("isMobile", function(value, element) {
+     var length = value.length;
+     var mobile = /^(((13[0-9]{1})|(14[0-9]{1})|(17[0-9]{1})|(18[0-9]{1})|(15[0-9]{1}))+\d{8})$/;
+     return this.optional(element) || (length == 11 && mobile.test(value));
+   }, "手机号码格式不正确！");
+
+
+   $("form").validate({
+     submitHandler: function(form) {
+       var formdata = $("form").serializeObject();
+       $.post('/user/register', formdata, function(data) {
+
+
+         if (parseInt(data.errno) < 0) {
+           bootbox.info(data.error, function() {}, 3000);
+
+         } else {
+           bootbox.success('恭喜你，注册成功！', function() {
+             window.location.href = '/user/login'
+           }, 3000);
+
+         }
+
+       })
+     },
+     rules: {
+       mobile: {
+         required: true,
+         isMobile: true
+       },
+       vcode: {
+         required: true,
+         digits: true,
+         minlength: 6
+
+       },
+       password: {
+         required: true,
+         minlength: 6
+       },
+       password_again: {
+         equalTo: "#password"
+       }
+     },
+     messages: {
+       mobile: {
+         required: '请输入手机号!',
+         phoneUS: '手机号码格式不正确！'
+       },
+       vcode: {
+         required: '请输入验证码！',
+         digits: '验证码错误！',
+         minlength: '验证码长度不正确！'
+
+       },
+       password: {
+         required: '请设置密码！',
+         minlength: '密码长度不够！'
+       },
+       password_again: {
+         required: '请设置密码！',
+         equalTo: '两次密码输入不一致！'
+       }
+     }
+   });
+
+   /**
+    * 获取验证码
+    */
+   var code;
+   var codeTime;
+
+   function getCode() {
+
+
+
+     code = $('#JgetCode');
+     codeTime = code.next();
+     var mobile = $.trim($("#mobile").val());
+     if (mobile == "") {
+        bootbox.warning('请输入手机号');
+       return;
+     }
+
+    $.getJSON('/user/isuserexists', {
+       mobile: mobile
+     }, function(data) {
+
+       if(data.data.uid!=0){
+          bootbox.warning('手机号已注册！');
+          return;
+       }else{
+
+        code.hide();
+     codeTime.show();
+     var count = 60;
+     codeTime.html('60s重新获取');
+     var inter = setInterval(function() {
+       if (count == 0) {
+         clearInterval(inter);
+         code.show();
+         codeTime.hide();
+       }
+       codeTime.html(--count + '秒后重新获取');
+     }, 1000);
+
+
+
+
+
+     $.getJSON('/user/sendcode', {
+       mobile: mobile
+     }, function(data) {
+
+       $('#vcode').val('').focus()
+
+     })
+
+
+        
+       }
+
+     })
+
+               
+
+
+
+     
+
+   }
+
+   $('#JgetCode').on('click', getCode)
+
+
+
+   </script>
+
+   
+<{/block}>
+
+
+
+

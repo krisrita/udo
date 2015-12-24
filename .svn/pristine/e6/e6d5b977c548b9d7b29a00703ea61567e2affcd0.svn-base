@@ -1,0 +1,80 @@
+<{extends file="layout.phtml"}> 
+<{block name="title" append}>
+首页
+<{/block}>
+
+ <{block name="header-css"}>
+<link href="public/css/index.css" rel="stylesheet"/>
+ <{/block}>
+
+
+<{block name="page-content" }>
+
+
+
+    <div class="wrapper" id="index-cover-list">
+        <ol class="breadcrumb">
+  <li><a href="/">UDO课堂</a></li>
+  <li><{$school }>
+</li>
+</ol>
+        <div class="row" id="list" >
+<{foreach item=course from=$course_list}>
+
+            <div class="col-lg-4">
+                <div class="thumbnail animated flipInX">
+                    <div class="thumbnail-imgwrapper">
+                                             <{if $course.type==1}>
+                        <a href="/paper/list/course_id/<{$course.id}>">
+                         <{else}>
+                         <a href="/course/info/course_id/<{$course.id}>">
+                        <{/if}>
+                     <img width="300" height="125" src="<{$course.image}>"></a>
+                    </div>
+                    <div class="caption">
+                        <h4> 
+                        <{if $course.type==1}>
+                        <a href="/paper/list/course_id/<{$course.id}>">
+                         <{else}>
+                         <a href="/course/info/course_id/<{$course.id}>">
+                        <{/if}>
+                        <{$course.name}></a></h4>
+                        <p class="last"><i class="fa fa-play-circle"></i> 
+<{if isset($course.last_section_id) && $course.last_section_id > 0}>
+              
+              上次观看到 
+             <{if $course.type==1}>
+ <a href="/practise/exam/section_id/<{$course.last_section_id}>"><{$course.last_section_name}></a> 
+           <{else}>
+ <a href="/section/info/section_id/<{$course.last_section_id}>"><{$course.last_chapter_seq}>章 <{$course.last_section_seq}> 节</a>
+            <{/if}>
+
+
+                       
+
+
+                        <{else}>
+                        你还没有学习，快来学习吧
+<{/if}>
+                        </p>
+                        <div class="thumbnail-footer"><span class="pull-left"> <i class="glyphicon glyphicon-thumbs-up green"></i><span class="number green"><{$course.like_num}> </span><i class="glyphicon glyphicon-thumbs-down"></i><span class="number "><{$course.dislike_num}>  </span></span><span class="pull-right"> 观看人数 <span class="number green"><{$course.view_num}> </span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<{/foreach}>
+
+ <div class="col-lg-4">
+                <div class="thumbnail animated flipInX">
+                    <img src="public/images/more_course.jpg" alt="">
+                </div>
+            </div>
+                        
+
+        </div>
+    </div>
+<{/block}>
+
+<{block name="footer-script"}> 
+<!--Basic Scripts-->
+<{/block}>

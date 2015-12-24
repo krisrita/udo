@@ -1,0 +1,123 @@
+<!DOCTYPE html><html>
+  <head>
+    <title>登录</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="public/base/css/howdo-framework.css">
+        <link rel="stylesheet" href="public/base/css/font-awesome.min.css">
+ <link rel="stylesheet" href="public/base/css/common.css">
+         <link rel="stylesheet" href="public/css/login.css">
+
+      <script src="public/js/angular.min.js"></script>
+
+  </head>
+  <body>
+    <div class="wrap ">
+      <div class="login_wrap ">
+            <div class="login_bg "></div>
+            <div class="login " ng-app="login">
+                <div class="logo animated fadeInDown"><img src="public/images/logo_03.png" width="144" height="83" 
+
+alt=""/></div>
+                <p class="title">UDO互动教学与个性化学习辅助系统</p>
+                <div class="from_box">
+                <form name="loginform" ng-controller="FormController" class="my-form" novalidate  ng-submit="submit()">
+
+<div class="alert alert-danger" role="alert" ng-show="error">
+  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+  <span class="sr-only">Error:</span>
+  <span ng-bind="status"></span>
+</div>
+                                  
+
+                            <div class="form-group inp_bg"><i class="phone_i glyphicon glyphicon-phone"></i>
+                           <input type="text"  class="form-control" placeholder="手机号" ng-model="user.mobile" ng-minlength=11 max-minlength=11  
+
+required  />
+                        </div>
+                        <div class="form-group inp_bg"><i class="pass_i glyphicon glyphicon-lock"></i>
+                           <input type="password" class="form-control" placeholder="密码" required   ng-model="user.password" ng-minlength=6 ng-
+
+maxlength=20 required/>
+
+                        </div>
+                        <div class="other_oper"><a class="register" href="/user/register"  title="">注册</a>
+                        <a class="forgot" href="/user/forgetpassword" target="_blank" 
+
+title="">忘记密码</a></div>
+                        <div class=" login_btn">   <button  ng-disabled="!loginform.$valid"  class="btn btn-lg btn-primary btn-block">登 录</button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+
+    angular.module('login', [], function($httpProvider) {
+  // Use x-www-form-urlencoded Content-Type
+  $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+  var param = function(obj) {
+    var query = '', name, value, fullSubName, subName, subValue, innerObj, i;
+      
+    for(name in obj) {
+      value = obj[name];
+        
+      if(value instanceof Array) {
+        for(i=0; i<value.length; ++i) {
+          subValue = value[i];
+          fullSubName = name + '[' + i + ']';
+          innerObj = {};
+          innerObj[fullSubName] = subValue;
+          query += param(innerObj) + '&';
+        }
+      }
+      else if(value instanceof Object) {
+        for(subName in value) {
+          subValue = value[subName];
+          fullSubName = name + '[' + subName + ']';
+          innerObj = {};
+          innerObj[fullSubName] = subValue;
+          query += param(innerObj) + '&';
+        }
+      }
+      else if(value !== undefined && value !== null)
+        query += encodeURIComponent(name) + '=' + encodeURIComponent(value) + '&';
+    }
+      
+    return query.length ? query.substr(0, query.length - 1) : query;
+  };
+
+  // Override $http service's default transformRequest
+  $httpProvider.defaults.transformRequest = [function(data) {
+    return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
+  }];
+}).controller('FormController', ['$scope', '$http', function($scope, $http) {
+      $scope.user = {};
+      $scope.submit = function() {
+        $http.post('/user/login', $scope.user)
+        .success(function(data) {
+
+          if( parseInt(data.errno) < 0){
+                      $scope.error = true;
+          $scope.status = data.error;
+
+          }else{
+            window.location.href="/"
+          }
+
+        }).
+        error(function(data) {
+          $scope.status = status;
+
+        });
+      }
+    }]);
+  </script>
+
+    
+  </body></html>

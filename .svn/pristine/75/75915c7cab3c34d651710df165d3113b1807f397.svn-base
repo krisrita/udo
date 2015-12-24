@@ -1,0 +1,135 @@
+﻿<{extends file="layout.phtml"}> 
+<{block name="title" append}>
+首页
+<{/block}>
+
+ <{block name="header-css"}>
+<link href="public/css/index.css" rel="stylesheet"/>
+<script>
+    var city_id=<{$city.city_id|default:0}> ;
+   var city_name='<{$city.city_name|default:'全国'}>' ;
+
+    console.log(city_id+city_name)
+</script>
+ <{/block}>
+
+
+<{block name="page-content" }>
+<div class="wrapper">
+<div class="row">
+	<div class="col-lg-12">
+
+			<strong id="currCity"><{$city.city_name|default:'全国'}></strong> <a id="changBtn" href="javascript:void(0)">[切换城市]</a>
+
+	</div>
+</div>
+	
+</div>
+
+<div class="city-list">
+		<ul class="wrapper city-ul" ><li>全国</li></ul>
+	</div>
+
+
+    <div class="wrapper" id="index-cover-list">
+        <div class="row" >
+        <div id="shoolContainer">
+        	
+        </div>
+<{foreach item=school from=$school_list }>
+
+            <div class="col-lg-4">
+                <div class="thumbnail animated bounceIn ">
+                    <div class="thumbnail-imgwrapper">
+                        <a href="/course/list/school_id/<{$school.id}>">
+                         <img width="300" height="125" src="<{$school.image}>">
+
+                        </a>
+                    </div>
+                    <div class="caption">
+                        <h4> <a href="/course/list/school_id/<{$school.id}>"><{$school.name}><{$school.title}></a></h4>
+                    </div>
+                </div>
+            </div>
+<{/foreach}>
+
+                  <div class="col-lg-4">
+                <div class="thumbnail animated bounceIn ">
+                    <img src="public/images/index_more_course.jpg" alt="">
+                </div>
+            </div>       
+ 
+        </div>
+    </div>
+
+<script id="shoollist" type="text/x-dot-template">
+	     <div class="col-lg-4">
+                <div class="thumbnail animated bounceIn ">
+                    <div class="thumbnail-imgwrapper">
+                        <a href="/course/list/school_id/{{=school.id}}">
+                         <img width="300" height="125" src="{{=school.image}}">
+
+                        </a>
+                    </div>
+                    <div class="caption">
+                        <h4> <a href="/course/list/school_id/{{=school.id}}">{{=school.name}}{{=school.title}}</a></h4>
+                    </div>
+                </div>
+            </div>
+</script>
+
+<{/block}>
+
+<{block name="footer-script"}> 
+<script src="public/js/doT.min.js"></script>
+
+<script>
+
+   //切换城市
+    $.getJSON('/school/getcities', function(data) {
+        var hasOn=false;
+        var html = '<li id="0">全国</li>';
+        $.each(data.data, function(k, v) {
+            if (v.id == city_id) {
+                hasOn=true;
+                html += '<li class="on" id="' + v.id + '">' + v.name + '</li>';
+            } else {
+                html += '<li id="' + v.id + '">' + v.name + '</li>';
+            }
+        });
+        $('.city-ul').html(html);
+        if(!hasOn){
+
+             $('.city-ul').find('li').first().addClass('on')
+
+
+        }
+    })
+
+	$('#changBtn').on('click',function(){
+		$('.city-list').toggleClass('show')
+	})
+
+	//获取课程列表
+
+	function getShoolByCityId(cityId){
+
+     if(typeof cityId==='undefined' || cityId==0){
+            location.href='/'
+
+     } else{
+     location.href='/?city_id='+cityId
+     }  
+	// $.getJSON('/',{city_id:cityId},function(data){
+	//  var shooltpl = doT.template($("#shoollist").text());
+	// $("#shoolContainer").html(shooltpl(data.data));
+
+	//})
+}
+
+$('.city-list').delegate('li','click',function(){
+        getShoolByCityId($(this).attr('id'))
+    })	
+</script>
+<!--Basic Scripts-->
+<{/block}>

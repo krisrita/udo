@@ -38,8 +38,8 @@
       <file leaf-file-name="Config.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/library/Common/Config.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="4.0819163" vertical-offset="0" max-vertical-offset="6289">
-              <caret line="139" column="10" selection-start-line="139" selection-start-column="10" selection-end-line="139" selection-end-column="10" />
+            <state vertical-scroll-proportion="0.5285935" vertical-offset="1881" max-vertical-offset="6346">
+              <caret line="117" column="12" selection-start-line="117" selection-start-column="12" selection-end-line="117" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -183,7 +183,6 @@
         <option value="$PROJECT_DIR$/application/controllers/Message.php" />
         <option value="$PROJECT_DIR$/application/controllers/School.php" />
         <option value="$PROJECT_DIR$/library/DB/Udo/PayActionLog.php" />
-        <option value="$PROJECT_DIR$/library/Common/Config.php" />
         <option value="$PROJECT_DIR$/application/controllers/Credit.php" />
         <option value="$PROJECT_DIR$/application/models/Credit.php" />
         <option value="$PROJECT_DIR$/application/controllers/Course.php" />
@@ -198,6 +197,7 @@
         <option value="$PROJECT_DIR$/application/models/Account.php" />
         <option value="$PROJECT_DIR$/application/views/account/getAccount.phtml" />
         <option value="$PROJECT_DIR$/application/controllers/Account.php" />
+        <option value="$PROJECT_DIR$/library/Common/Config.php" />
       </list>
     </option>
   </component>
@@ -1011,8 +1011,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/library/Common/Config.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="4.0819163" vertical-offset="0" max-vertical-offset="6289">
-          <caret line="139" column="10" selection-start-line="139" selection-start-column="10" selection-end-line="139" selection-end-column="10" />
+        <state vertical-scroll-proportion="0.5285935" vertical-offset="1881" max-vertical-offset="6346">
+          <caret line="117" column="12" selection-start-line="117" selection-start-column="12" selection-end-line="117" selection-end-column="12" />
           <folding />
         </state>
       </provider>

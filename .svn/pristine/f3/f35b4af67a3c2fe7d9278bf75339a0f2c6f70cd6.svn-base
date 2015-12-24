@@ -1,0 +1,84 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+/*评论开始*/
+.issques {
+    border-bottom: 1px solid #d3dce0;
+    margin: 0 auto;
+    padding-bottom: 30px;
+   
+}
+.defaultbox {
+    border: 1px solid #d3dce0;
+}
+
+.pub-editor-wrap textarea {
+    color: #555;
+    font-size: 14px;
+    line-height: 18px;
+    min-height: 100px;
+    padding: 8px;
+    resize: none;
+    width: 100%;
+}
+.num-limit {
+    color: #d0d6d9;
+    font-size: 12px;
+    line-height: 100%;
+}
+.limit-overflow {
+    color: #c33;
+}
+.commentcon{
+    padding: 0;
+}
+#course_note li {
+    border-bottom: 1px solid #eee;
+    overflow: hidden;
+    padding: 10px 0 25px;
+}
+
+#course_note .notelist_headpic {
+    float: left;
+    margin-right: 10px;
+    margin-top: 6px;
+    width: 40px;
+}
+.notelist_content {
+    margin-left: 60px;
+}
+#course_note .notelist_headpic img {
+    border-radius: 20px;
+    display: block;
+}
+.notelist_content .u_name {
+    color: #999;
+    font-size: 14px;
+}
+.notelist_content .u_name a {
+    color: #1fb295;
+    font-size: 14px;
+}
+.notelist_content p {
+    color: #666;
+    font-size: 14px;
+    line-height: 28px;
+    word-break: break-all;
+}
+.notelist-bottom {
+    color: #999;
+    font-size: 12px;
+    margin-top: 15px;
+}
+.notelist-actions {
+    float: right;
+}
+.notelist-actions a {
+	color:#999;
+}
+.status{ display:inline-block;}
+.mr15{margin:0 -15px;}
+.comments-box{ background:#fff; padding:10px 20px;}
+.pub-btm{ padding-top:15px;}
+#js-pl-limit{color:#d42c4c;}

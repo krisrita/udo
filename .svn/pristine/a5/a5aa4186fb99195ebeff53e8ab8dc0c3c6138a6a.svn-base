@@ -1,0 +1,255 @@
+﻿<{extends file="layout.phtml"}> 
+<{block name="title" append}>
+课程信息
+<{/block}>
+
+ <{block name="header-css"}>
+        <link rel="stylesheet" href="public/css/learn.css"/>
+    <link rel="stylesheet" href="public/css/play.css"/>
+    <link rel="stylesheet" href="public/css/comments.css"/>
+    <style>
+#digup{
+	position: relative;
+}
+    </style>
+ <script>
+ var courseid = <{$course['id']}> ;
+ var videoid= <{$video['id']}> ;
+ </script>
+ <{/block}>
+
+
+<{block name="page-content" }>
+ <div class="navgation">
+
+    <div class="wrapper path">
+<div class="pull-right">
+  <button <{if $video['is_user_like'] != 0}> disabled ="true"<{/if}>
+  id="digup" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-thumbs-up"></i> <span class="num">  <{$video['like_num']}> </span></button> &nbsp;
+      <button id="digdown" <{if $video['is_user_like'] != 0}> disabled ="true"<{/if}>
+  class="btn btn-default btn-sm"><i class="glyphicon glyphicon-thumbs-down"></i> <span class="num"> <{$video['dislike_num']}></span></button>
+
+</div>
+
+<{if $course.type==1}>
+     <a href="/practise/exam/section_id/<{$practise['section_id']}>">
+<{else}>
+     <a href="/course/info/course_id/<{$course['id']}>">
+<{/if}>
+
+
+      <span class="glyphicon glyphicon-arrow-left"></span>返回</a><em><{$section['name']}> <{if isset($practise['seq']) }>  第<{$practise['seq']}> 题 <{/if}></em></div>
+ </div>
+<div class="video-box">
+    <div  class="wrapper" id="player">
+
+     <iframe src="<{$video['url']}>"  width="960" height="460" frameborder="0"></iframe>
+
+    </div>
+</div>
+
+
+
+<div class="wrapper">
+  <div class="row">
+    <div class="col-lg-8">
+    <div class="video-top defaultbox ">
+      <h5 class="pull-left"><{$section['name']}> 时长:<{$video['duration_fmt']}> 观看人数：<{$video['view_num']}>  </h5>
+
+
+<!--    <a class="btn btn-warning  pull-right" href="/section/practise/section_id/<{$section.id}>"><i class="glyphicon glyphicon-edit"></i> 练习</a>
+
+ -->  
+
+ <{if $course.type!=1}>
+  <a class="btn btn-success pull-right" href="/section/note/section_id/<{$section.id}>"><i class="glyphicon glyphicon-list-alt"></i> 笔记</a>
+<{/if}>
+
+
+    </div>
+
+  
+    <div class="comments-box defaultbox mr15">
+       <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">评论</a></li>
+
+  </ul>
+       <!--评论-->
+          <div class="issques clearfix padding" id="js-pub-container">
+          <div id="js-pl-input-fake" class="pub-editor-wrap">
+            <textarea placeholder="扯淡、吐槽、表扬、鼓励……想说啥就说啥！" minlenth="5" maxlength="200" class="form-control" id="js-pl-textarea"></textarea>
+          </div>
+          <div class="pub-btm clearfix" id="pub-btm">
+                    <input type="button" value="发表评论" data-cid="33" class="pull-right btn btn-success" id="js-pl-submit">
+          </div>
+          <p class="global-errortip js-global-error"></p>
+        </div>
+
+        <!--评论列表-->
+        <div id="course_note">
+        <ul class="commentcon">
+             
+                 <li class="loading">评论加载中...</li>
+
+             
+        </ul>
+
+                 <button id="J_getmore" class="btn btn-default block-center">
+              加载更多
+            </button>
+       
+          </div>
+    </div>
+    </div>
+    <div class="col-lg-4">
+      
+      <div class="course_right">
+
+              <dl>
+          <dt>讲师简介</dt>
+
+
+        <{if isset($teacher.name)}>
+
+          <dd>
+                        <div class="course_teacher">
+                <a class="teacer_pic"><img width="80" height="80" src="<{$teacher.avator}>"></a>
+                <h3>
+                 <{$teacher.name}>
+
+                </h3>
+                                <p> <{$teacher.job_title}>
+</p>
+                                <br class="clear">
+               <div class="discrip autowrap"><{$teacher.info}>
+</div>
+            </div>
+                      </dd>
+
+            <{else}>
+
+            <dd>暂无讲师信息</dd>
+
+                <{/if}>
+
+
+
+
+
+
+          
+        </dl>
+
+
+                        <dl>
+          <dt>专题简介</dt>
+          <dd>
+
+          
+
+
+            <pre class="wrd_break"> <{$course['info']}></pre></dd>
+        </dl>
+
+              </div>
+
+
+    </div>
+  </div>
+  
+ </div>
+
+
+<script id="commentListTpl" type="text/x-dot-template">
+{{~it.data:item}}
+
+    <li id="{{= item.id}}" comment_id="{{= item.comment_id}}">
+        <div class="notelist_headpic">
+        <img width="40" height="40" src="{{= item.author_avator}}">
+        </div>
+        <div class="notelist_content">
+          <div class="u_name">
+           <strong> {{= item.author_name}}</strong>  {{= item.create_time_fmt}}
+          </div>
+      
+
+          <p>
+
+
+       {{? item.parent_comment}}
+       回复 <strong> {{= item.parent_comment.author_name}}:</strong>
+          
+        
+       {{?}}
+          {{= item.content}}</p>
+
+                   {{? item.videolike==1 }}
+               <div class="status">他  <i class="glyphicon glyphicon-thumbs-up green"></i> 了该视频</div>
+
+            {{?? item.videolike==2}}
+             <div class="status">他  <i class="glyphicon glyphicon-thumbs-down green"></i> 了该视频</div>
+
+          {{?}} 
+
+
+          <div class="notelist-bottom clearfix">
+
+        <div class="notelist-actions">
+             <span class="glyphicon glyphicon-info-sign"></span> <a class="report" href="javascript:void(0)">举报</a> | <a class="reply" href="javascript:void(0)">回复</a> <div>
+        </div>
+      </li>
+
+{{~}}
+</script>
+
+<{/block}>
+
+<{block name="footer-script"}> 
+
+<script src="public/js/bootbox.js">
+</script>
+<script src="public/js/bootstrap-maxlength.min.js">
+</script>
+<script src="public/js/doT.min.js">
+</script>
+<script src="public/js/comment.js">
+</script>
+
+<script>
+	$('#digup').on('click',function () {
+
+		$.get('/video/like',{video_id:videoid},function(){
+
+		})
+
+		var nowN=parseInt($(this).find('.num').text());
+		$(this).find('.num').text(nowN+1);
+				$('#digup').attr('disabled','disabled');
+        $('#digdown').attr('disabled','disabled')
+
+
+	})
+
+	$('#digdown').on('click',function () {
+
+		$.get('/video/dislike',{video_id:videoid},function(){
+			
+		})
+
+		var nowN=parseInt($(this).find('.num').text());
+				$(this).find('.num').text(nowN+1);
+        $('#digup').attr('disabled','disabled');
+        $('#digdown').attr('disabled','disabled')
+
+
+    // body...
+
+		// body...
+	})
+</script>
+
+
+
+
+<!--Basic Scripts-->
+<{/block}>

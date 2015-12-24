@@ -1,0 +1,195 @@
+	#course-header{
+		height: 125px;
+		background: #333;
+		overflow: hidden;
+		margin-bottom: 15px
+	}
+	#course-header i{
+		font-size: 48px;
+		float: left;
+		color: #1fb295;
+		margin-right:10px;
+		margin-top: 5px
+	}
+	#course-header .item{
+		padding-top: 30px;
+		color: #1fb295;
+        padding-left: 10px;
+		height:125px;
+	}
+	#course-header .col-lg-3.bg{
+		background:#171e22
+	}
+	#course-header .large{
+		font-size: 44px;
+		font-weight: 100;
+		float: left
+	}
+	#course-header .white{
+		color: #ccc;
+		float: left;
+		font-size: 16px;
+		margin: 12px 0 0 12px;
+		line-height: 1.2
+	}
+  .course_right{
+    margin-right: -15px
+  }
+	.course_right dl {
+    background: #fff none repeat scroll 0 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    clear: both;
+    margin-bottom: 20px;
+    padding:20px;
+}
+.course_right dl dt {
+    border-bottom: 1px solid #d0d6d9;
+    font-size: 16px;
+    height: 50px;
+    line-height: 50px;
+}
+.course_right dl dd {
+    color: #656e73;
+    font-size: 12px;
+    line-height: 2em;
+    padding: 10px 0;
+    white-space: normal;
+    word-break: break-all;
+}
+.course_right .wrd_break {
+    font-family: Microsoft YaHei,​SimSun,​Arial;
+    font-size: 12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+.course_teacher {
+    padding-top: 10px;
+}
+.course_teacher h3 {
+    color: #333;
+    font-size: 16px;
+    margin-top: 15px;
+}
+.course_teacher dl {
+    float: right;
+    padding: 5px 10px 5px 5px;
+    width: 765px;
+}
+.course_teacher dl dt {
+    color: #5e5e5e;
+    font-size: 24px;
+    line-height: 36px;
+}
+.course_teacher .teacher_icon {
+    background: rgba(0, 0, 0, 0) url("../img/qadetailicon.png") no-repeat scroll 0 -97px;
+    display: inline-block;
+    height: 16px;
+    margin-left: 10px;
+    margin-top: 3px;
+    width: 16px;
+}
+.course_teacher dl dt span.teacher_iden {
+    background: rgba(0, 0, 0, 0) url("../img/curse_icon.png") no-repeat scroll -43px 0;
+    display: none;
+    height: 16px;
+    margin-left: 5px;
+    width: 60px;
+}
+.course_teacher dl dt span.idec_show {
+    display: inline-block;
+}
+.course_teacher dl dd {
+    color: #666565;
+    font-size: 14px;
+    line-height: 24px;
+}
+.course_teacher a.teacer_pic {
+    float: left;
+    margin-right: 10px;
+
+}
+.course_teacher .teacer_pic img {
+    border-radius: 40px;
+    background: #20b496
+}
+.course_teacher p {
+    color: #666;
+    font-size: 12px;
+    word-wrap: break-word;
+}
+.course_teacher .discrip {
+    font-size: 12px;
+    margin-bottom: 20px;
+}
+.course-chapter-list{
+
+	border: 1px solid #ddd;
+	padding:0;
+  margin:0 -15px;
+  background: #fff;
+}
+
+.cover-img{
+    margin-left: -15px
+
+}
+.nav-tabs{
+
+    margin-left: -1px;
+        margin-bottom: 10px;
+
+}
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus{
+    border-top: 1px solid #fff;
+    border-radius: 0;
+}
+.panel-heading{
+    background: #f3f3f3;
+    color: #333;
+    border-radius: 0;
+    font-weight: bold;
+    
+}
+
+.panel > .list-group:first-child .list-group-item:first-child, .panel > .panel-collapse > .list-group:first-child .list-group-item:first-child,.panel > .list-group:last-child .list-group-item:last-child, .panel > .panel-collapse > .list-group:last-child .list-group-item:last-child{
+     border-radius: 0
+}
+.course-chapter-list .list-group-item{
+    margin-left: 20px;
+    border-left: 1px solid #1fb295 !important;
+    border-radius: 0;
+    position: relative;
+    height: 50px
+}
+
+.fa-circle{
+    position: absolute;
+    left: -6px;
+    top: 14px;
+    color: #1fb295;
+}
+.fa-circle.on{
+    color: #999;
+}
+.list-group-item .btn{ margin-left:10px;}
+
+
+.tab-content i.fa-plus-square-o{
+
+    display: none;
+
+}
+
+
+.tab-content .collapsed i.fa-minus-square-o{
+
+    display: none;
+
+}
+
+.tab-content .collapsed i.fa-plus-square-o{
+
+    display: inline-block;
+
+}
+

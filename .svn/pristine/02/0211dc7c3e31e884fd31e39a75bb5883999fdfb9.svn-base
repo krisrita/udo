@@ -1,0 +1,159 @@
+<?php
+/**
+ * 配置
+ * @author yuanxch <449127727@qq.com>
+ * @date 2013/6/7
+ */
+final class Common_Config
+{
+    const SITE_DOMAIN = "182.92.110.119";
+    const BASE_URL = "http://182.92.110.119";
+    
+    //const BASE_URL_7NIU = "http://7sbr2j.com2.z0.glb.qiniucdn.com/";
+    const BASE_7NIU = "http://7sbqhl.com2.z0.glb.qiniucdn.com/";
+    //笔记
+    const NOTE_BASE_URL = "http://7sbr2j.com2.z0.glb.qiniucdn.com/";
+    //课程
+    const BASE_URL_7NIU = "http://7sbqhl.com2.z0.glb.qiniucdn.com/w";
+    //头像
+    const AVATOR_BASE_URL = "http://7sbqhl.com2.z0.glb.qiniucdn.com/avatar/";
+    //视频
+    const VIDEOIMG_BASE_URL = "http://7sbr2j.com2.z0.glb.qiniucdn.com/";
+    //学校图片
+    const WEB_SCHOOL_BASE_URL = "http://7sbqhl.com2.z0.glb.qiniucdn.com/school/w%s";
+    const APP_SCHOOL_BASE_URL = "http://7sbqhl.com2.z0.glb.qiniucdn.com/school/app/%s";
+    //试卷图片    
+    //const PAPER_BASE_URL = "http://7sbqhl.com2.z0.glb.qiniucdn.com/%s";
+    
+
+    const STATIC_BASE_URL = "http://182.92.110.119/";
+    const VIDEO_BASE_URL = "http://182.92.115.116/Api/Video/PlayVideo?video_id=%d&uid=%d";
+
+    const API_BASE_URL = "http://182.92.115.116/Api/";
+    const API_USER_REG_CODE = "http://182.92.115.116/Api/Account/GetCode";
+    const API_USER_REG = "http://182.92.115.116/Api/Account/Register";
+
+    const SECURE_KEY = "abc123";
+    const SECURE_SIGN = "|";
+    const DEFAULT_AVATOR = '2ffe930c8482bf639efb8d250e691806.png';
+
+    public static $practiseChoice = array("单选题", "多选题", "选择题");
+
+    static $elastic_config = array(
+        //'hosts' => array('182.92.115.116:6800', '182.92.115.116:7000'),
+        'hosts' => array('182.92.115.116:6800', '182.92.115.116:6800'),
+        'retries' => 0    
+        );
+
+
+    static $sms = array(
+		//主帐号
+		"accountSid"=> 'aaf98f894a188342014a3c4467a9137f',
+		
+		//主帐号Token
+		"accountToken"=> '7312a90bcb6040b5afd89a649fc656a0',
+		
+		//应用Id
+		"appId"=>'8a48b5514a27bb6c014a3c8561c10cc5',
+		
+		//请求地址，格式如下，不需要写https://
+		"serverIP"=>'app.cloopen.com',
+		
+		//请求端口
+		"serverPort"=>'8883',
+		
+		//REST版本号
+		"softVersion"=>'2013-12-26'    
+    );
+
+    //七牛
+    const QINIU_ACCESS_KEY = "59jduPphUtEg2MX5csuao09VU3T2l8cjBfM4mFdr";
+    const QINIU_SECRET_KEY = "iB-_d3fzBiITQrMj5hPedHt5lJwUvVzJYBrNIib6";
+    const QINIU_BUCKET_IMAGES = "xdf-image";
+    
+    const QINIU_BUCKET_AVATOR = "xdf-image/avatar";
+    const QINIU_BUCKET_COURSE = "xdf-image/course";
+    const QINIU_BUCKET_NOTE = "xdf-video";
+
+    const IMAGE_SAVE_PATH = "/tmp/";
+    static $allowImageExt = array("jpg", "jpeg", "png", "gif");
+    const ALLOW_IMAGE_SIZE = 2097152;
+
+    //app下载
+    const APP_ANDROID_DOWNLOAD_URL = "http://182.92.110.119/download/anroid.apk";
+    const APP_APPSTORE_DOWNLOAD_URL = "https://itunes.apple.com/cn/app/xxxxx/idxxxx";
+   
+    /**
+     * 不需要登录
+     */
+    public static $NotNeedLogin = array(
+        "User" => array(
+            "register" => 1, 
+            "login" => 1, 
+            "forgetpassword" => 1, 
+            "isuserexists" => 1, 
+            "checkcode" => 1, 
+            "sendcode" => 1, 
+            "forgetpasswordsendcode" => 1
+        ),
+
+        "Course" => array("profile" => 1),
+        "Practise" => array("subject"=>1, "option" => 1, 'wrong'=> 'ios', 'parse' => 'ios','exam'=>1),
+        "Paper" => array("list" => 1),
+    );
+
+    public static function getVideoUrl($id)
+    {
+        return sprintf(self::VIDEO_BASE_URL, $id, (int)Yaf_Registry::get("uid"));
+    }
+
+
+    /**
+     * 获得课程图片的base url
+     */
+    public static function getCourseImageUrl($key)
+    {
+        $platform = Yaf_Registry::get("platform");
+
+        switch ($platform) {
+            case "ios":
+            case "android":
+                return sprintf(self::BASE_7NIU . "app/%s", $key);
+            case "web":
+            default:
+                return sprintf(self::BASE_7NIU . "w%s", $key);
+     
+        }
+    }
+
+    public static function getVideoImageUrl($key)
+    {
+        return self::VIDEOIMG_BASE_URL . sprintf("%s/resource/note/1.png", $key);
+    }
+
+    public static function getShoolImageUrl($key, $flag = 0)
+    {
+        $platform = Yaf_Registry::get("platform");
+
+        switch ($platform) {
+            case "ios":
+            case "android":
+                return sprintf(self::APP_SCHOOL_BASE_URL, $key);
+            case "web":
+            default:
+                return sprintf(self::WEB_SCHOOL_BASE_URL, $key);
+     
+        }
+    }
+
+    /**
+     * 图片格式
+     */
+    public static function getPaperImageUrl($key)
+    {
+        return sprintf(self::PAPER_BASE_URL, $key);
+    }
+
+
+
+}

@@ -1,0 +1,9 @@
+[product]
+compile_dir = APP_PATH "/../cache/template_c/"
+cache_dir = APP_PATH "/../cache/cache/"
+config_dir = APP_PATH "/conf/"
+plugins_dir[] = APP_PATH "/library/Smarty/plugins"
+left_delimiter = <{
+right_delimiter = }>
+autoload_filters[output] = src 
+[sms : product]

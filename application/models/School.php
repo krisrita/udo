@@ -783,6 +783,10 @@ class SchoolModel
         //查找出频道的定价信息
         $price = $tblPrice->scalar("priceType,price","where resourceId = {$schoolId}");
 
+        //没有查询到定价信息的频道一律按照免费处理
+        if(!$price)
+            $price = array("priceType"=>Common_Config::UDO_PRICETYPE_FREE,"price"=>0);
+
         //查找用户的购买信息
         //原则上免费课程不能加入购买表中
         $isBought = $tblBought->fetchAll("resourceId","where schoolId = {$schoolId} and resourceType = 2 and userId = {$uid}");
