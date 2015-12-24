@@ -109,7 +109,14 @@ final class Common_Config
     const SSO_USER_RESOURCE = "http://123.56.131.22/ua/oapi/res/tree";
     //SSO获取用户单点可用资源接口
     const SSO_USER_SINGLE_RESOURCE = "http://123.56.131.22/ua/oapi/res/single";
+    //云平台提供的支付接口
+    const UDO_PAY_SERVICE = "http://123.56.131.22/pay/oapi/trans/prepay";
+    const TRANS_QUERY = "http://123.56.131.22/pay/oapi/trans/query";
+    const PAY_OSID = '3388';
+    const PAY_SECRET = 'xpmJIWtPsBejN1r5aPryPx3QFypV2CuP';
 
+    //运营中心接收
+    const PAY_NOTIFY_URL = "http://182.92.118.115:8080/Account/getPayResult";
     const UDO_OP_DOMAINID = 2706;
     const UDO_APP_DOMAINID = 2703;
     const UDO_OP_SIGNTYPE = 0;
@@ -154,11 +161,7 @@ final class Common_Config
     const UDO_LOCAL_CHAPTER_TYPE = 21;
     const UDO_LOCAl_SECTION_TYPE = 22;
     const PUBLIC_COURSE_TYPE = 6;
-    //云平台提供的支付接口
-    const UDO_PAY_SERVICE = "http://123.56.131.22/pay/oapi/trans/prepay";
-    const TRANS_QUERY = "http://123.56.131.22/pay/oapi/trans/query";
-    const PAY_OSID = '3388';
-    const PAY_SECRET = 'xpmJIWtPsBejN1r5aPryPx3QFypV2CuP';
+
 
     /*
      * 支付相关的常数
@@ -193,7 +196,7 @@ final class Common_Config
     /*
      *
      */
-    const PAY_NOTIFY_URL = "http://182.92.118.115:8080/Account/getPayResult";
+
 
     /*
      * 订单状态相关的常数
