@@ -877,4 +877,14 @@ class SchoolModel
         return $entrance;
     }
 
+    /*
+     * 获取某频道下的课程总数
+     */
+    function getCourseNumber($schoolId){
+        $tblResource = new DB_Sso_Resource();
+        $courseType = Common_Config::PUBLIC_COURSE_TYPE;
+        $queryCount = $tblResource->queryCount("where entrance_id = {$schoolId} and type = {$courseType} and enabled = 1");
+        return $queryCount;
+    }
+
 }

@@ -331,6 +331,11 @@ class SchoolController extends Base_Contr
         $this->displayJsonUdo(Common_Error::ERROR_SUCCESS,$result);
     }
 
+
+    /*
+     * 获取课程及以下各级资源的定价等基本信息
+     * 参数：localId父级资源的id;localType：请求资源的本地类型
+     */
     function getResourceAction(){
         $request = $this->getRequest();
         if('POST' == $request->getMethod())
@@ -358,12 +363,14 @@ class SchoolController extends Base_Contr
         //$parentId = $parent['parent_id'];
 
         //print_r(Common_Config::UDO_LOCAL_CHAPTER_TYPE);
+        //请求的如果是章资源或者节资源，那么首先需要根据请求的资源本地id获取到ssoid
         if( $localType == Common_Config::UDO_LOCAL_CHAPTER_TYPE || $localType == Common_Config::UDO_LOCAl_SECTION_TYPE){
             $ssoId = $tradeModel->getSsoId($localId,$domainId,$localType);
             if(!$ssoId)
                 $this->displayJsonUdo(Common_Error::ERROR_FAIL,"","您请求的资源尚未在云平台上注册哦");
             $parentId = $ssoId['id'];
         }
+        //如果请求的是课程资源，由于父级id是0，不需要转化
         else
             $parentId = $localId;
         $result = $tradeModel->getPrice($userId,$domainId,$parentId,$localType);

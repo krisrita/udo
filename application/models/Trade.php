@@ -110,11 +110,15 @@ class TradeModel
 
             //对于每一个父节点，根据id判断定价类型，现价和原价
             $priceInfo = $tblResource -> scalar("price_type,cur_price,ori_price","where id = {$course['id']}");
+            //如果资源没有定价，统一按照免费类型处理
+            if(!$priceInfo['price_type'])
+                $priceInfo['price_type'] = Common_Config::UDO_PRICETYPE_FREE;
 
             //接下来获取当前资源用户是否已经购买
             //如果资源是课程类型，直接读取
             if($localType == Common_Config::UDO_LOCAL_COURSE_TYPE){
                 $bought = $tblBought->scalar("id","where userId = {$userId} and schoolId = {$domainId} and resourceId = {$course['id']} and resourceType = 2");
+                //如果找到了购买信息或者资源的定价类型是免费，那么直接设置购买信息为已购买
                 if($bought || $priceInfo['price_type'] == 3)
                     $isBought = 1;
                 $array[$k] = (array_merge($array[$k],array("priceType"=>$priceInfo['price_type'],"price"=>$priceInfo['cur_price'],"isBought"=>$isBought)));
@@ -231,6 +235,148 @@ class TradeModel
         $tblCoinInfo = new DB_Udo_CoinInfo();
         $money  = $tblCoinInfo->scalar("price","where id = {$coinId}");
         return $money;
+    }
+
+    /*
+     * 获取频道的价格基础信息
+     * 可以按照以下参数筛选
+     */
+    function getSchoolPrice($priceType=0,$isPriced=2,$isPublic=2,$keyword="",$schoolId=0){
+        $tblEntrance = new DB_Sso_Entrance();
+        $tblSchoolPrice = new DB_Udo_SchoolPrice();
+        $schoolModel = new SchoolModel();
+
+        //构造筛选条件
+        $where = "where open_status = 1";
+        if($keyword)
+            $where .= " and (customer_name like '%{$keyword}%' or customer_title like '%{$keyword}%')";
+        if($schoolId)
+            $where .= " and id ={$schoolId}";
+        if($isPublic !=2 )
+            $where .= " and is_public = {$isPublic}";
+
+        //默认按照频道发布的先后顺序排
+        $entrance = $tblEntrance->fetchAll("id,customer_name,customer_title,is_public,created_on",$where,"order by created_on desc");
+        $resultArr = [];
+        foreach($entrance as $k=>$val){
+            $price = $tblSchoolPrice->scalar("resourceId,priceType,price","where resourceId = {$val['id']}");
+            if(!$price){
+                $val['priceType'] = 0;
+                $val['price'] = 0;
+            }
+            else{
+                $val['price'] = $price['price'];
+                $val['priceType'] = $price['priceType'];
+            }
+
+            //根据定价类型和是否定价的条件筛选掉不符合的项目
+            if($priceType)
+                if($val['priceType']!=$priceType)
+                    continue;
+            if($isPriced == 1)
+                if(!$price)
+                    continue;
+            if($isPriced == 0)
+                if($price)
+                    continue;
+
+            //通过筛选的频道获取消费者人次和课程数量
+            $val['cusNumber'] = $this->getCustomerNumber($val['id']);
+            $val['courseNumber'] = $schoolModel->getCourseNumber($val['id']);
+
+            //跟据数字类型的priceType给类型命名
+            $val['type'] = $this->getPriceTypeName($price['priceType']);
+            $val['public'] = $val['is_public']?"公开":"私有";
+            array_push($resultArr,$val);
+        }
+        return $resultArr;
+
+    }
+
+    /*
+     * 获取某指定频道下课程的定价完整信息
+     */
+    function getSchoolCoursePrice($schoolId){
+        $tblResource = new DB_Sso_Resource();
+
+        $resultArr = [];
+        //get school Course
+        $courseType = Common_Config::PUBLIC_COURSE_TYPE;
+        $courseList = $tblResource->fetchAll("id,name,price_type,cur_price","where entrance_id = {$schoolId} and enabled = 1 and type = {$courseType}");
+        //loop get prices
+        $index = 0;
+        foreach($courseList as $k=>$value){
+            //push courseInfo
+            array_push($resultArr,array("course"=>$value['name'],"courseId"=>$value['id'],"type"=>$this->getPriceTypeName($value['price_type']),
+                "price_type"=>$value['price_type'],"price"=>$value['cur_price'],"chapter"=>"","chapterId"=>0,"section"=>"","sectionId"=>0,
+                "cusNumber"=>$this->getCustomerNumber($schoolId,$value['id']),"parentId"=>0,"No"=>$index));
+            $index++;
+            $chapter = $tblResource->fetchAll("id,name,price_type,cur_price","where entrance_id = {$schoolId} and enabled = 1 and parent_id = {$value['id']}");
+            foreach($chapter as $v=>$val){
+                //push chapter info
+                array_push($resultArr,array("course"=>$value['name'],"courseId"=>$value['id'],"type"=>$this->getPriceTypeName($val['price_type']),
+                    "price_type"=>$val['price_type'],"price"=>$val['cur_price'],"chapter"=>$val['name'],"chapterId"=>$val['id'],"section"=>"","sectionId"=>0,
+                    "cusNumber"=>'-',"parentId"=>$value['id'],"No"=>$index));
+                $index++;
+                $section = $tblResource->fetchAll("id,name,price_type,cur_price","where entrance_id = {$schoolId} and enabled = 1 and parent_id = {$val['id']}");
+                foreach($section as $m=>$vm){
+                    //push section info
+                    array_push($resultArr,array("course"=>$value['name'],"courseId"=>$value['id'],"type"=>$this->getPriceTypeName($vm['price_type']),
+                        "price_type"=>$vm['price_type'],"price"=>$vm['cur_price'],"chapter"=>$val['name'],"chapterId"=>$val['id'],"section"=>$vm['name'],"sectionId"=>$vm['id'],
+                        "cusNumber"=>'-',"parentId"=>$val['id'],"No"=>$index));
+                    $index++;
+                }
+            }
+        }
+
+        return $resultArr;
+    }
+
+    /*
+     * 获取指定频道的完整定价信息
+     */
+    function getSingleSchoolPrice($schoolId){
+        $schoolPrice = $this->getSchoolPrice(0,2,2,'',$schoolId);
+        $resultArr = array("school"=>$schoolPrice[0]['customer_name'].'-'.$schoolPrice[0]['customer_title'],"price"=>$schoolPrice[0]['price'],
+            "priceType"=>$schoolPrice[0]['priceType'],'type'=>$schoolPrice[0]['type'],"cusNumber"=>$schoolPrice[0]['cusNumber'],"courseNumber"=>$schoolPrice[0]['courseNumber'],);
+
+        return $resultArr;
+    }
+
+
+    /*
+     * 获取指定频道下的消费者人次
+     */
+    function getCustomerNumber($schoolId,$courseId =0){
+        $tblUserBought = new DB_Udo_UserBought();
+
+        $where = "where schoolId = {$schoolId}";
+        $resourceCourse = Common_Config::UDO_RESOURCE_COURSE;
+        if($courseId)
+            $where.= " and resourceId = {$courseId} and resourceType = {$resourceCourse}";
+        $queryCount = $tblUserBought->queryCount($where);
+        return $queryCount;
+    }
+
+    /*
+     * 获取频道定价类型的命名信息
+     */
+    function getPriceTypeName($priceType){
+        switch($priceType){
+            case Common_Config::UDO_PRICETYPE_COIN:
+                $type = "U币";
+                break;
+            case Common_Config::UDO_PRICETYPE_CREDIT:
+                $type = "学分";
+                break;
+            case Common_Config::UDO_PRICETYPE_FREE:
+                $type = "免费";
+                break;
+            default:
+                $type = "未标价";
+                break;
+        }
+        return $type;
     }
 
     /*
