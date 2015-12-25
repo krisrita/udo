@@ -10,16 +10,12 @@
             <h3>
                 资源定价
             </h3>
+
         </div>
 
         <div class="title_right">
             <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for...">
-                                    <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">Go!</button>
-                        </span>
-                </div>
+
             </div>
         </div>
     </div>
@@ -32,7 +28,8 @@
                 <div class="x_title">
                     <h2>频道'<{$school.school}>'定价表 <!--<small>Sessions</small>--></h2>
                     <ul class="nav navbar-right panel_toolbox">
-                        <li><a href="#"><i class="fa fa-chevron-up"></i></a>
+                        <li><span class="count_top"><i class="fa fa-user"></i> 定价</span>
+                            <div class="count">2500</div>
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
@@ -49,6 +46,31 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
+                    <!-- top tiles -->
+                    <div class="row tile_count">
+                        <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+                            <div class="left"></div>
+                            <div class="right">
+                                <span class="count_top"><i class="fa fa-rmb"></i> <{$school.type}></span>
+                                <div class="count"><{$school.price}></div>
+                            </div>
+                        </div>
+                        <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+                            <div class="left"></div>
+                            <div class="right">
+                                <span class="count_top"><i class="fa fa-user"></i> 消费人次</span>
+                                <div class="count green"><{$school.cusNumber}></div>
+                            </div>
+                        </div>
+                        <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+                            <div class="left"></div>
+                            <div class="right">
+                                <span class="count_top"><i class="fa fa-book"></i> 课程数</span>
+                                <div class="count"><{$school.courseNumber}></div>
+                            </div>
+                        </div>
+                    </div>
+
 
                     <div class="well" style="overflow: auto">
 
@@ -99,8 +121,20 @@
                         <div class="ln_solid"></div>
                         <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
                             <button type="submit" class="btn btn-primary">清空条件</button>
-                            <button type="submit" class="btn btn-success">确认筛选</button>
+                            <button type="submit" class="btn btn-success">筛选课程</button>
                         </div>
+                    </div>
+
+
+                    <label class="control-label col-md-1">频道定价</label>
+                    <div class="col-md-8">
+                        课程总价<input type="radio" class="flat" name="isPriced" id="pricedAll" value="all" checked="" required />
+                        折扣<input type="radio" class="flat" name="isPriced" id="pricedYes" value="yes" />
+                        选择折扣
+                        <select class="">
+                        <option>9.5</option>
+                            <option>9</option>
+                        </select>
                     </div>
 
                     <!-- 表格-->
@@ -113,7 +147,7 @@
                             </th>-->
                             <th>课程</th>
                             <th>章</th>
-                            <th>section</th>
+                            <th>节</th>
                             <th>定价类型</th>
                             <th>定价值</th>
                             <th>消费人次</th>
@@ -126,14 +160,21 @@
                             <!--<td class="a-center ">
                                 <input type="checkbox" class="tableflat">
                             </td>-->
+
                             <td class=" "><{$course.course}></td>
                             <td class=" "><{$course.chapter}> </td>
                             <td class=" "><{$course.section}></td>
-                            <td class=" "><{$course.type}>
-                                <!--<{$school.type}><input type="radio" class="flat" name="priceType<{$course.No}>" id="priceNotFree<{$course.No}>" value="yes" />
-                                free<input type="radio" class="flat" name="priceType<{$course.No}>" id="priceFree<{$course.No}>" value="no" />--></td>
-                            <td class=" "><input type="text" id="first-name<{$course.No}>" required="required"
-                                                                   data-parsley-id="5718" value = <{$course.price}> ></td>
+                            <td class=" ">
+                                <{$school.type}><input type="radio" class="flat" name="priceType<{$course.No}>" id="priceNotFree<{$course.No}>" value="yes" />
+                                免费<input type="radio" class="flat" name="priceType<{$course.No}>" id="priceFree<{$course.No}>" value="no" /></td>
+                            <td class=" ">
+                                <!-- 仅课程类型显示修改价格的输入框 -->
+                                <{if $course.resourceType == 6}>
+                                <input type="text" id="first-name<{$course.No}>" required="required" data-parsley-id="5718" value = <{$course.price}> >
+                            <{else}>
+                                0
+                                <{/if}>
+                            </td>
                             <td class=""><{$course.cusNumber}></td>
                         </tr>
                         <{/foreach}>

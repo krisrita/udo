@@ -1,0 +1,418 @@
+<{extends file="adminLayout.phtml"}>
+<{block name="title" append}>
+活动编辑
+<{/block}>
+<{block name="header-css"}> <link href='http://fonts.useso.com/css?family=Roboto:300' rel='stylesheet' type='text/css'/><{/block}>
+<{block name="page-content" }>
+<!-- page content -->
+<div class="">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>
+                U币与学分兑换额度
+            </h3>
+        </div>
+
+        <div class="title_right">
+            <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for...">
+                                    <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">Go!</button>
+                        </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+
+
+    <div class="" role="tabpanel" data-example-id="togglable-tabs">
+        <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">U币兑换额度</a>
+            </li>
+            <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab"  aria-expanded="false">学分兑换额度</a>
+            </li>
+        </ul>
+        <div id="myTabContent" class="tab-content">
+
+            <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+
+                <!-- 排序按钮1-->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm1">点击排序</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm3">添加</button>
+                <!-- 模块框1-->
+                <div class="modal fade bs-example-modal-sm1" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel2">拖拽可对现有元素排序</h4>
+                            </div>
+                            <div class="modal-body">
+                                <!--<h4>拖拽可对现有元素排序</h4>-->
+
+                                <!--<ul id="foo" class="block__list block__list_words">
+                                    <{foreach item=coin from=$coinInfo}>
+                                    <li><{$coin.price}><{$coin.amt}></li>
+                                    <{/foreach}>
+                                </ul>-->
+
+                                <ul id="foo" class="to_do">
+                                    <{foreach item=coin from=$coinInfo}>
+                                    <li>
+                                        <p>
+                                            <{$coin.price}> RMB - <{$coin.amt}> U币</p>
+                                    </li>
+                                    <{/foreach}>
+                                </ul>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">保存</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- 模态框1-->
+
+                <!-- 模块框3-->
+                <div class="modal fade bs-example-modal-sm3" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel2">添加新规则</h4>
+                            </div>
+                            <div class="modal-body">
+                                <!--<h4>拖拽可对现有元素排序</h4>-->
+
+                                <!--<ul id="foo" class="block__list block__list_words">
+                                    <{foreach item=coin from=$coinInfo}>
+                                    <li><{$coin.price}><{$coin.amt}></li>
+                                    <{/foreach}>
+                                </ul>-->
+                                <form class="form-horizontal form-label-left">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">U币</label>
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <input type="text" class="form-control" placeholder="请输入U币值">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">人民币</label>
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <input type="text" class="form-control" placeholder="请输入人民币值">
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">提交</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- 模态框3-->
+
+
+                <!-- 表格1 人民币购买U币额度-->
+                <table id="example1" class="table table-striped responsive-utilities jambo_table">
+                    <!--表头-->
+                    <thead>
+
+                    <tr class="headings">
+                        <!--<th>
+                            <input type="checkbox" class="tableflat">
+                        </th>-->
+                        <th>排序</th>
+                        <th>U币</th>
+                        <th>人民币</th>
+                        <th>删除</th>
+                    </tr>
+                    </thead>
+                    <!--表头-->
+                    <tbody>
+                    <{foreach item=coin from=$coinInfo}>
+                    <tr class="even pointer">
+                        <!--<td class="a-center ">
+                            <input type="checkbox" class="tableflat">
+                        </td>-->
+                        <td class=" "><{$coin.order}></td>
+                        <td class=" "><{$coin.amt}></td>
+                        <td class=" "><{$coin.price}></td>
+                        <td class=" "><i class="fa fa-close"></i></td>
+                    </tr>
+                    <{/foreach}>
+                    </tbody>
+                </table>
+                <!-- 表格1 人民币购买U币额度-->
+            </div>
+
+            <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+
+                <!-- 排序按钮2-->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm4">添加</button>
+
+                <!-- 模块框4-->
+                <div class="modal fade bs-example-modal-sm4" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel2">添加新规则</h4>
+                            </div>
+                            <div class="modal-body">
+                                <!--<h4>拖拽可对现有元素排序</h4>-->
+
+                                <!--<ul id="foo" class="block__list block__list_words">
+                                    <{foreach item=coin from=$coinInfo}>
+                                    <li><{$coin.price}><{$coin.amt}></li>
+                                    <{/foreach}>
+                                </ul>-->
+                                <form class="form-horizontal form-label-left">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">学分</label>
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <input type="text" class="form-control" placeholder="请输入学分值">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">U币</label>
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <input type="text" class="form-control" placeholder="请输入U币值">
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">提交</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- 模态框4-->
+
+                <!-- 表格2 U币兑换学分额度-->
+                <table id="example2" class="table table-striped responsive-utilities jambo_table">
+                    <!--表头-->
+                    <thead>
+                    <tr class="headings">
+                        <!--<th>
+                            <input type="checkbox" class="tableflat">
+                        </th>-->
+                        <th>排序</th>
+                        <th>学分</th>
+                        <th>U币</th>
+                        <th>删除</th>
+                    </tr>
+                    </thead>
+                    <!--表头-->
+                    <tbody>
+                    <{foreach item=credit from=$creditInfo}>
+                    <tr class="even pointer">
+                        <!--<td class="a-center ">
+                            <input type="checkbox" class="tableflat">
+                        </td>-->
+                        <td class=" "><{$credit.order}></td>
+                        <td class=" "><{$credit.amt}></td>
+                        <td class=" "><{$credit.price}></td>
+                        <td class=" "><i class="fa fa-close"></i></td>
+                    </tr>
+                    <{/foreach}>
+                    </tbody>
+                </table>
+                <!-- 表格2 U币兑换学分额度-->
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<{/block}>
+
+<{block name="footer-script"}>
+
+<!-- Datatables -->
+<script src="public/admin/js/datatables/js/jquery.dataTables.js"></script>
+<script src="public/admin/js/datatables/tools/js/dataTables.tableTools.js"></script>
+<script src="public/admin/js/sortable/sortable.js"></script>
+<script>
+    $(document).ready(function () {
+        $('input.tableflat').iCheck({
+            checkboxClass: 'icheckbox_flat-green',
+            radioClass: 'iradio_flat-green'
+        });
+    });
+
+    var asInitVals = new Array();
+    $(document).ready(function () {
+        for(var i=1;i<3;i++){
+            var oTable = $('#example'+i).dataTable({
+                "oLanguage": {
+                    "sSearch": "Search all columns:"
+                },
+                "aoColumnDefs": [
+                    {
+                        'bSortable': false,
+                        'aTargets': [0]
+                    } //disables sorting for column one
+                ],
+                'iDisplayLength': 12,
+                "sPaginationType": "full_numbers",
+                "dom": 'T<"clear">lfrtip'
+            });
+        }
+
+        $("tfoot input").keyup(function () {
+            /* Filter on the column based on the index of this element's parent <th> */
+            oTable.fnFilter(this.value, $("tfoot th").index($(this).parent()));
+        });
+        $("tfoot input").each(function (i) {
+            asInitVals[i] = this.value;
+        });
+        $("tfoot input").focus(function () {
+            if (this.className == "search_init") {
+                this.className = "";
+                this.value = "";
+            }
+        });
+        $("tfoot input").blur(function (i) {
+            if (this.value == "") {
+                this.className = "search_init";
+                this.value = asInitVals[$("tfoot input").index(this)];
+            }
+        });
+    });
+</script>
+
+<script>
+    (function (){
+        var console = window.console;
+
+        if( !console.log ){
+            console.log = function (){
+                alert([].join.apply(arguments, ' '));
+            };
+        }
+
+/*        for (var i=1; 1<=2;i++){
+
+        }*/
+        window.x = new Sortable(foo, {
+            group: "words",
+            store: {
+                get: function (sortable) {
+                    var order = localStorage.getItem(sortable.options.group);
+                    return order ? order.split('|') : [];
+                },
+                set: function (sortable) {
+                    var order = sortable.toArray();
+                    localStorage.setItem(sortable.options.group, order.join('|'));
+                }
+            },
+            onAdd: function (evt){ console.log('onAdd.foo:', evt.item); },
+            onUpdate: function (evt){ console.log('onUpdate.foo:', evt.item); },
+            onRemove: function (evt){ console.log('onRemove.foo:', evt.item); },
+            onStart:function(evt){ console.log('onStart.foo:',evt.item);},
+            onEnd: function(evt){ console.log('onEnd.foo:', evt.item);}
+        });
+
+
+        new Sortable(bar, {
+            group: "words",
+            onAdd: function (evt){ console.log('onAdd.bar:', evt.item); },
+            onUpdate: function (evt){ console.log('onUpdate.bar:', evt.item); },
+            onRemove: function (evt){ console.log('onRemove.bar:', evt.item); },
+            onStart:function(evt){ console.log('onStart.foo:', evt.item);},
+            onEnd: function(evt){ console.log('onEnd.foo:', evt.item);}
+        });
+
+        window.x = new Sortable(foo, {
+            group: "words",
+            store: {
+                get: function (sortable) {
+                    var order = localStorage.getItem(sortable.options.group);
+                    return order ? order.split('|') : [];
+                },
+                set: function (sortable) {
+                    var order = sortable.toArray();
+                    localStorage.setItem(sortable.options.group, order.join('|'));
+                }
+            },
+            onAdd: function (evt){ console.log('onAdd.foo2:', evt.item); },
+            onUpdate: function (evt){ console.log('onUpdate.foo2:', evt.item); },
+            onRemove: function (evt){ console.log('onRemove.foo2:', evt.item); },
+            onStart:function(evt){ console.log('onStart.foo2:',evt.item);},
+            onEnd: function(evt){ console.log('onEnd.foo2:', evt.item);}
+        });
+
+
+        new Sortable(bar, {
+            group: "words",
+            onAdd: function (evt){ console.log('onAdd.bar:', evt.item); },
+            onUpdate: function (evt){ console.log('onUpdate.bar:', evt.item); },
+            onRemove: function (evt){ console.log('onRemove.bar:', evt.item); },
+            onStart:function(evt){ console.log('onStart.foo2:', evt.item);},
+            onEnd: function(evt){ console.log('onEnd.foo2:', evt.item);}
+        });
+
+
+        new Sortable(multi, {
+            draggable: '.tile',
+            handle: '.tile__name'
+        });
+
+
+        [].forEach.call(multi.getElementsByClassName('tile__list'), function (el){
+            new Sortable(el, { group: 'photo' });
+        });
+    })();
+
+
+
+    // Background
+    document.addEventListener( "DOMContentLoaded", function (){
+        function setNoiseBackground(el, width, height, opacity){
+            var canvas = document.createElement("canvas");
+            var context = canvas.getContext("2d");
+
+            canvas.width = width;
+            canvas.height = height;
+
+            for( var i = 0; i < width; i++ ){
+                for( var j = 0; j < height; j++ ){
+                    var val = Math.floor(Math.random() * 255);
+                    context.fillStyle = "rgba(" + val + "," + val + "," + val + "," + opacity + ")";
+                    context.fillRect(i, j, 1, 1);
+                }
+            }
+
+            el.style.background = "url(" + canvas.toDataURL("image/png") + ")";
+        }
+
+        setNoiseBackground(document.getElementsByTagName('body')[0], 50, 50, 0.02);
+    }, false );
+</script>
+
+
+
+<script src="http://libs.useso.com/js/highlight.js/7.5/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<{/block}>

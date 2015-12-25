@@ -32,6 +32,9 @@ class TradeController extends Base_Contr
 
     }
 
+    /*
+     *获取单个频道的定价信息
+     */
     public function getSchoolPriceAction(){
         $schoolId = (int)$this -> get('schoolId',0);
         $tradeModel = new TradeModel();
@@ -42,7 +45,26 @@ class TradeController extends Base_Contr
         $this->assign('school',$school);
         $this->assign('courseList',$courseList);
 
-
     }
 
+    /*
+     * 获取U币和学分的兑换额度
+     */
+    public function getCoinCreditAction(){
+        $accountModel = new AccountModel();
+        $coinInfo = $accountModel->getCoinInfo();
+        $creditInfo = $accountModel->getCreditInfo();
+
+        $this->assign('coinInfo',$coinInfo);
+        $this->assign('creditInfo',$creditInfo);
+
+}
+    /*
+     *学分规则
+     */
+    public function getCreditRulesAction(){
+        $tradeModel = new TradeModel();
+        $creditAction = $tradeModel->getCreditAction();
+        $this->assign('creditRule',$creditAction);
+    }
     }

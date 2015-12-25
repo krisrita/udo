@@ -1,0 +1,218 @@
+<{extends file="adminLayout.phtml"}>
+<{block name="title" append}>
+活动编辑
+<{/block}>
+<{block name="header-css"}> <link href='http://fonts.useso.com/css?family=Roboto:300' rel='stylesheet' type='text/css'/><{/block}>
+<{block name="page-content" }>
+<!-- page content -->
+<div class="">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>
+                学分规则
+            </h3>
+        </div>
+
+        <div class="title_right">
+            <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for...">
+                                    <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">Go!</button>
+                        </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+
+            <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm3">添加</button>
+
+                <!-- 模块框3-->
+                <div class="modal fade bs-example-modal-sm3" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel2">添加新规则</h4>
+                            </div>
+                            <div class="modal-body">
+                                <!--<h4>拖拽可对现有元素排序</h4>-->
+
+                                <!--<ul id="foo" class="block__list block__list_words">
+                                    <{foreach item=coin from=$coinInfo}>
+                                    <li><{$coin.price}><{$coin.amt}></li>
+                                    <{/foreach}>
+                                </ul>-->
+                                <form class="form-horizontal form-label-left">
+
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">操作id</label>
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <input type="text" class="form-control" placeholder="请输入操作id">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">名称</label>
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <input type="text" class="form-control" placeholder="请输入操作名称">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">类别</label>
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <input type="text" class="form-control" placeholder="请输入操作类型">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">产/消</label>
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            产出<input type="radio" class="flat" name="priceType" id="priceNotFree" value="yes" />
+                                            消耗<input type="radio" class="flat" name="priceType" id="priceFree" value="no" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">学分值</label>
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <input type="text" class="form-control" placeholder="请输入学分值">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">频次</label>
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            首次<input type="radio" class="flat" name="priceType" id="priceNotFree" value="yes" />
+                                            每日<input type="radio" class="flat" name="priceType" id="priceFree" value="no" />
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">频率</label>
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <input type="text" class="form-control" placeholder="请输入频率">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">提交</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- 模态框3-->
+
+
+                <!-- 表格1 人民币购买U币额度-->
+                <table id="example1" class="table table-striped responsive-utilities jambo_table">
+                    <!--表头-->
+                    <thead>
+                    <tr class="headings">
+                        <!--<th>
+                            <input type="checkbox" class="tableflat">
+                        </th>-->
+                        <th>操作id</th>
+                        <th>操作名称</th>
+                        <th>操作类型</th>
+                        <th>产出/消耗</th>
+                        <th>学分值</th>
+                        <th>频次</th>
+                        <th>频率</th>
+                        <th>删除</th>
+                    </tr>
+                    </thead>
+                    <!--表头-->
+                    <tbody>
+                    <{foreach item=rule from=$creditRule}>
+                    <tr class="even pointer">
+                        <!--<td class="a-center ">
+                            <input type="checkbox" class="tableflat">
+                        </td>-->
+                        <td class=" "><{$rule.actionId}></td>
+                        <td class=" "><{$rule.name}></td>
+                        <td class=" "><{$rule.actionType}></td>
+                        <td class=" "><{$rule.io}></td>
+                        <td class=" "><{$rule.creditAmount}></td>
+                        <td class=" "><{$rule.freq}></td>
+                        <td class=" "><{$rule.times}></td>
+                        <td class=" "><i class="fa fa-close"></i></td>
+                    </tr>
+                    <{/foreach}>
+
+                    </tbody>
+                </table>
+                <!-- 表格1 人民币购买U币额度-->
+            </div>
+
+
+</div>
+<{/block}>
+
+<{block name="footer-script"}>
+
+<!-- Datatables -->
+<script src="public/admin/js/datatables/js/jquery.dataTables.js"></script>
+<script src="public/admin/js/datatables/tools/js/dataTables.tableTools.js"></script>
+<script src="public/admin/js/sortable/sortable.js"></script>
+<script>
+    $(document).ready(function () {
+        $('input.tableflat').iCheck({
+            checkboxClass: 'icheckbox_flat-green',
+            radioClass: 'iradio_flat-green'
+        });
+    });
+
+    var asInitVals = new Array();
+    $(document).ready(function () {
+        for(var i=1;i<3;i++){
+            var oTable = $('#example'+i).dataTable({
+                "oLanguage": {
+                    "sSearch": "Search all columns:"
+                },
+                "aoColumnDefs": [
+                    {
+                        'bSortable': false,
+                        'aTargets': [0]
+                    } //disables sorting for column one
+                ],
+                'iDisplayLength': 12,
+                "sPaginationType": "full_numbers",
+                "dom": 'T<"clear">lfrtip'
+            });
+        }
+
+        $("tfoot input").keyup(function () {
+            /* Filter on the column based on the index of this element's parent <th> */
+            oTable.fnFilter(this.value, $("tfoot th").index($(this).parent()));
+        });
+        $("tfoot input").each(function (i) {
+            asInitVals[i] = this.value;
+        });
+        $("tfoot input").focus(function () {
+            if (this.className == "search_init") {
+                this.className = "";
+                this.value = "";
+            }
+        });
+        $("tfoot input").blur(function (i) {
+            if (this.value == "") {
+                this.className = "search_init";
+                this.value = asInitVals[$("tfoot input").index(this)];
+            }
+        });
+    });
+</script>
+<{/block}>

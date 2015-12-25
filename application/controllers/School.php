@@ -654,25 +654,4 @@ class SchoolController extends Base_Contr
         $this->displayJsonUdo(Common_Error::ERROR_SUCCESS,$array);
     }
 
-    function calculationAction(){
-        $save = 10;
-        $sal = 10;
-        $index = 1.1;
-        $incr = 1.2;
-        $sum = 0;
-        $input = 0;
-        for($i=0;$i<30;$i++){
-            $input += $sal;
-            print_r("第".$i."年投入:".$input."<br>");
-            $sum = $save*$index;
-            print_r("第".$i."年收益:".$sum."<br>");
-            $sal *= $incr;
-            print_r("第".$i."年年底收入:".$sal."<br>");
-            $save = $save*$index + $sal;
-            print_r("第".$i."年年底本金:".$save."<br>");
-
-        }
-        //print_r($sum);
-    }
-
 }

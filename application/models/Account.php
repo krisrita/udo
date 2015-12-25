@@ -39,7 +39,7 @@ class AccountModel
      */
     function getCoinInfo(){
         $tblCoinInfo = new DB_Udo_CoinInfo();
-        $coinInfo = $tblCoinInfo->fetchAll("id,amt,price","where isValid = 1");
+        $coinInfo = $tblCoinInfo->fetchAll("*","where isValid = 1");
         //print_r($coinInfo);
         return $coinInfo;
     }
@@ -47,19 +47,23 @@ class AccountModel
     /*
      * 获取U币和学分的兑换信息
      */
-    function getCreditInfo($uid){
+    function getCreditInfo($uid=0){
         $tblCreditInfo = new DB_Udo_CreditInfo();
-        $creditInfo = $tblCreditInfo->fetchAll("id,amt,price","where isValid = 1");
+        $creditInfo = $tblCreditInfo->fetchAll("*","where isValid = 1");
         //print_r($creditInfo);
         $isEnough = 0;
-        $balance = $this->getBalance($uid);
-        foreach ($creditInfo as $k=>$value){
-            if ($balance['amt']>=$value['price'])
-                $isEnough = 1;
-            else
-                $isEnough = 0;
-            $creditInfo[$k] = array_merge($creditInfo[$k],array("isEnough"=>$isEnough));
+
+        if($uid){
+            $balance = $this->getBalance($uid);
+            foreach ($creditInfo as $k=>$value){
+                if ($balance['amt']>=$value['price'])
+                    $isEnough = 1;
+                else
+                    $isEnough = 0;
+                $creditInfo[$k] = array_merge($creditInfo[$k],array("isEnough"=>$isEnough));
+            }
         }
+
         return $creditInfo;
     }
 

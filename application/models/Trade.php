@@ -309,21 +309,27 @@ class TradeModel
             //push courseInfo
             array_push($resultArr,array("course"=>$value['name'],"courseId"=>$value['id'],"type"=>$this->getPriceTypeName($value['price_type']),
                 "price_type"=>$value['price_type'],"price"=>$value['cur_price'],"chapter"=>"","chapterId"=>0,"section"=>"","sectionId"=>0,
-                "cusNumber"=>$this->getCustomerNumber($schoolId,$value['id']),"parentId"=>0,"No"=>$index));
+                "cusNumber"=>$this->getCustomerNumber($schoolId,$value['id']),"parentId"=>0,"No"=>$index,"resourceType"=>Common_Config::PUBLIC_COURSE_TYPE));
             $index++;
             $chapter = $tblResource->fetchAll("id,name,price_type,cur_price","where entrance_id = {$schoolId} and enabled = 1 and parent_id = {$value['id']}");
             foreach($chapter as $v=>$val){
                 //push chapter info
                 array_push($resultArr,array("course"=>$value['name'],"courseId"=>$value['id'],"type"=>$this->getPriceTypeName($val['price_type']),
                     "price_type"=>$val['price_type'],"price"=>$val['cur_price'],"chapter"=>$val['name'],"chapterId"=>$val['id'],"section"=>"","sectionId"=>0,
-                    "cusNumber"=>'-',"parentId"=>$value['id'],"No"=>$index));
+                    "cusNumber"=>'-',"parentId"=>$value['id'],"No"=>$index,"resourceType"=>Common_Config::PUBLIC_CHAPTER_TYPE));
+                /*array_push($resultArr,array("course"=>"","courseId"=>$value['id'],"type"=>$this->getPriceTypeName($val['price_type']),
+                    "price_type"=>$val['price_type'],"price"=>$val['cur_price'],"chapter"=>$val['name'],"chapterId"=>$val['id'],"section"=>"","sectionId"=>0,
+                    "cusNumber"=>'-',"parentId"=>$value['id'],"No"=>$index,"resourceType"=>Common_Config::PUBLIC_CHAPTER_TYPE));*/
                 $index++;
                 $section = $tblResource->fetchAll("id,name,price_type,cur_price","where entrance_id = {$schoolId} and enabled = 1 and parent_id = {$val['id']}");
                 foreach($section as $m=>$vm){
                     //push section info
                     array_push($resultArr,array("course"=>$value['name'],"courseId"=>$value['id'],"type"=>$this->getPriceTypeName($vm['price_type']),
                         "price_type"=>$vm['price_type'],"price"=>$vm['cur_price'],"chapter"=>$val['name'],"chapterId"=>$val['id'],"section"=>$vm['name'],"sectionId"=>$vm['id'],
-                        "cusNumber"=>'-',"parentId"=>$val['id'],"No"=>$index));
+                        "cusNumber"=>'-',"parentId"=>$val['id'],"No"=>$index,"resourceType"=>Common_Config::PUBLIC_SECTION_TYPE));
+                    /*array_push($resultArr,array("course"=>"","courseId"=>$value['id'],"type"=>$this->getPriceTypeName($vm['price_type']),
+                        "price_type"=>$vm['price_type'],"price"=>$vm['cur_price'],"chapter"=>"","chapterId"=>$val['id'],"section"=>$vm['name'],"sectionId"=>$vm['id'],
+                        "cusNumber"=>'-',"parentId"=>$val['id'],"No"=>$index,"resourceType"=>Common_Config::PUBLIC_SECTION_TYPE));*/
                     $index++;
                 }
             }
@@ -335,7 +341,7 @@ class TradeModel
     /*
      * 获取指定频道的完整定价信息
      */
-    function getSingleSchoolPrice($schoolId){
+    function  getSingleSchoolPrice($schoolId){
         $schoolPrice = $this->getSchoolPrice(0,2,2,'',$schoolId);
         $resultArr = array("school"=>$schoolPrice[0]['customer_name'].'-'.$schoolPrice[0]['customer_title'],"price"=>$schoolPrice[0]['price'],
             "priceType"=>$schoolPrice[0]['priceType'],'type'=>$schoolPrice[0]['type'],"cusNumber"=>$schoolPrice[0]['cusNumber'],"courseNumber"=>$schoolPrice[0]['courseNumber'],);
@@ -444,6 +450,18 @@ class TradeModel
     }
 
     /*
+     * 获取学分规则
+     */
+    function getCreditAction(){
+        $tblCreditAction = new DB_Udo_CreditAction();
+        $creditAction = $tblCreditAction->fetchAll("*","where isValid = 1");
+        foreach ($creditAction as $k=>$val){
+            $creditAction[$k] = array_merge($val,$this->getActionProp($val['outputInput'],$val['frequency']));
+        }
+        return $creditAction;
+    }
+
+    /*
      * 测试数据——用户购买信息
      * 所有用户均购买了id模3为0的频道
      * 所有用户购买了所有频道的第一个课程
@@ -488,6 +506,37 @@ class TradeModel
         }
     }
 
+
+    /*
+     * 获取学分操作的频次和产消名称
+     */
+    function getActionProp($io,$freq){
+        switch($io){
+            case 1:
+                $io = "产出";
+                break;
+            case 2:
+                $io = "消耗";
+                break;
+            default:
+                $io = "未定义";
+                break;
+        }
+
+        switch($freq){
+            case 1:
+                $freq = "每日";
+                break;
+            case 0:
+                $freq = "首次";
+                break;
+            default:
+                $freq = "未定义";
+                break;
+        }
+
+        return array("io"=>$io,"freq"=>$freq);
+    }
 
     /*
      * 获取订单的状态集合
