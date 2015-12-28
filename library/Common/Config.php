@@ -6,10 +6,10 @@
  */
 final class Common_Config
 {
-    const SITE_DOMAIN = "http://127.0.0.1:9097";
-    const BASE_URL = "http://127.0.0.1:9097";
-    /*const SITE_DOMAIN = "http://123.57.224.70:8080";
-    const BASE_URL = "http://123.57.224.70:8080";*/
+    /*const SITE_DOMAIN = "http://127.0.0.1:9097";
+    const BASE_URL = "http://127.0.0.1:9097";*/
+    const SITE_DOMAIN = "http://123.57.224.70:8080";
+    const BASE_URL = "http://123.57.224.70:8080";
     
     //const BASE_URL_7NIU = "http://7sbr2j.com2.z0.glb.qiniucdn.com/";
     const BASE_7NIU = "http://7sbqhl.com2.z0.glb.qiniucdn.com/";
@@ -28,9 +28,9 @@ final class Common_Config
     //const PAPER_BASE_URL = "http://7sbqhl.com2.z0.glb.qiniucdn.com/%s";
     
 
-    const STATIC_BASE_URL = "http://127.0.0.1:9097/";
+    /*const STATIC_BASE_URL = "http://127.0.0.1:9097/";*/
 
-    /*const STATIC_BASE_URL = "http://123.57.224.70:8080/";*/
+    const STATIC_BASE_URL = "http://123.57.224.70:8080/";
     /*const VIDEO_BASE_URL = "http://182.92.115.116/Api/Video/PlayVideo?video_id=%d&uid=%d";*/
 
     const API_BASE_URL = "http://182.92.115.116/Api/";
@@ -89,7 +89,7 @@ final class Common_Config
 
     //SSO
     //SSO用户登录接口
-    const SSO_LOGIN_URL = "http://123.56.131.22/sso/oapi/login";
+    /*const SSO_LOGIN_URL = "http://123.56.131.22/sso/oapi/login";
     const SSO_LOGIN_URL_FORMAL = "http://sso.howdo.cc/sso/oapi/login";
     //SSO用户验证接口
     const SSO_VERIFY_URL = "http://123.56.131.22/sso/oapi/verify_token";
@@ -112,7 +112,31 @@ final class Common_Config
     //SSO获取用户所有可用资源接口
     const SSO_USER_RESOURCE = "http://123.56.131.22/ua/oapi/res/tree";
     //SSO获取用户单点可用资源接口
-    const SSO_USER_SINGLE_RESOURCE = "http://123.56.131.22/ua/oapi/res/single";
+    const SSO_USER_SINGLE_RESOURCE = "http://123.56.131.22/ua/oapi/res/single";*/
+
+    const SSO_LOGIN_URL = "http://sso.howdo.cc/sso/oapi/login";
+    //SSO用户验证接口
+    const SSO_VERIFY_URL = "http://sso.howdo.cc/sso/oapi/verify_token";
+    //SSO获取某用户可以访问的频道列表接口
+    const SSO_SCHOOL_URL = "http://sso.howdo.cc/sso/oapi/user_entry";
+    //SSO获取所有频道接口
+    const SSO_SCHOOL_UPDATE_URL = "http://sso.howdo.cc/sso/oapi/user_entry";
+    //SSO获取所有用户接口
+    const SSO_USER_URL = "http://sso.howdo.cc/sso/oapi/user_entry";
+    //SSO通知推送接口
+    const SSO_MESSAGE_URL = "http://10.44.216.230/pm/api/push/add";
+    const SSO_TRANS_URL = "http://10.44.216.230/pm/api/push/trans";
+    //SSO查询频道接口S
+    const SSO_ENTRY_URL = "http://sso.howdo.cc/sso/oapi/entry";
+    //SSO查询频道的用户权限接口
+    const SSO_USER_ENTRY_URL = "http://sso.howdo.cc/sso/oapi/entry/usersid";
+    //SSO根据用户id获取用户信息接口
+    const SSO_USER_INFO = "http://sso.howdo.cc/sso/oapi/user/byid";
+    //SSO获取用户所有可用资源接口
+    const SSO_USER_RESOURCE = "http://sso.howdo.cc/ua/oapi/res/tree";
+    //SSO获取用户单点可用资源接口
+    const SSO_USER_SINGLE_RESOURCE = "http://sso.howdo.cc/ua/oapi/res/single";
+
     //云平台提供的支付接口
     const UDO_PAY_SERVICE = "http://123.56.131.22/pay/oapi/trans/prepay";
     const TRANS_QUERY = "http://123.56.131.22/pay/oapi/trans/query";
