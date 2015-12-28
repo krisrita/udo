@@ -652,7 +652,7 @@ class SchoolModel
             $news = $tblNews->fetchLimit("id,title,logo,url,createTime","where isValid = 1 ".$str,"order by createTime desc",1,$pageSize);
         }
         foreach ($news as $k=>$val){
-            $news[$k]['logo'] = Common_Config::SITE_DOMAIN.$val['logo'];
+            //$news[$k]['logo'] = Common_Config::SITE_DOMAIN.$val['logo'];
             $news[$k]['createTime'] = date("Y/m/d",$news[$k]['createTime']);
         }
         /*print_r($previousTime['createTime']);
