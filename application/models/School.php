@@ -340,13 +340,15 @@ class SchoolModel
         return $new_array;
     }
 
-    function getBanner(){
+    function getBanner($uid){
         $tbl = new DB_Udo_Banner();
         //$banner = $tbl -> fetchAll("id,logo,bannerType,bannerUrl,school,apiUdoUrl","where isValid=1","order by `order` asc");
         $banner = $tbl -> fetchAll("id,logo,bannerType,bannerUrl,school,apiUdoUrl,customerName,customerTitle","where isValid=1","order by `order` asc");
         //print_r($banner?$banner:"null");
         foreach ($banner as $k=>$val){
             $banner[$k]['logo'] = Common_Config::SITE_DOMAIN.$val['logo'];
+            $banner[$k]['isSubscribed'] = $this->getIfSub($val['school'],$uid);
+            $banner[$k] = array_merge($banner[$k],$this->getSchoolPrice($val['school'],$uid));
         }
         return $banner;
     }

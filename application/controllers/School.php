@@ -236,7 +236,12 @@ class SchoolController extends Base_Contr
         }
 
         $bannerModel = new SchoolModel();
-        $banner = $bannerModel->getBanner();
+        $userModel = new UserModel();
+        $uid = $userModel->getUserId($ssotoken);
+        if(is_array($uid))
+            $this->displayJsonUdo(Common_Error::INVALID_TOKEN,"",$uid['msg']);
+
+        $banner = $bannerModel->getBanner($uid);
 
 
         if(!$banner)
