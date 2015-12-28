@@ -29,8 +29,9 @@ final class Common_Config
     
 
     const STATIC_BASE_URL = "http://127.0.0.1:9097/";
+
     /*const STATIC_BASE_URL = "http://123.57.224.70:8080/";*/
-    const VIDEO_BASE_URL = "http://182.92.115.116/Api/Video/PlayVideo?video_id=%d&uid=%d";
+    /*const VIDEO_BASE_URL = "http://182.92.115.116/Api/Video/PlayVideo?video_id=%d&uid=%d";*/
 
     const API_BASE_URL = "http://182.92.115.116/Api/";
     const API_USER_REG_CODE = "http://182.92.115.116/Api/Account/GetCode";
