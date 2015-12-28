@@ -734,6 +734,7 @@ class SchoolModel
         $post_data = array("ssotoken"=>$ssotoken);
         $cl = new Common_Curl();
         $array = $cl->request($url, $post_data);
+        $array['entrances'] = $this->schoolOrder($array);
 
         //针对搜索结果，返回频道的基础信息
         foreach ($resultIds as $l){
