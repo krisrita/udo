@@ -8,6 +8,8 @@ final class Common_Config
 {
     const SITE_DOMAIN = "http://127.0.0.1:9097";
     const BASE_URL = "http://127.0.0.1:9097";
+    /*const SITE_DOMAIN = "http://123.57.224.70:8080";
+    const BASE_URL = "http://123.57.224.70:8080";*/
     
     //const BASE_URL_7NIU = "http://7sbr2j.com2.z0.glb.qiniucdn.com/";
     const BASE_7NIU = "http://7sbqhl.com2.z0.glb.qiniucdn.com/";
@@ -27,6 +29,7 @@ final class Common_Config
     
 
     const STATIC_BASE_URL = "http://127.0.0.1:9097/";
+    /*const STATIC_BASE_URL = "http://123.57.224.70:8080/";*/
     const VIDEO_BASE_URL = "http://182.92.115.116/Api/Video/PlayVideo?video_id=%d&uid=%d";
 
     const API_BASE_URL = "http://182.92.115.116/Api/";
@@ -161,6 +164,8 @@ final class Common_Config
     const UDO_LOCAL_CHAPTER_TYPE = 21;
     const UDO_LOCAl_SECTION_TYPE = 22;
     const PUBLIC_COURSE_TYPE = 6;
+    const PUBLIC_CHAPTER_TYPE = 7;
+    const PUBLIC_SECTION_TYPE = 8;
 
 
     /*
