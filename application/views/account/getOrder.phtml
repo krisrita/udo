@@ -52,26 +52,45 @@
 
 
                     <div class="well" style="overflow: auto">
+                        <form action = "getOrder" method = "get">
 
                         <!-- 列表日期筛选 -->
                         <label class="control-label col-md-1">选择日期</label>
                         <div class="col-md-4">
-                            <div id="reportrange_right" class="pull-left" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
+
+                            <fieldset>
+                                <div class="control-group">
+                                    <div class="controls">
+                                        <div class="input-prepend input-group">
+                                            <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+                                            <input type="text" style="width: 200px" name="date" id="reservation" class="form-control" value="<{$init.date}>" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <!--<div id="reportrange_right" class="pull-left" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
                                 <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-                                <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
-                            </div>
+                                <span><input type="text" class="form-control" name = "date">December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
+                            </div>-->
                         </div>
                         <!--日期筛选-->
+
+
 
                         <br><br><br>
 
                         <!-- 订单状态筛选 -->
                         <label class="control-label col-md-1">订单状态</label>
                         <div class="col-md-3">
-                            <select class="form-control">
-                                <option>全部</option>
+                            <select class="form-control" name = "status" id="status">
+                                <option value = "-1">全部</option>
                                 <{foreach item=sta from=$status}>
-                                <option><{$sta.name}></option>
+                                <{if $init.status == $sta.type}>
+                                <option value = "<{$sta.type}>" selected = "selected"><{$sta.name}></option>
+                                <{else}>
+                                <option value = "<{$sta.type}>"><{$sta.name}></option>
+                                <{/if}>
                                 <{/foreach}>
                             </select>
                         </div>
@@ -80,10 +99,14 @@
                         <!-- 订单类型筛选 -->
                         <label class="control-label col-md-1">订单类型</label>
                         <div class="col-md-3">
-                            <select class="form-control">
-                                <option>全部</option>
+                            <select class="form-control" name = "payType">
+                                <option value = "-1">全部</option>
                                 <{foreach item=type from=$payType}>
-                                <option><{$type.name}></option>
+                                <{if $init.payType == $type.type}>
+                                <option value = "<{$type.type}>" selected = "selected"><{$type.name}></option>
+                                <{else}>
+                                <option value = "<{$type.type}>"><{$type.name}></option>
+                                <{/if}>
                                 <{/foreach}>
                             </select>
                         </div>
@@ -95,7 +118,7 @@
                         <!--<div class="form-group">-->
                             <label class="control-label col-md-1 col-sm-1 col-xs-12">用户名</label>
                             <div class="col-md-3 col-sm-3 col-xs-12">
-                                <input type="text" class="form-control" placeholder="输入用户名筛选">
+                                <input type="text" class="form-control" placeholder="输入用户名筛选" name = "mobile" value = "<{$init.mobile}>">
                             </div>
                         <!--</div>-->
                         <!-- 用户名筛选-->
@@ -104,7 +127,7 @@
                         <!--<div class="form-group">-->
                             <label class="control-label col-md-1 col-sm-1 col-xs-12">用户id</label>
                             <div class="col-md-3 col-sm-3 col-xs-12">
-                                <input type="text" class="form-control" placeholder="输入用户id筛选">
+                                <input type="text" class="form-control" placeholder="输入用户id筛选" name = "userId" value = "<{$init.userId}>">
                             </div>
                         <!--</div>-->
                         <!-- 用户id筛选-->
@@ -112,14 +135,17 @@
                         <br><br><br>
                         <div class="ln_solid"></div>
                         <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                            <button type="submit" class="btn btn-primary">清空条件</button>
+                            <button type="reset" class="btn btn-primary">清空条件</button>
                             <button type="submit" class="btn btn-success">确认筛选</button>
                         </div>
+
+                            </form>
                     </div>
 
 
 
                     <!-- 表格-->
+                    共查询到<b><{$init.orderCount}></b>条订单数据，共<b><{$init.pageNumber}></b>页
                     <table id="example" class="table table-striped responsive-utilities jambo_table">
                         <!--表头-->
                         <thead>
@@ -197,6 +223,42 @@
 
                     </table>
                     <!-- 表格-->
+
+                    <!-- 分页-->
+                    <nav style="float:right">
+                        <ul class="pagination" >
+                            <{if $init.page==1}>
+                            <li class="disabled">
+                                <{else}>
+                            <li>
+                                <{/if}>
+                                <a href="getOrder?page=<{$init.page-1}>&date=<{$init.date}>&status=<{$init.status}>&payType=<{$init.payType}>&userId=<{$init.userId}>&mobile=<{$init.mobile}>" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+
+                            <{foreach item=page from=$pagination}>
+                            <{if $init.page==$page}>
+                            <li id="page<{$page}>" class="active">
+                                <{else}>
+                            <li id="page<{$page}>">
+                                <{/if}>
+                                <a href="getOrder?page=<{$page}>&date=<{$init.date}>&status=<{$init.status}>&payType=<{$init.payType}>&userId=<{$init.userId}>&mobile=<{$init.mobile}>">
+                                    <{$page}></a></li>
+                            <{/foreach}>
+                            <{if $init.page==$init.pageNumber}>
+                            <li class="disabled">
+                                <{else}>
+                            <li>
+                                <{/if}>
+                                <a href="getOrder?page=<{$init.page+1}>&date=<{$init.date}>&status=<{$init.status}>&payType=<{$init.payType}>&userId=<{$init.userId}>&mobile=<{$init.mobile}>" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <!-- 分页-->
+
                 </div>
             </div>
         </div>
@@ -214,6 +276,12 @@
 <!-- Datatables -->
 <script src="public/admin/js/datatables/js/jquery.dataTables.js"></script>
 <script src="js/datatables/tools/js/dataTables.tableTools.js"></script>
+<!--<script>
+    $('#page1').click(function(){
+        alert("Text: " + $("#status").val());
+        $('#page1').innerHTML = ""
+    });
+</script>-->
 <script>
     $(document).ready(function () {
         $('input.tableflat').iCheck({
@@ -222,45 +290,20 @@
         });
     });
 
-    var asInitVals = new Array();
-    $(document).ready(function () {
+    //var asInitVals = new Array();
+    /*$(document).ready(function () {
         var oTable = $('#example').dataTable({
-            "oLanguage": {
-                "sSearch": "Search all columns:"
-            },
             "aoColumnDefs": [
                 {
                     'bSortable': false,
                     'aTargets': [0]
                 } //disables sorting for column one
-            ],
-            'iDisplayLength': 12,
-            "sPaginationType": "full_numbers",
-            "dom": 'T<"clear">lfrtip',
-            "tableTools": {
-                "sSwfPath": "<?php echo base_url('assets2/js/Datatables/tools/swf/copy_csv_xls_pdf.swf'); ?>"
-            }
+            ]
+            //'iDisplayLength': 12,
+            //"sPaginationType": "full_numbers",
+            //"dom": 'T<"clear">lfrtip',
         });
-        $("tfoot input").keyup(function () {
-            /* Filter on the column based on the index of this element's parent <th> */
-            oTable.fnFilter(this.value, $("tfoot th").index($(this).parent()));
-        });
-        $("tfoot input").each(function (i) {
-            asInitVals[i] = this.value;
-        });
-        $("tfoot input").focus(function () {
-            if (this.className == "search_init") {
-                this.className = "";
-                this.value = "";
-            }
-        });
-        $("tfoot input").blur(function (i) {
-            if (this.value == "") {
-                this.className = "search_init";
-                this.value = asInitVals[$("tfoot input").index(this)];
-            }
-        });
-    });
+    });*/
 </script>
 
 <!-- datepicker -->
@@ -449,6 +492,7 @@
     $(document).ready(function () {
         $('#reservation').daterangepicker(null, function (start, end, label) {
             console.log(start.toISOString(), end.toISOString(), label);
+            /*alert(start);*/
         });
     });
 </script>

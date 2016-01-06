@@ -33,7 +33,7 @@ class AccountController extends Base_Contr
             $this->displayJsonUdo(Common_Error::INVALID_TOKEN,"",$uid['msg']);
         //print_r($uid);
         $accountModel = new AccountModel();
-        $balance = $accountModel->getBalance($uid);
+        $balance = $accountModel->getBalance($uid)['balance'][0];
 
         if($balance == -1)
             $this->displayJsonUdo(Common_Error::ERROR_FAIL,"","账户信息不存在");
@@ -143,7 +143,7 @@ class AccountController extends Base_Contr
         if(is_array($uid))
             $this->displayJsonUdo(Common_Error::INVALID_TOKEN,"",$uid['msg']);
         $accountModel = new AccountModel();
-        $bought = $accountModel->getBought($uid,$previousId,$pageSize);
+        $bought = $accountModel->getBought($uid,$previousId,$pageSize)['bought'];
         if(!$bought && !$previousId)
             $this->displayJsonUdo(Common_Error::ERROR_SUCCESS,$bought,"暂无已购课程哦~~");
         else if(!$bought && $previousId)
@@ -247,7 +247,7 @@ class AccountController extends Base_Contr
         if(is_array($uid))
             $this->displayJsonUdo(Common_Error::INVALID_TOKEN,"",$uid['msg']);
         $accountModel = new AccountModel();
-        $coinLog = $accountModel->getTradeInfo($uid,$previousId,$pageSize);
+        $coinLog = $accountModel->getTradeInfo($uid,$previousId,$pageSize)['coinLog'];
         if(!$coinLog && !$previousId)
             $this->displayJsonUdo(Common_Error::ERROR_SUCCESS,$coinLog,"暂无操作日志哦~~");
         else if(!$coinLog && $previousId)
@@ -282,7 +282,7 @@ class AccountController extends Base_Contr
         if(is_array($uid))
             $this->displayJsonUdo(Common_Error::INVALID_TOKEN,"",$uid['msg']);
         $accountModel = new AccountModel();
-        $creditLog = $accountModel->getCreditLog($uid,$previousId,$pageSize);
+        $creditLog = $accountModel->getCreditLog($uid,$previousId,$pageSize)['creditLog'];
         if(!$creditLog && !$previousId)
             $this->displayJsonUdo(Common_Error::ERROR_SUCCESS,$creditLog,"暂无操作日志哦~~");
         else if(!$creditLog && $previousId)
@@ -460,7 +460,7 @@ class AccountController extends Base_Contr
                 $coinMoney = $tradeModel->getCoinMoney($coinId);
                 //实际
                 $chargeAmt = $amt;
-                $amt = $coinMoney['price'];
+                $amt = $coinMoney['price']/100;
                 $subject = "U币充值";
                 $score = 0;
                 $balanceAmt = 0;
@@ -551,8 +551,6 @@ class AccountController extends Base_Contr
 
         //isSolid标识sign校验的结果，是否可靠
         $isSolid = Common_Config::NOTIFY_SOLID;
-
-
         //参数校验
         //sign校验，看传过来的sign和MD5的结果是否一致
         $signVerify = md5(Common_Config::PAY_OSID.$transNo.$status.$random.$notifyTime.Common_Config::PAY_SECRET);
@@ -561,6 +559,7 @@ class AccountController extends Base_Contr
         $accountModel = new AccountModel();
         $result = $accountModel->getPayResult($osid,$transNo,$status,$random,$notifyTime,$sign,$isSolid);
     }
+    
 
     /*
      * 移动端调用，获取支付宝订单支付结果
@@ -623,13 +622,26 @@ class AccountController extends Base_Contr
     function getOrderAction(){
         $userId = (int)$this -> get('userId', 0);
         $mobile = $this -> get('mobile', "");
-        $startTime = (int)$this -> get('startTime', 0);
-        $endTime = (int)$this -> get('endTime', 0);
         $status = (int)$this -> get('status',-1);
         $payType = (int)$this -> get('payType',0);
+        $previousId = (int)$this -> get('previousId',0);
+        $pageSize = (int)$this-> get('pageSize',20);
+        $date = $this -> get('date',"");
+        $page = (int)$this->get('page',1);
 
+        $startTime = 0;
+        $endTime = 0;
+        if($date){
+            $startTime = strtotime(substr($date,0,10));
+            $endTime = strtotime(substr($date,13,10));
+        }
+
+/*        print_r($date);
+        print_r(substr($date,0,10)." - ".substr($date,13,10));
+        print_r($startTime." - ".$endTime);*/
         $accountModel = new AccountModel();
-        $orderList = $accountModel->getOrder($userId,$mobile,$startTime,$endTime,$status,$payType);
+        $order = $accountModel->getOrder($userId,$mobile,$startTime,$endTime,$status,$payType,$previousId,$page,$pageSize);
+        $orderList = $order['orderList'];
 
         $userModel = new UserModel();
         $schoolModel = new SchoolModel();
@@ -686,9 +698,32 @@ class AccountController extends Base_Contr
             }
 
         }
+
+        /*
+         * 计算总页数，确定页码显示.页码显示需要的参数：
+         */
+        $pageNumber = ceil($order['orderCount']/$pageSize);
+        //如果总页数比10小或当前页比6小，那么分页变量是1到分页总数
+        if($pageNumber <= 10 )
+            $pagination =  range(1,$pageNumber);
+            elseif($page<=6&&$pageNumber > 10){
+                $pagination =  range(1,10);
+            }
+        else{
+            $pagination = range($page-5,$page+4);
+        }
+        /*
+         * 初始化筛选参数
+         */
+        $initFilter = array("date"=>$date,"status"=>$status,"payType"=>$payType,"mobile"=>$mobile,"userId"=>$userId,"page"=>$page,"pageNumber"=>$pageNumber,
+            "orderCount"=>$order['orderCount']);
+
         $this->assign('orderList',$orderList);
         $this->assign('status',$tradeModel->getOrderStatus());
         $this->assign('payType',$tradeModel->getOrderPaytype());
+        $this->assign('init',$initFilter);
+        $this->assign('pagination',$pagination);
+
     }
 
     /*
@@ -698,21 +733,53 @@ class AccountController extends Base_Contr
 
         $userId = (int)$this -> get('userId', 0);
         $mobile = $this -> get('mobile', "");
-        $startTime = (int)$this -> get('startTime', 0);
-        $endTime = (int)$this -> get('endTime', 0);
+        $date = $this -> get('date', "");
+        $pageBalance = $this->get('pageBalance',1);
+        $pageCoin = $this->get('pageCoin',1);
+        $pageCredit = $this->get('pageCredit',1);
+        $pageBought = $this->get('pageBought',1);
+        $pageSize = $this->get('pageSize',20);
+        $tab = $this->get('tab',1);
+
+        $startTime = 0;
+        $endTime = 0;
+        if($date){
+            $startTime = strtotime(substr($date,0,10));
+            $endTime = strtotime(substr($date,13,10));
+        }
 
         $accountModel = new AccountModel();
         $tradeModel = new TradeModel();
+        $publicModel = new PublicModel();
 
-        $account = $accountModel->getBalance($userId,$mobile);
+        $account = $accountModel->getBalance($userId,$mobile,0,$pageBalance,$pageSize);
         //print_r($account);
-        $coinLog = $accountModel->getTradeInfo($userId,0,20);
-        $creditLog = $accountModel->getCreditLog($userId,0,20);
-        $boughtList = $accountModel->getBought($userId);
-        $this->assign("accountList",$account);
-        $this->assign('coinLogList',$coinLog);
-        $this->assign('creditLogList',$creditLog);
-        $this->assign('boughtList',$boughtList);
+        $coinLog = $accountModel->getTradeInfo($userId,0,$pageSize,$startTime,$endTime,$pageCoin);
+        $creditLog = $accountModel->getCreditLog($userId,0,$pageSize,$startTime,$endTime,$pageCredit);
+        $boughtList = $accountModel->getBought($userId,0,$pageSize,$startTime,$endTime,$pageBought);
+
+        $pageNumberBalance = ceil($account['balanceCount']/$pageSize);
+        $pageNumberCoin = ceil($coinLog['coinCount']/$pageSize);
+        $pageNumberCredit = ceil($creditLog['creditCount']/$pageSize);
+        $pageNumberBought = ceil($boughtList['boughtCount']/$pageSize);
+
+        $pagiBalance = array("pageBalance"=>$pageBalance,"pageNumberBalance"=>$pageNumberBalance,"pagi"=>$publicModel->pageCal($pageBalance,$pageNumberBalance),"count"=>$account['balanceCount']);
+        $pagiCoin = array("pageCoin"=>$pageCoin,"pageNumberCoin"=>$pageNumberCoin,"pagi"=>$publicModel->pageCal($pageCoin,$pageNumberCoin),"count"=>$coinLog['coinCount']);
+        $pagiCredit = array("pageCredit"=>$pageCredit,"pageNumberCredit"=>$pageNumberCredit,"pagi"=>$publicModel->pageCal($pageCredit,$pageNumberCredit),"count"=>$creditLog['creditCount']);
+        $pagiBought = array("pageBought"=>$pageBought,"pageNumberBought"=>$pageNumberBought,"pagi"=>$publicModel->pageCal($pageBought,$pageNumberBought),"count"=>$boughtList['boughtCount']);
+
+        /*
+        * 初始化筛选参数
+         * tab:当前tab
+        */
+        $initFilter = array("date"=>$date,"mobile"=>$mobile,"userId"=>$userId,"tab"=>$tab,"pagiBalance"=>$pagiBalance,
+            "pagiCoin"=>$pagiCoin,"pagiCredit"=>$pagiCredit,"pagiBought"=>$pagiBought);
+        $this->assign("accountList",$account['balance']);
+        $this->assign('coinLogList',$coinLog['coinLog']);
+        $this->assign('creditLogList',$creditLog['creditLog']);
+        $this->assign('boughtList',$boughtList['bought']);
+        $this->assign('init',$initFilter);
+
     }
 
     /*

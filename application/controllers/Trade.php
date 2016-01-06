@@ -67,4 +67,12 @@ class TradeController extends Base_Contr
         $creditAction = $tradeModel->getCreditAction();
         $this->assign('creditRule',$creditAction);
     }
+
+    /*
+     * 加入新的学分规则
+     */
+    public function insertNewRuleAction(){
+        $actionId = $this->get('actionId');
+
+    }
     }

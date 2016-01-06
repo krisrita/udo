@@ -15,8 +15,9 @@ class AccountModel
     /*
      * 获取用户的账户余额
      */
-    function getBalance($uid=0,$mobile = "",$previousId=0,$pageSize=10){
+    function getBalance($uid=0,$mobile = "",$previousId=0,$page=1,$pageSize=20){
         $tblAccount = new DB_Pay_Account();
+        $tblPay = new DB_Pay();
         $userModel = new UserModel();
         $where = "where status=0";
         if($uid)
@@ -24,13 +25,34 @@ class AccountModel
         if($previousId)
             $where .= " and id<{$previousId}";
 
-        //$balance = $tblAccount->fetchAll("sso_id,user_name,score,amt,created_time",$where."status = 0");
-        $balance = $tblAccount->fetchLimit("sso_id,user_name,score,amt,created_time",$where,"order by id asc",1,$pageSize);
+       // if(!$mobile){
+            $balance = $tblAccount->fetchLimit("sso_id,user_name,score,amt,created_time",$where,"order by id desc",$page,$pageSize);
+            $balanceCount = $tblAccount->queryCount($where);
+            foreach($balance as $k=>$val){
+                $balance[$k]['mobile'] = $userModel->getUserName($val['sso_id'])['mobile'];
+            }
+            $balance = array("balance"=>$balance,"balanceCount"=>$balanceCount);
+       // }
+/*        else{
+            $balance = $tblAccount->fetchAll("sso_id,user_name,score,amt,created_time",$where,"order by id desc");
+            $result = [];
+            foreach($balance as $k=>$val){
+                $balance[$k]['mobile'] = $userModel->getUserName($val['sso_id'])['mobile'];
+                if(strstr($balance[$k]['mobile'],$mobile)!=""){
+                    array_push($result,$balance[$k]);
+                }
+            }
+            $balanceCount = count($result);
+            //用数组的方式分页
+            $balance = array("balance"=>array_slice($result,($page-1)*20,$pageSize),"balanceCount"=>$balanceCount);
+        }*/
+
+
+        //没有查询到余额信息，返回-1
         if(!$balance)
             return -1;
-        foreach($balance as $k=>$val){
-            $balance[$k]['mobile'] = $userModel->getUserName($val['sso_id'])['mobile'];
-        }
+
+        //如果有mobile查询条件，返回result
         return $balance;
     }
 
@@ -134,7 +156,7 @@ class AccountModel
     /*
      * 获取用户所有已购课程
      */
-    function getBought($uid=0,$previousId=0,$pageSize=10){
+    function getBought($uid=0,$previousId=0,$pageSize=20,$startTime=0,$endTime=0,$page=1){
         $tblBought = new DB_Udo_UserBought();
         $tblResource = new DB_Sso_Resource();
         $tblEntrance = new DB_Sso_Entrance();
@@ -150,8 +172,15 @@ class AccountModel
             $where .= " and userId = {$uid}";
         if($previousId)
             $where .= " and id<{$previousId}";
+        if($startTime || $endTime){
+            if(!$endTime)
+                $where .= " and createTime >= {$startTime}";
+            else
+                $where .= " and createTime >={$startTime} and createTime <= {$endTime}";
+        }
+        $boughtCount = $tblBought->queryCount($where);
         //首先获取用户购买的课程和所在的频道
-        $bought = $tblBought->fetchLimit("userId,id,resourceId,schoolId,orderId,createTime",$where,"order by id desc",1,$pageSize);
+        $bought = $tblBought->fetchLimit("userId,id,resourceId,schoolId,orderId,createTime",$where,"order by id desc",$page,$pageSize);
         //print_r($bought);
 
         $newArray = [];
@@ -172,7 +201,7 @@ class AccountModel
             ,"schoolTitle"=>$entrance['customer_title'],"info"=>$info,"schoolId"=>$value['schoolId'],"apiUdoUrl"=>$entrance['api_udo_url'],"courseType"=>0,
                 "orderId"=>$value['orderId'],"createTime"=>date("Y-m-d H:i:s",$value['createTime']));
         }
-        return $newArray;
+        return array("bought"=>$newArray,"boughtCount"=>$boughtCount);
     }
 
     /*
@@ -219,7 +248,7 @@ class AccountModel
     /*
      *分页获取U币交易日志
      */
-    function getTradeInfo($uid=0,$previousId=0,$pageSize=10){
+    function getTradeInfo($uid=0,$previousId=0,$pageSize=20,$startTime=0,$endTime=0,$page=1){
         $tblCoinLog = new DB_Udo_CoinLog();
         $resultArray = [];
         $userModel = new UserModel();
@@ -231,16 +260,19 @@ class AccountModel
 
         //获取分页列表时注意按照时间顺序倒序排
         //首条数据的获取规则不是和上条对比，而是直接按照id来排
-        $whereUser = $uid?" userId = {$uid}":"";
-        $whereStr = $previousId?" id<{$previousId}":"";
-        $where = "";
-        if($whereUser && $whereStr)
-            $where = "where".$whereUser." and ".$whereStr;
-        elseif($whereUser && !$whereStr)
-            $where = "where".$whereUser;
-        elseif(!$whereUser && $whereStr)
-            $where = "where".$whereStr;
-        $coinLog = $tblCoinLog->fetchLimit("id,amt,info,createTime,userId",$where,"order by id desc",1,$pageSize);
+        $where = "where id>0 ";
+        if($uid)
+            $where .=" and userId = {$uid} ";
+        if($previousId)
+            $where .= " and id<{$previousId}";
+        if($startTime || $endTime){
+            if(!$endTime)
+                $where .= " and createTime >= {$startTime}";
+            else
+                $where .= " and createTime >={$startTime} and createTime <= {$endTime}";
+        }
+        $coinCount = $tblCoinLog->queryCount($where);
+        $coinLog = $tblCoinLog->fetchLimit("id,amt,info,createTime,userId",$where,"order by id desc",$page,$pageSize);
 
         //如果首次请求，前一个月数据为0
         if($previousId == 0){
@@ -272,13 +304,13 @@ class AccountModel
             $value['mobile'] = $userModel->getUserName($value['userId'])['mobile'];
             array_push($resultArray,$value);
         }
-        return $resultArray;
+        return array("coinLog"=>$resultArray,"coinCount"=>$coinCount);
     }
 
     /*
  *分页获取学分交易日志
  */
-    function getCreditLog($uid=0,$previousId=0,$pageSize=10){
+    function getCreditLog($uid=0,$previousId=0,$pageSize=20,$startTime=0,$endTime=0,$page=1){
         $tblCreditLog = new DB_Udo_UserCreditLog();
         $userModel = new UserModel();
         $resultArray = [];
@@ -287,16 +319,19 @@ class AccountModel
             $previousId = 0;
         //获取分页列表时注意按照时间顺序倒序排
         //首条数据的获取规则不是和上条对比，而是直接按照id来排
-        $whereUser = $uid?" userId = {$uid}":"";
-        $whereStr = $previousId?" id<{$previousId}":"";
-        $where = "";
-        if($whereUser && $whereStr)
-            $where = "where".$whereUser." and ".$whereStr;
-        elseif($whereUser && !$whereStr)
-            $where = "where".$whereUser;
-        elseif(!$whereUser && $whereStr)
-            $where = "where".$whereStr;
-        $creditLog = $tblCreditLog->fetchLimit("id,amt,info,createTime,userId",$where,"order by id desc",1,$pageSize);
+        $where = "where id>0 ";
+        if($uid)
+            $where .=" and userId = {$uid} ";
+        if($previousId)
+            $where .= " and id<{$previousId}";
+        if($startTime || $endTime){
+            if(!$endTime)
+                $where .= " and createTime >= {$startTime}";
+            else
+                $where .= " and createTime >={$startTime} and createTime <= {$endTime}";
+        }
+        $creditCount = $tblCreditLog->queryCount($where);
+        $creditLog = $tblCreditLog->fetchLimit("id,amt,info,createTime,userId",$where,"order by id desc",$page,$pageSize);
 
         //如果首次请求，前一个月数据为0
         if($previousId == 0){
@@ -328,7 +363,7 @@ class AccountModel
             $value['mobile'] = $userModel->getUserName($value['userId'])['mobile'];
             array_push($resultArray,$value);
         }
-        return $resultArray;
+        return array("creditLog"=>$resultArray,"creditCount"=>$creditCount);
     }
 
     /*
@@ -344,6 +379,9 @@ class AccountModel
         $correct = 0;
         $schoolPrice = $tblSchoolPrice->scalar("price_type,price","where schoolId = {$schoolId}");
         $balance = $this->getBalance($uid);
+        $userModel = new UserModel();
+
+        $mobile = $userModel->getUserName($uid)['mobile'];
 
         //生成订单前，首先判断资源定价信息是否有误
         if($payType == Common_Config::UDO_PAYTYPE_COIN || $payType == Common_Config::UDO_PAYTYPE_CREDIT){
@@ -382,9 +420,10 @@ class AccountModel
             //在数据核验准确后，生成订单
             $newOrder = [];
             $retry = 0;
+
             //如果生成失败会再循环尝试三次
             while($retry<=3 && !$newOrder){
-                $newOrder = $tblOrder->insert(array("userId"=>$uid,"payType"=>$payType,"resource"=>serialize($resource),
+                $newOrder = $tblOrder->insert(array("userId"=>$uid,"mobile"=>$mobile,"payType"=>$payType,"resource"=>serialize($resource),
                     "amount"=>$amount,"createTime"=>time(),"status"=>Common_Config::ORDER_NOT_PAY));
                 $retry++;
                 //如果第三次仍失败，返回订单创建失败
@@ -407,7 +446,7 @@ class AccountModel
 
             //如果生成失败会再循环尝试三次
             while($retry<=3 && !$newOrder){
-                $newOrder = $tblOrder->insert(array("userId"=>$uid,"payType"=>$payType,"coinId"=>$coinId,"money"=>$coinMoney['price'],
+                $newOrder = $tblOrder->insert(array("userId"=>$uid,"mobile"=>$mobile,"payType"=>$payType,"coinId"=>$coinId,"money"=>$coinMoney['price'],
                     "amount"=>$amount,"platform"=>$platform,"createTime"=>time(),"status"=>Common_Config::ORDER_NOT_PAY));
                 $retry++;
                 //如果第三次仍失败，返回订单创建失败
@@ -510,9 +549,27 @@ class AccountModel
         $tblOrder = new DB_Udo_Order();
         //获取到该交易对应的uid
         $uid = $tblOrder->scalar("userId","where transNo = {$transNo}");
-        $insert = $tblTrans->insert(array("osid"=>$osid,"uid"=>$uid['userId'],"transNo"=>$transNo,"status"=>$status,"random"=>$random,"notifyTime"=>$notifyTime,"sign"=>$sign
-        ,"isSolid"=>$isSolid,"createTime"=>time()));
-        return $insert;
+
+        $solid = Common_Config::NOTIFY_SOLID;
+        //判断当前通知是否已经插入过，且状态是成功，如果是，那么忽略；如果不是，判断状态是否改变，如果是，更新已经插入的记录
+        $trans = $tblTrans->scalar("transNo,status","where transNo = '{$transNo}' and isSolid = {$solid}","order by id desc");
+        if( $trans ){
+            if($trans['status'] == Common_Config::ORDER_SUCCESS)
+                return 1;
+            else{
+                if($status == $trans['status'])
+                    return 1;
+                else {
+                    $update = $tblTrans->query("update udo_trans_notify set status = {$status} where id = {$trans}");
+                    return 1;
+                }
+            }
+        }
+        else{
+            /*$insert = $tblTrans->insert(array("osid"=>$osid,"uid"=>$uid['userId'],"transNo"=>$transNo,"status"=>$status,"random"=>$random,"notifyTime"=>$notifyTime,"sign"=>$sign
+            ,"isSolid"=>$isSolid,"createTime"=>time()));*/return 1;
+        }
+
     }
 
     /*
@@ -678,30 +735,31 @@ class AccountModel
     /*
      * 条件查询订单信息
      */
-    function getOrder($userId=0,$mobile="",$startTime=0,$endTime=0,$status=0,$payType=0){
+    function getOrder($userId=0,$mobile="",$startTime=0,$endTime=0,$status=0,$payType=0,$previousId=0,$page=1,$pageSize=10){
         $tblOrder = new DB_Udo_Order();
-        $where = "";
+
+        $where = "where id>0 ";
+        $lastCreateTime = $tblOrder->scalar("createTime","where id = {$previousId}");
+        $where .= $previousId?" and createTime < {$lastCreateTime['createTime']}":"";
         if($userId)
-            $where .="and userId = {$userId}";
+            $where .=" and userId = {$userId}";
         if($mobile)
-            $where .= "and mobile = '{$mobile}'";
+            $where .= " and mobile like '%{$mobile}%'";
         if($startTime || $endTime){
             if(!$endTime)
-                $where .= "and createTime >= {$startTime}";
+                $where .= " and createTime >= {$startTime}";
             else
-                $where .= "and createTime >={$startTime} and createTime <= {$endTime}";
+                $where .= " and createTime >={$startTime} and createTime <= {$endTime}";
         }
         if($status>=0)
-            $where .= "and status = {$status}";
-        if($payType)
-            $where .= "and payType = {$payType}";
-        //测试数据
-        //$where.= "id<=15";
+            $where .= " and status = {$status}";
+        if($payType>0)
+            $where .= " and payType = {$payType}";
 
         //$orderList = $tblOrder->fetchAll("*",$where);
-        $orderList = $tblOrder->fetchAll("*","where id<15");
-        return $orderList;
+        $orderList = $tblOrder->fetchLimit("*",$where,"order by createTime asc",$page,$pageSize);
+        $orderCount = $tblOrder->queryCount($where);
+        return array("orderList"=>$orderList,"orderCount"=>$orderCount);
     }
-
 
 }

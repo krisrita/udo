@@ -30,16 +30,29 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
 
                     <div class="well" style="overflow: auto">
+                        <form action = "getAccount" method = "get">
 
-                        <!-- 列表日期筛选 -->
-                        <label class="control-label col-md-1">选择日期</label>
-                        <div class="col-md-4">
-                            <div id="reportrange_right" class="pull-left" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
-                                <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-                                <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
+                            <!-- 列表日期筛选 -->
+                            <label class="control-label col-md-1">选择日期</label>
+                            <div class="col-md-4">
+
+                                <fieldset>
+                                    <div class="control-group">
+                                        <div class="controls">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+                                                <input type="text" style="width: 200px" name="date" id="reservation" class="form-control" value="<{$init.date}>" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                                <!--<div id="reportrange_right" class="pull-left" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
+                                    <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                                    <span><input type="text" class="form-control" name = "date">December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
+                                </div>-->
                             </div>
-                        </div>
-                        <!--日期筛选-->
+                            <!--日期筛选-->
 
                         <br><br><br>
 
@@ -47,7 +60,7 @@
                         <!--<div class="form-group">-->
                             <label class="control-label col-md-1 col-sm-1 col-xs-12">用户名</label>
                             <div class="col-md-3 col-sm-3 col-xs-12">
-                                <input type="text" class="form-control" placeholder="输入用户名筛选">
+                                <input type="text" class="form-control" placeholder="输入用户名筛选" name = "mobile" value = "<{$init.mobile}>">
                             </div>
                         <!--</div>-->
                         <!-- 用户名筛选-->
@@ -56,7 +69,7 @@
                         <!--<div class="form-group">-->
                             <label class="control-label col-md-1 col-sm-1 col-xs-12">用户id</label>
                             <div class="col-md-3 col-sm-3 col-xs-12">
-                                <input type="text" class="form-control" placeholder="输入用户id筛选">
+                                <input type="text" class="form-control" placeholder="输入用户id筛选" name = "userId" value = "<{$init.userId}>">
                             </div>
                         <!--</div>-->
                         <!-- 用户id筛选-->
@@ -64,9 +77,10 @@
                         <br><br><br>
                         <div class="ln_solid"></div>
                         <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                            <button type="submit" class="btn btn-primary">清空条件</button>
+                            <button type="reset" class="btn btn-primary">清空条件</button>
                             <button type="submit" class="btn btn-success">确认筛选</button>
                         </div>
+                            </form>
                     </div>
 
                     <!-- 表格2 U币日志-->
@@ -76,17 +90,38 @@
 
     <div class="" role="tabpanel" data-example-id="togglable-tabs">
         <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">账户余额</a>
-            </li>
-            <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab"  aria-expanded="false">U币日志</a>
-            </li>
-            <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">学分日志</a>
-            </li>
-            <li role="presentation" class=""><a href="#tab_content4" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">购买记录</a>
-            </li>
+            <{if $init.tab==1}>
+            <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">账户余额</a></li>
+            <{else}>
+            <li role="presentation" class=""><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="false">账户余额</a></li>
+            <{/if}>
+
+            <{if $init.tab==2}>
+            <li role="presentation" class="active"><a href="#tab_content2" role="tab" id="home-tab" data-toggle="tab"  aria-expanded="true">U币日志</a></li>
+            <{else}>
+            <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab"  aria-expanded="false">U币日志</a></li>
+            <{/if}>
+
+            <{if $init.tab==3}>
+            <li role="presentation" class="active"><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="true">学分日志</a></li>
+            <{else}>
+            <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">学分日志</a></li>
+            <{/if}>
+
+            <{if $init.tab==4}>
+            <li role="presentation" class="active"><a href="#tab_content4" role="tab" id="profile-tab3" data-toggle="tab" aria-expanded="true">购买记录</a></li>
+            <{else}>
+            <li role="presentation" class=""><a href="#tab_content4" role="tab" id="profile-tab3" data-toggle="tab" aria-expanded="false">购买记录</a></li>
+            <{/if}>
         </ul>
         <div id="myTabContent" class="tab-content">
+            <{if $init.tab==1}>
             <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                <{else}>
+                <div role="tabpanel" class="tab-pane fade in" id="tab_content1" aria-labelledby="home-tab">
+                <{/if}>
+
+                    共查询到<b><{$init.pagiBalance['count']}></b>条账户数据，共<b><{$init.pagiBalance['pageNumberBalance']}></b>页
                 <!-- 表格1 账户信息-->
                 <table id="example1" class="table table-striped responsive-utilities jambo_table">
                     <!--表头-->
@@ -120,10 +155,50 @@
                     </tbody>
                 </table>
                 <!-- 表格1 账户信息-->
+
+                <!-- 表格1分页-->
+                <nav style="float:right">
+                    <ul class="pagination" >
+                        <{if $init.pagiBalance['pageBalance']==1}>
+                        <li class="disabled">
+                            <{else}>
+                        <li>
+                            <{/if}>
+                            <a href="getAccount?pageBalance=<{$init.pagiBalance['pageBalance']}>&userId=<{$init.userId}>&mobile=<{$init.mobile}>&tab=1" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+
+                        <{foreach item=page from=$init.pagiBalance['pagi']}>
+                        <{if $init.pagiBalance['pageBalance']==$page}>
+                        <li id="page<{$page}>" class="active">
+                            <{else}>
+                        <li id="page<{$page}>">
+                            <{/if}>
+                            <a href="getAccount?pageBalance=<{$page}>&userId=<{$init.userId}>&mobile=<{$init.mobile}>&tab=1">
+                                <{$page}></a></li>
+                        <{/foreach}>
+                        <{if $init.pagiBalance['pageBalance']==$init.pagiBalance['pageNumberBalance']}>
+                        <li class="disabled">
+                            <{else}>
+                        <li>
+                            <{/if}>
+                            <a href="getAccount?pageBalance=<{$init.pagiBalance['pageBalance']+1}>&userId=<{$init.userId}>&mobile=<{$init.mobile}>&tab=1" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- 表格1分页-->
             </div>
 
-            <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                <{if $init.tab==2}>
+                <div role="tabpanel" class="tab-pane fade active in" id="tab_content2" aria-labelledby="home-tab">
+                    <{else}>
+                    <div role="tabpanel" class="tab-pane fade in" id="tab_content2" aria-labelledby="home-tab">
+                        <{/if}>
                 <!-- 表格2 U币日志-->
+                        共查询到<b><{$init.pagiCoin['count']}></b>条U币日志数据，共<b><{$init.pagiCoin['pageNumberCoin']}></b>页
                 <table id="example2" class="table table-striped responsive-utilities jambo_table">
                     <!--表头-->
                     <thead>
@@ -157,11 +232,52 @@
                     </tbody>
                 </table>
                 <!-- 表格2 U币日志-->
+
+                        <!-- 表格2分页-->
+                        <nav style="float:right">
+                            <ul class="pagination" >
+                                <{if $init.pagiCoin['pageCoin']==1}>
+                                <li class="disabled">
+                                    <{else}>
+                                <li>
+                                    <{/if}>
+                                    <a href="getAccount?pageCoin=<{$init.pagiCoin['pageCoin']}>&userId=<{$init.userId}>&mobile=<{$init.mobile}>&tab=2" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+
+                                <{foreach item=page from=$init.pagiCoin['pagi']}>
+                                <{if $init.pagiCoin['pageCoin']==$page}>
+                                <li id="page<{$page}>" class="active">
+                                    <{else}>
+                                <li id="page<{$page}>">
+                                    <{/if}>
+                                    <a href="getAccount?pageCoin=<{$page}>&userId=<{$init.userId}>&mobile=<{$init.mobile}>&tab=2">
+                                        <{$page}></a></li>
+                                <{/foreach}>
+                                <{if $init.pagiCoin['pageCoin']==$init.pagiCoin['pageNumberCoin']}>
+                                <li class="disabled">
+                                    <{else}>
+                                <li>
+                                    <{/if}>
+                                    <a href="getAccount?pageCoin=<{$init.pagiCoin['pageCoin']+1}>&userId=<{$init.userId}>&mobile=<{$init.mobile}>&tab=2" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <!-- 表格2分页-->
+
             </div>
 
 
-            <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
+                    <{if $init.tab==3}>
+                    <div role="tabpanel" class="tab-pane fade active in" id="tab_content3" aria-labelledby="home-tab">
+                        <{else}>
+                        <div role="tabpanel" class="tab-pane fade in" id="tab_content3" aria-labelledby="home-tab">
+                            <{/if}>
                 <!-- 表格3 学分日志-->
+                            共查询到<b><{$init.pagiCredit['count']}></b>条学分日志数据，共<b><{$init.pagiCredit['pageNumberCredit']}></b>页
                 <table id="example3" class="table table-striped responsive-utilities jambo_table">
                     <!--表头-->
                     <thead>
@@ -195,10 +311,46 @@
                     </tbody>
                 </table>
                 <!-- 表格3 学分日志-->
+
+                            <!-- 表格3分页-->
+                            <nav style="float:right">
+                                <ul class="pagination" >
+                                    <{if $init.pagiCredit['pageCredit']==1}>
+                                    <li class="disabled">
+                                        <{else}>
+                                    <li>
+                                        <{/if}>
+                                        <a href="getAccount?pageCredit=<{$init.pagiCredit['pageCredit']}>&userId=<{$init.userId}>&mobile=<{$init.mobile}>&tab=3" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+
+                                    <{foreach item=page from=$init.pagiCredit['pagi']}>
+                                    <{if $init.pagiCredit['pageCredit']==$page}>
+                                    <li id="page<{$page}>" class="active">
+                                        <{else}>
+                                    <li id="page<{$page}>">
+                                        <{/if}>
+                                        <a href="getAccount?pageCredit=<{$page}>&userId=<{$init.userId}>&mobile=<{$init.mobile}>&tab=3">
+                                            <{$page}></a></li>
+                                    <{/foreach}>
+                                    <{if $init.pagiCredit['pageCredit']==$init.pagiCredit['pageNumberCredit']}>
+                                    <li class="disabled">
+                                        <{else}>
+                                    <li>
+                                        <{/if}>
+                                        <a href="getAccount?pageCredit=<{$init.pagiCredit['pageCredit']+1}>&userId=<{$init.userId}>&mobile=<{$init.mobile}>&tab=3" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                            <!-- 表格3分页-->
             </div>
 
             <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="profile-tab">
                 <!-- 表格4 购买记录-->
+                共查询到<b><{$init.pagiBought['count']}></b>条购买记录数据，共<b><{$init.pagiBought['pageNumberBought']}></b>页
                 <table id="example4" class="table table-striped responsive-utilities jambo_table">
                     <!--表头-->
                     <thead>
@@ -234,6 +386,41 @@
                     </tbody>
                 </table>
                 <!-- 表格4 购买记录-->
+
+                <!-- 表格4分页-->
+                <nav style="float:right">
+                    <ul class="pagination" >
+                        <{if $init.pagiBought['pageBought']==1}>
+                        <li class="disabled">
+                            <{else}>
+                        <li>
+                            <{/if}>
+                            <a href="getAccount?pageBought=<{$init.pagiBought['pageBought']}>&userId=<{$init.userId}>&mobile=<{$init.mobile}>&tab=4" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+
+                        <{foreach item=page from=$init.pagiBought['pagi']}>
+                        <{if $init.pagiBought['pageBought']==$page}>
+                        <li id="page<{$page}>" class="active">
+                            <{else}>
+                        <li id="page<{$page}>">
+                            <{/if}>
+                            <a href="getAccount?pageBought=<{$page}>&userId=<{$init.userId}>&mobile=<{$init.mobile}>&tab=4">
+                                <{$page}></a></li>
+                        <{/foreach}>
+                        <{if $init.pagiBought['pageBought']==$init.pagiBought['pageNumberBought']}>
+                        <li class="disabled">
+                            <{else}>
+                        <li>
+                            <{/if}>
+                            <a href="getAccount?pageBought=<{$init.pagiBought['pageBought']+1}>&userId=<{$init.userId}>&mobile=<{$init.mobile}>&tab=4" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- 表格4分页-->
             </div>
 
         </div>
@@ -256,7 +443,7 @@
     });
 
     var asInitVals = new Array();
-    $(document).ready(function () {
+    /*$(document).ready(function () {
         for(var i=1;i<5;i++){
             var oTable = $('#example'+i).dataTable({
                 "oLanguage": {
@@ -278,7 +465,7 @@
         }
 
         $("tfoot input").keyup(function () {
-            /* Filter on the column based on the index of this element's parent <th> */
+            *//* Filter on the column based on the index of this element's parent <th> *//*
             oTable.fnFilter(this.value, $("tfoot th").index($(this).parent()));
         });
         $("tfoot input").each(function (i) {
@@ -296,7 +483,7 @@
                 this.value = asInitVals[$("tfoot input").index(this)];
             }
         });
-    });
+    });*/
 </script>
 
 <!-- datepicker -->
