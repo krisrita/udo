@@ -370,7 +370,7 @@ class AccountController extends Base_Contr
             $resource = $this->post()->get("resource");
             $amt = $this->post()->get("amt");
             $coinId = $this->post()->get("coinId");
-            $platform = $this->post()->get("platform");
+            $platform = $this->post()->get("channel");
             $schoolId = $this->post()->get("schoolId");
         }
         else{
@@ -379,7 +379,7 @@ class AccountController extends Base_Contr
             $resource = $this->get("resource");
             $amt = $this->get("amt");
             $coinId = $this->get("coinId");
-            $platform = $this->get("platform");
+            $platform = $this->get("channel");
             $schoolId = $this->get("schoolId");
         }
 

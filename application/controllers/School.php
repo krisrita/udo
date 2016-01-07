@@ -138,6 +138,7 @@ class SchoolController extends Base_Contr
 
         $cl = new Common_Curl();
         $array = $cl->request($url, $post_data);
+
         if(array_key_exists('code', $array) && $array['code'] == 0)
             $this->displayJsonUdo(Common_Error::ERROR_FAIL,null,"SSO没有返回可以浏览的频道噢~");
 
