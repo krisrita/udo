@@ -76,7 +76,7 @@ class AccountModel
         $isEnough = 0;
 
         if($uid){
-            $balance = $this->getBalance($uid);
+            $balance = $this->getBalance($uid)['balance'][0];
             foreach ($creditInfo as $k=>$value){
                 if ($balance['amt']>=$value['price'])
                     $isEnough = 1;
@@ -378,7 +378,7 @@ class AccountModel
         $tradeModel = new TradeModel();
         $correct = 0;
         $schoolPrice = $tblSchoolPrice->scalar("price_type,price","where schoolId = {$schoolId}");
-        $balance = $this->getBalance($uid);
+        $balance = $this->getBalance($uid)['balance'][0];
         $userModel = new UserModel();
 
         $mobile = $userModel->getUserName($uid)['mobile'];

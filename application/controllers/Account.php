@@ -512,7 +512,7 @@ class AccountController extends Base_Contr
      */
     function testPayAction(){
         $url = "http://182.92.118.115:8080/Account/pay/";
-        $ssotoken = "token50c3e147-ea4a-4178-b686-93d4e0fd2a28BvLYSshS";
+        $ssotoken = "token5fd883e0-290f-4bb9-893e-d5def7b16c65vWzZG5YQ";
         //$ssotoken = ""
         $schoolId = 2751;
         $payType = 1;
