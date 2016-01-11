@@ -403,7 +403,7 @@ class SchoolModel
         //将数据库查询返回的数组中的字段提取出来专门形成一个数组
         $resourceIds = $tblRec->columnRow($recs,"resourceId");
         //在resource表中找出id存在于推荐表中的项目
-        $resource = $tblResource -> fetchAll("name,type,local_id,local_type,entrance_id,parent_id","where id in (".implode(",",$resourceIds).")");
+        $resource = $tblResource -> fetchAll("id,name,type,local_id,local_type,entrance_id,parent_id","where id in (".implode(",",$resourceIds).")");
 
         //提取出所有存在于推荐表中的频道信息
         $entranceIds = $tblRec->columnRow($recs,"entranceId");
@@ -447,7 +447,7 @@ class SchoolModel
 
             //如果当前推荐是课程类型，那么追加课程信息
             else{
-                $array = array("recId"=>$rec['id'],"courseId"=>$res['local_id'],"courseName"=>$res['name'],"courseType"=>$rec['courseType']);
+                $array = array("recId"=>$rec['id'],"courseId"=>$res['local_id'],"remoteId"=>$res['id'],"courseName"=>$res['name'],"courseType"=>$rec['courseType']);
                 $price = $this->getCoursePrice($rec['resourceId'],$uid);
                 //print_r($price);
             }
