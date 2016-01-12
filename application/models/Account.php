@@ -404,7 +404,7 @@ class AccountModel
 
             $totalPrice = 0;
             foreach($resource as $k=>$val){
-                if($val['resourceType'] == 2)
+                if($val['resourceType'] == 1)
                     continue;
                 $resourcePrice = $tblResource->scalar("id,type,entrance_id,price_type,cur_price","where id = {$val['resourceId']}");
                 $totalPrice += $resourcePrice['cur_price'];
