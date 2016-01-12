@@ -422,7 +422,7 @@ class AccountController extends Base_Contr
         //支付平台支付时，需对platform参数进行判断
         elseif($payType == Common_Config::UDO_PAYTYPE_RECHARGE)
             if(!$coinId || !$platform)
-                $this->displayJsonUdo(Common_Error::ERROR_PARAM,"","缺少platform或coinId参数");
+                $this->displayJsonUdo(Common_Error::ERROR_PARAM,"","缺少channel或coinId参数");
 
 
         $accountModel = new AccountModel();
@@ -513,8 +513,8 @@ class AccountController extends Base_Contr
      * 测试上述的支付函数
      */
     function testPayAction(){
-        $url = "http://182.92.118.115:8080/Account/pay/";
-        $ssotoken = "token5fd883e0-290f-4bb9-893e-d5def7b16c65vWzZG5YQ";
+        $url = "http://test.ihowdo.com/Account/pay/";
+        $ssotoken = "token40538786-da7e-4100-89fa-d2fbcf3b79a3SI2X3m7I";
         //$ssotoken = ""
         $schoolId = 2751;
         $payType = 1;

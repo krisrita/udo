@@ -404,6 +404,8 @@ class AccountModel
 
             $totalPrice = 0;
             foreach($resource as $k=>$val){
+                if($val['resourceType'] == 2)
+                    continue;
                 $resourcePrice = $tblResource->scalar("id,type,entrance_id,price_type,cur_price","where id = {$val['resourceId']}");
                 $totalPrice += $resourcePrice['cur_price'];
                 if(($payType==Common_Config::UDO_PAYTYPE_COIN && $resourcePrice['price_type']==Common_Config::UDO_PRICETYPE_COIN) ||
