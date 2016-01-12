@@ -27,13 +27,15 @@ class AccountController extends Base_Contr
             $this->displayJsonUdo(Common_Error::ERROR_PARAM);
 
         //获取用户id
-        $userModel = new UserModel();
+        /*$userModel = new UserModel();
         $uid = $userModel->getUserId($ssotoken);
         if(is_array($uid))
             $this->displayJsonUdo(Common_Error::INVALID_TOKEN,"",$uid['msg']);
         //print_r($uid);
         $accountModel = new AccountModel();
-        $balance = $accountModel->getBalance($uid)['balance'][0];
+        $balance = $accountModel->getBalance($uid)['balance'][0];*/
+        $accountModel = new AccountModel();
+        $balance = $accountModel->getSsoBalance($ssotoken);
 
         if($balance == -1)
             $this->displayJsonUdo(Common_Error::ERROR_FAIL,"","账户信息不存在");

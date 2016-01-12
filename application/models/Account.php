@@ -56,6 +56,17 @@ class AccountModel
         return $balance;
     }
 
+    function getSsoBalance($ssotoken){
+        $rand = new Common_Char();
+        $random = $rand->getRandChar(8);
+        $url = Common_Config::ACCOUNT_QUERY;
+        $post_data = array("osid"=>Common_Config::PAY_OSID,"ssotoken"=>$ssotoken,"random"=>$random,"sign"=>md5(Common_Config::PAY_OSID.$ssotoken.$random.Common_Config::PAY_SECRET));
+        $cl = new Common_Curl();
+        $array = $cl->request($url, $post_data);
+        return $array;
+
+    }
+
     /*
      * 获取U币和人民币的兑换信息
      */

@@ -37,7 +37,6 @@ class TradeModel
 
         }
     }
-
     //print_r($array);
     return $array;
 }
