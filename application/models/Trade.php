@@ -101,12 +101,10 @@ class TradeModel
         $tblResource = new DB_Sso_Resource();
         $tblBought = new DB_Udo_UserBought();
         $bought = [];
-        $isBought = 0;
 
-        //print_r($array);
         //循环遍历$array，并根据id获取每一个节点的定价信息，追加在节点后面
         foreach ($array as $k=>$course){
-
+            $isBought = 0;
             //对于每一个父节点，根据id判断定价类型，现价和原价
             $priceInfo = $tblResource -> scalar("price_type,cur_price,ori_price","where id = {$course['id']}");
             //如果资源没有定价，统一按照免费类型处理
@@ -117,9 +115,13 @@ class TradeModel
             //如果资源是课程类型，直接读取
             if($localType == Common_Config::UDO_LOCAL_COURSE_TYPE){
                 $bought = $tblBought->scalar("id","where userId = {$userId} and schoolId = {$domainId} and resourceId = {$course['id']} and resourceType = 2");
+
                 //如果找到了购买信息或者资源的定价类型是免费，那么直接设置购买信息为已购买
                 if($bought || $priceInfo['price_type'] == 3)
                     $isBought = 1;
+                else
+                    $isBought = 0;
+
                 $array[$k] = (array_merge($array[$k],array("priceType"=>$priceInfo['price_type'],"price"=>$priceInfo['cur_price'],"isBought"=>$isBought)));
             }
             //如果资源是章类型,获取父节点-课程节点的购买信息
