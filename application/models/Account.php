@@ -388,7 +388,7 @@ class AccountModel
         $tblBought = new DB_Udo_UserBought();
         $tradeModel = new TradeModel();
         $correct = 0;
-        $schoolPrice = $tblSchoolPrice->scalar("price_type,price","where schoolId = {$schoolId}");
+        $schoolPrice = $tblSchoolPrice->scalar("priceType,price","where resourceId = {$schoolId}");
         $balance = $this->getBalance($uid)['balance'][0];
         $userModel = new UserModel();
 
