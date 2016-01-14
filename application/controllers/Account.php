@@ -570,6 +570,22 @@ class AccountController extends Base_Contr
         $accountModel = new AccountModel();
         $result = $accountModel->getPayResult($osid,$transNo,$status,$random,$notifyTime,$sign,$isSolid);
     }
+
+    function testNotifyAction(){
+        $url = "http://test.ihowdo.com/Account/getPayResult/";
+        $osid = 1;
+        $transNo = "123";
+        $status = 1;
+        $random = "123";
+        $notifyTime = '2015-10-1';
+        $sign = md5($osid.$transNo.$status.$random.$notifyTime.Common_Config::PAY_SECRET);
+
+        $post_data = array("osid" =>$osid,"transNo"=>$transNo,"status"=>$status,"random"=>$random,"notifyTime"=>$notifyTime,"sign"=>$sign);
+        $cl= new Common_Curl();
+        $array = $cl->request($url,$post_data);
+        print_r($array);
+        $this->displayJsonUdo(Common_Error::ERROR_SUCCESS,$array);
+    }
     
 
     /*

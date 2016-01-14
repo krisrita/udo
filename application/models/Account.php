@@ -579,8 +579,9 @@ class AccountModel
             }
         }
         else{
-            /*$insert = $tblTrans->insert(array("osid"=>$osid,"uid"=>$uid['userId'],"transNo"=>$transNo,"status"=>$status,"random"=>$random,"notifyTime"=>$notifyTime,"sign"=>$sign
-            ,"isSolid"=>$isSolid,"createTime"=>time()));*/return 1;
+            $insert = $tblTrans->insert(array("osid"=>$osid,"uid"=>$uid['userId'],"transNo"=>$transNo,"status"=>$status,"random"=>$random,"notifyTime"=>$notifyTime,"sign"=>$sign
+            ,"isSolid"=>$isSolid,"createTime"=>time()));
+            return 1;
         }
 
     }
