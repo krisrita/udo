@@ -345,7 +345,8 @@ class TradeModel
     function  getSingleSchoolPrice($schoolId){
         $schoolPrice = $this->getSchoolPrice(0,2,2,'',$schoolId);
         $resultArr = array("school"=>$schoolPrice[0]['customer_name'].'-'.$schoolPrice[0]['customer_title'],"price"=>$schoolPrice[0]['price'],
-            "priceType"=>$schoolPrice[0]['priceType'],'type'=>$schoolPrice[0]['type'],"cusNumber"=>$schoolPrice[0]['cusNumber'],"courseNumber"=>$schoolPrice[0]['courseNumber'],);
+            "priceType"=>$schoolPrice[0]['priceType'],'type'=>$schoolPrice[0]['type'],"cusNumber"=>$schoolPrice[0]['cusNumber'],
+            "courseNumber"=>$schoolPrice[0]['courseNumber'],"schoolId"=>$schoolId);
 
         return $resultArr;
     }
@@ -516,7 +517,7 @@ class TradeModel
             case 1:
                 $io = "产出";
                 break;
-            case 2:
+            case 0:
                 $io = "消耗";
                 break;
             default:
@@ -559,5 +560,92 @@ class TradeModel
         array_push($status,array("type"=>Common_Config::ORDER_FAIL,"name"=> "订单支付失败"));
         array_push($status,array("type"=>Common_Config::ORDER_CLOSED,"name"=> "订单关闭"));
         return $status;
+    }
+
+    /*
+     * 定义新学分规则
+     */
+    function newRule($actionId,$name,$actionType,$outputInput,$creditAmount,$frequency,$times,$action,$id){
+        $tblCreditAction = new DB_Udo_CreditAction();
+        if($action == Common_Config::UPDATE)
+            $result = $tblCreditAction->query("update udo_credit_action set actionId={$actionId},name='{$name}',actionType={$actionType},outputInput={$outputInput},
+            creditAmount={$creditAmount},frequency={$frequency},times={$times} where id={$id}");
+        elseif ($action == Common_Config::INSERT)
+            $result = $tblCreditAction->insert(array("actionId"=>$actionId,"name"=>$name,"actionType"=>$actionType,"outputInput"=>$outputInput,"creditAmount"=>$creditAmount,"frequency"=>$frequency
+            ,"isvalid"=>1,"times"=>$times));
+
+        return $result;
+    }
+
+    /*
+     * 删除一条学分规则
+     */
+    function deleteRule($id){
+        $tblCreditAction = new DB_Udo_CreditAction();
+        $result = $tblCreditAction->query("update udo_credit_action set isValid=0 where id={$id}");
+        return $result;
+    }
+
+    /*
+     * 删除兑换信息
+     */
+    function deleteCoinCredit($id,$type){
+        $tblCoin = new DB_Udo_CoinInfo();
+        $tblCredit = new DB_Udo_CreditInfo();
+
+        if($type == Common_Config::COIN)
+            $result = $tblCoin->query("update udo_coin_info set isValid=0 where id={$id}");
+        else
+            $result = $tblCredit->query("update udo_credit_info set isValid=0 where id={$id}");
+        return $result;
+    }
+
+    /*
+     * 新增或编辑兑换信息
+     */
+    function newExchange($amt,$price,$order,$type,$action,$id){
+        $tblCoin = new DB_Udo_CoinInfo();
+        $tblCredit = new DB_Udo_CreditInfo();
+
+        if($action == Common_Config::UPDATE){
+            if ($type == Common_Config::COIN)
+                $result = $tblCoin->query("update udo_coin_info set amt={$amt},price={$price},`order`={$order} where id={$id}");
+            else
+                $result = $tblCredit->query("update udo_credit_info set amt={$amt},price={$price},`order`={$order} where id={$id}");
+        }
+        else{
+            if ($type == Common_Config::COIN){
+                $result = $tblCoin->insert(array("amt"=>$amt,"price"=>$price,"order"=>$order,"isValid"=>1));
+            }
+
+            else
+                $result = $tblCredit->insert(array("amt"=>$amt,"price"=>$price,"order"=>$order,"isValid"=>1));
+        }
+        return $result;
+    }
+
+    /*
+     * 获取最新排序
+     */
+    function getTopOrder(){
+        $tblCoin = new DB_Udo_CoinInfo();
+        $tblCredit = new DB_Udo_CreditInfo();
+        $orderCoin = $tblCoin->scalar("`order`","where isValid = 1","order by `order` desc");
+        $orderCredit = $tblCredit->scalar("max(`order`)","where isValid = 1");
+
+        return (array("orderCoin"=>$orderCoin['order']+1,"orderCredit"=>$orderCredit['max(`order`)']+1));
+    }
+
+    /*
+     * 编辑频道定价
+     */
+    function newSchoolPrice($id,$priceType,$discount){
+        $tblSchoolPrice = new DB_Udo_SchoolPrice();
+        $tblResource = new DB_Sso_Resource();
+
+        //当前频道是否已经定价
+        $schoolPrice = $tblSchoolPrice->scalar("*","where resourceId = {$id}");
+        if($schoolPrice)
+            $tblSchoolPrice->query("update ");
     }
 }

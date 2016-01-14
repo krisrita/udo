@@ -110,6 +110,9 @@ class TradeController extends Base_Contr
         return $result;
     }
 
+    /*
+     * 添加新的兑换信息
+     */
     public function newExchangeAction(){
         $amt = $this->get('amt');
         $price = $this->get('price');
@@ -121,5 +124,17 @@ class TradeController extends Base_Contr
         $tradeModel = new TradeModel();
         $result = $tradeModel->newExchange($amt,$price,$order,$type,$action,$id);
         $this->redirect("getCoinCredit");
+    }
+
+    /*
+     * 添加新的频道定价
+     */
+    public function newSchoolPriceAction(){
+        $id = $this->get('id');
+        $priceType = $this->get('priceType');
+        $discount = $this->get('discount');
+
+        $tradeModel = new TradeModel();
+
     }
     }

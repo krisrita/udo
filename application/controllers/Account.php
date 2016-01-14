@@ -387,7 +387,10 @@ class AccountController extends Base_Contr
 
         //此处为测试数据
         $resource = json_decode($resource,true);
-
+        /*$resource = [];
+        array_push($resource,array("resourceId"=>10,"resourceType"=>1));
+        array_push($resource,array("resourceId"=>350,"resourceType"=>2));
+        array_push($resource,array("resourceId"=>352,"resourceType"=>2));*/
         //接收参数判断
         if (!$ssotoken ||!$payType ||!$amt)
             $this->displayJsonUdo(Common_Error::ERROR_PARAM,"","缺少必选参数");
@@ -403,13 +406,14 @@ class AccountController extends Base_Contr
             //此处根据resource生成交易的信息
             //$resourceType = 0;
             $resourceInfo = "";
-            $courseName = $schoolModel->getSingleCourse($resource[0]['resourceId']);
+            $courseName = "";
 
             foreach ($resource as $k => $value) {
                 if ($value['resourceType'] == Common_Config::UDO_RESOURCE_COURSE) {
                     $courseCount++;
                     //$resourceType = Common_Config::UDO_RESOURCE_SCHOOL;
                     $resourceInfo = "频道";
+                    $courseName = $courseName ? $courseName:$schoolModel->getSingleCourse($value['resourceId']);
                 }
             }
             $resourceInfo = $courseName['name']."'等".$courseCount . "个课程";
@@ -811,5 +815,15 @@ class AccountController extends Base_Contr
             //sleep($interval);// 等待5分钟
         //}while(true);
 }
+
+/*    function testAction(){
+        $tblOrder = new DB_Udo_Order();
+        $order = $tblOrder->fetchAll();
+        foreach( $order as $k=>$val){
+            print_r(unserialize($val['resource']));
+            print_r('<br>');
+        }
+
+    }*/
 }
 

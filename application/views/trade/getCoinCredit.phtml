@@ -90,6 +90,7 @@
                                 </button>
                                 <h4 class="modal-title" id="myModalLabel2">添加新规则</h4>
                             </div>
+                            <form class="form-horizontal form-label-left" method="get" action="newExchange">
                             <div class="modal-body">
                                 <!--<h4>拖拽可对现有元素排序</h4>-->
 
@@ -98,28 +99,35 @@
                                     <li><{$coin.price}><{$coin.amt}></li>
                                     <{/foreach}>
                                 </ul>-->
-                                <form class="form-horizontal form-label-left">
+
                                     <div class="form-group">
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12">U币</label>
                                         <div class="col-md-9 col-sm-9 col-xs-12">
-                                            <input type="text" class="form-control" placeholder="请输入U币值">
+                                            <input type="text" class="form-control" name="amt" placeholder="请输入U币值">
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12">人民币</label>
                                         <div class="col-md-9 col-sm-9 col-xs-12">
-                                            <input type="text" class="form-control" placeholder="请输入人民币值">
+                                            <input type="text" class="form-control" name="price" placeholder="请输入人民币值">
                                         </div>
                                     </div>
 
-                                </form>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">排序</label>
+                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                        <input type="text" class="form-control" name="order" value='<{$order.orderCoin}>' placeholder="请输入排序">
+                                    </div>
+                                </div>
+                                <input type="text" name="type" value=1  style="display:none;"/>
+                                <input type="text" name="action" value=2  style="display:none;"/>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" data-dismiss="modal">提交</button>
+                                <button type="submit" class="btn btn-primary" >提交</button>
                                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                             </div>
-
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -138,20 +146,71 @@
                         <th>排序</th>
                         <th>U币</th>
                         <th>人民币</th>
+                        <th>编辑</th>
                         <th>删除</th>
                     </tr>
                     </thead>
                     <!--表头-->
                     <tbody>
                     <{foreach item=coin from=$coinInfo}>
-                    <tr class="even pointer">
+                    <tr class="even pointer" id="1tr<{$coin.id}>">
                         <!--<td class="a-center ">
                             <input type="checkbox" class="tableflat">
                         </td>-->
                         <td class=" "><{$coin.order}></td>
                         <td class=" "><{$coin.amt}></td>
                         <td class=" "><{$coin.price}></td>
-                        <td class=" "><i class="fa fa-close"></i></td>
+                        <td class=" "><a data-toggle="modal" data-target=".1bs-example-modal-sm<{$coin.id}>" href=""><i class="fa fa-edit" ></i></a>
+                            <!-- 模态框-->
+                            <div class="modal fade 1bs-example-modal-sm<{$coin.id}>" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog modal-sm">
+                                    <div class="modal-content">
+
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                            </button>
+                                            <h4 class="modal-title" id="myModalLabel2">编辑兑换</h4>
+                                        </div>
+                                        <form class="form-horizontal form-label-left" action="newExchange" method="get">
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">U币</label>
+                                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                                        <input type="text" class="form-control" name="amt" value="<{$coin.amt}>">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">人民币</label>
+                                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                                        <input type="text" class="form-control" name="price" value = "<{$coin.price}>">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">排序</label>
+                                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                                        <input type="text" class="form-control" name="order" value="<{$coin.order}>">
+                                                    </div>
+                                                </div>
+
+                                                <input type="text" name="type" value=1  style="display:none;"/>
+                                                <input type="text" name="action" value=1  style="display:none;"/>
+                                                <input type="text" name="id" value="<{$coin.id}>"  style="display:none;"/>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary" >提交</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- 模态框-->
+                        </td>
+                        <td class=" "><a href="javascript:;"  onclick="deleteCoinCredit(<{$coin.id}>,1)"><i class="fa fa-close""></i></a></td>
                     </tr>
                     <{/foreach}>
                     </tbody>
@@ -175,35 +234,45 @@
                                 <h4 class="modal-title" id="myModalLabel2">添加新规则</h4>
                             </div>
                             <div class="modal-body">
-                                <!--<h4>拖拽可对现有元素排序</h4>-->
+                                <form class="form-horizontal form-label-left" method="get" action="newExchange">
+                                    <div class="modal-body">
+                                        <!--<h4>拖拽可对现有元素排序</h4>-->
 
-                                <!--<ul id="foo" class="block__list block__list_words">
-                                    <{foreach item=coin from=$coinInfo}>
-                                    <li><{$coin.price}><{$coin.amt}></li>
-                                    <{/foreach}>
-                                </ul>-->
-                                <form class="form-horizontal form-label-left">
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">学分</label>
-                                        <div class="col-md-9 col-sm-9 col-xs-12">
-                                            <input type="text" class="form-control" placeholder="请输入学分值">
+                                        <!--<ul id="foo" class="block__list block__list_words">
+                                            <{foreach item=coin from=$coinInfo}>
+                                            <li><{$coin.price}><{$coin.amt}></li>
+                                            <{/foreach}>
+                                        </ul>-->
+
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">学分</label>
+                                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                                <input type="text" class="form-control" name="amt" placeholder="请输入学分值">
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">U币</label>
-                                        <div class="col-md-9 col-sm-9 col-xs-12">
-                                            <input type="text" class="form-control" placeholder="请输入U币值">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">U币</label>
+                                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                                <input type="text" class="form-control" name="price" placeholder="请输入U币值">
+                                            </div>
                                         </div>
-                                    </div>
 
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">排序</label>
+                                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                                <input type="text" class="form-control" name="order" value='<{$order.orderCredit}>' placeholder="请输入排序">
+                                            </div>
+                                        </div>
+                                        <input type="text" name="type" value=2  style="display:none;"/>
+                                        <input type="text" name="action" value=2  style="display:none;"/>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary" >提交</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                    </div>
                                 </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" data-dismiss="modal">提交</button>
-                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                            </div>
-
+                                </div>
                         </div>
                     </div>
                 </div>
@@ -220,20 +289,71 @@
                         <th>排序</th>
                         <th>学分</th>
                         <th>U币</th>
+                        <th>编辑</th>
                         <th>删除</th>
                     </tr>
                     </thead>
                     <!--表头-->
                     <tbody>
                     <{foreach item=credit from=$creditInfo}>
-                    <tr class="even pointer">
+                    <tr class="even pointer" id="2tr<{$credit.id}>">
                         <!--<td class="a-center ">
                             <input type="checkbox" class="tableflat">
                         </td>-->
                         <td class=" "><{$credit.order}></td>
                         <td class=" "><{$credit.amt}></td>
                         <td class=" "><{$credit.price}></td>
-                        <td class=" "><i class="fa fa-close"></i></td>
+                        <td><a data-toggle="modal" data-target=".2bs-example-modal-sm<{$credit.id}>" href=""><i class="fa fa-edit" ></i></a>
+                            <!-- 模态框-->
+                            <div class="modal fade 2bs-example-modal-sm<{$credit.id}>" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog modal-sm">
+                                    <div class="modal-content">
+
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                            </button>
+                                            <h4 class="modal-title" id="myModalLabel2">编辑兑换</h4>
+                                        </div>
+                                        <form class="form-horizontal form-label-left" action="newExchange" method="get">
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">学分</label>
+                                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                                        <input type="text" class="form-control" name="amt" value="<{$credit.amt}>">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">U币</label>
+                                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                                        <input type="text" class="form-control" name="price" value = "<{$credit.price}>">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">排序</label>
+                                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                                        <input type="text" class="form-control" name="order" value="<{$credit.order}>">
+                                                    </div>
+                                                </div>
+
+                                                <input type="text" name="type" value=2  style="display:none;"/>
+                                                <input type="text" name="action" value=1  style="display:none;"/>
+                                                <input type="text" name="id" value="<{$credit.id}>"  style="display:none;"/>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary" >提交</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- 模态框-->
+                        </td>
+                        <td class=" "><a href="javascript:;"  onclick="deleteCoinCredit(<{$credit.id}>,2)"><i class="fa fa-close""></i></a></td>
                     </tr>
                     <{/foreach}>
                     </tbody>
@@ -248,6 +368,19 @@
 <{/block}>
 
 <{block name="footer-script"}>
+
+<script>
+    function deleteCoinCredit(coinCreditId,type){
+        if(confirm("确认删除这条兑换信息?")){
+            //执行删除操作
+            $.get("deleteCoinCredit", { id: coinCreditId ,type:type},
+                function(data){
+                    $("#"+type+"tr"+coinCreditId).remove();
+                });
+        }
+    }
+</script>
+<!-- 确认删除-->
 
 <!-- Datatables -->
 <script src="public/admin/js/datatables/js/jquery.dataTables.js"></script>

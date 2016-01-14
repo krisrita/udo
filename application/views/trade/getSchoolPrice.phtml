@@ -28,9 +28,6 @@
                 <div class="x_title">
                     <h2>频道'<{$school.school}>'定价表 <!--<small>Sessions</small>--></h2>
                     <ul class="nav navbar-right panel_toolbox">
-                        <li><span class="count_top"><i class="fa fa-user"></i> 定价</span>
-                            <div class="count">2500</div>
-                        </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
                             <ul class="dropdown-menu" role="menu">
@@ -51,9 +48,11 @@
                         <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
                             <div class="left"></div>
                             <div class="right">
-                                <span class="count_top"><i class="fa fa-rmb"></i> <{$school.type}></span>
+                                <span class="count_top"><i class="fa fa-rmb"></i> <{$school.type}> <a data-toggle="modal" data-target=".bs-example-modal-sm" href=""><i class="fa fa-edit"></i></a></span>
+
                                 <div class="count"><{$school.price}></div>
                             </div>
+
                         </div>
                         <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
                             <div class="left"></div>
@@ -69,8 +68,8 @@
                                 <div class="count"><{$school.courseNumber}></div>
                             </div>
                         </div>
-                    </div>
 
+                    </div>
 
                     <div class="well" style="overflow: auto">
 
@@ -125,17 +124,66 @@
                         </div>
                     </div>
 
+                    <!-- 模态框-->
+                    <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
 
-                    <label class="control-label col-md-1">频道定价</label>
-                    <div class="col-md-8">
-                        课程总价<input type="radio" class="flat" name="isPriced" id="pricedAll" value="all" checked="" required />
-                        折扣<input type="radio" class="flat" name="isPriced" id="pricedYes" value="yes" />
-                        选择折扣
-                        <select class="">
-                        <option>9.5</option>
-                            <option>9</option>
-                        </select>
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel2">编辑频道定价</h4>
+                                </div>
+                                <form class="form-horizontal form-label-left" action="newRule" method="get">
+                                    <div class="modal-body">
+
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">定价类型</label>
+                                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                                <{if $school.type == "U币"}>
+                                                U币<input type="radio" class="flat" name="priceType" id="priceType" value=2  checked="checked"/>
+                                                学分<input type="radio" class="flat" name="priceType" id="priceType" value=1 />
+                                                免费<input type="radio" class="flat" name="priceType" id="priceType" value=3 />
+                                                <{elseif $school.type == "学分"}>
+                                                U币<input type="radio" class="flat" name="priceType" id="priceType" value=2  />
+                                                学分<input type="radio" class="flat" name="priceType" id="priceType" value=1 checked="checked"/>
+                                                免费<input type="radio" class="flat" name="priceType" id="priceType" value=3 />
+                                                <{elseif $school.type == "免费"}>
+                                                U币<input type="radio" class="flat" name="priceType" id="priceType" value=2  />
+                                                学分<input type="radio" class="flat" name="priceType" id="priceType" value=1 />
+                                                免费<input type="radio" class="flat" name="priceType" id="priceType" value=3 checked="checked"/>
+                                                <{elseif $school.type == "未标价"}>
+                                                U币<input type="radio" class="flat" name="priceType" id="priceType" value=2  />
+                                                学分<input type="radio" class="flat" name="priceType" id="priceType" value=1 />
+                                                免费<input type="radio" class="flat" name="priceType" id="priceType" value=3 />
+                                                <{/if}>
+                                            </div>
+                                        </div>
+
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">频道定价</label>
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            选择折扣
+                                            <select class="" name="discount">
+                                                <option>10</option>
+                                                <option>9.5</option>
+                                                <option>9</option>
+                                            </select>
+                                        </div>
+
+                                        <input type="text" name="action" value=1  style="display:none;"/>
+                                        <input type="text" name="id" value="<{$school.schoolId}>"  style="display:none;"/>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary" >提交</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
                     </div>
+                    <!-- 模态框-->
 
                     <!-- 表格-->
                     <table id="example" class="table table-striped responsive-utilities jambo_table">
@@ -165,14 +213,26 @@
                             <td class=" "><{$course.chapter}> </td>
                             <td class=" "><{$course.section}></td>
                             <td class=" ">
+                                <{if $school.type=='免费'}>
+                                免费<input type="radio" class="flat" name="priceType<{$course.No}>" id="priceFree<{$course.No}>" value="no" checked="yes"/></td>
+
+                            <{else}>
+                            <{if $course.type == '免费'}>
                                 <{$school.type}><input type="radio" class="flat" name="priceType<{$course.No}>" id="priceNotFree<{$course.No}>" value="yes" />
+                                免费<input type="radio" class="flat" name="priceType<{$course.No}>" id="priceFree<{$course.No}>" value="no" checked="checked"/></td>
+                            <{elseif $course.type != '免费'}>
+                                <{$school.type}><input type="radio" class="flat" name="priceType<{$course.No}>" id="priceNotFree<{$course.No}>" value="yes" checked="checked"/>
                                 免费<input type="radio" class="flat" name="priceType<{$course.No}>" id="priceFree<{$course.No}>" value="no" /></td>
+                            <{/if}>
+                            <{/if}>
                             <td class=" ">
                                 <!-- 仅课程类型显示修改价格的输入框 -->
-                                <{if $course.resourceType == 6}>
+                                <{if $course.resourceType == 6 && $school.type=='免费'}>
+                                <input type="text" id="first-name<{$course.No}>" required="required" data-parsley-id="5718" value = '<{$course.price}>' disabled="disabled" >
+                                <{elseif $course.resourceType != 6}>
+                                -
+                                <{else}>
                                 <input type="text" id="first-name<{$course.No}>" required="required" data-parsley-id="5718" value = <{$course.price}> >
-                            <{else}>
-                                0
                                 <{/if}>
                             </td>
                             <td class=""><{$course.cusNumber}></td>
@@ -194,6 +254,8 @@
 
     </div>
 </div>
+
+
 <div style = "position:fixed;bottom:0;left:250px;right:50px" class="x_panel"><button type="submit" class="btn btn-primary" >提交修改</button></div>
 <{/block}>
 

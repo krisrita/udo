@@ -815,7 +815,7 @@ class SchoolModel
 
             //考虑到频道中的课程可能会有更新，所以不能以当前频道的购买状态作为频道是否购买的依据，
             //而是要以非免费课程和已购买课程的数量是否相等作为依据
-            if($boughtCount == count($resource))
+            if(($boughtCount == count($resource)) && count($resource)!=0)
                 $bought = 1;
         }
 
