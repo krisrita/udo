@@ -28,7 +28,7 @@ class CreditController extends Base_Contr
         }
 
         //如果所传参数有空值（无效），json返回错误信息
-        if(!$userId || !$actionId ||!$schoolId)
+        if(!$userId || !$actionId )
             $this ->displayJsonUdo(Common_Error::ERROR_PARAM);
 
         //获取用户权限，用户是否是“私有”频道的授权用户

@@ -52,11 +52,13 @@ class TradeController extends Base_Contr
      */
     public function getCoinCreditAction(){
         $accountModel = new AccountModel();
+        $tradeModel = new TradeModel();
         $coinInfo = $accountModel->getCoinInfo();
         $creditInfo = $accountModel->getCreditInfo();
-
+        $order = $tradeModel->getTopOrder();
         $this->assign('coinInfo',$coinInfo);
         $this->assign('creditInfo',$creditInfo);
+        $this->assign('order',$order);
 
 }
     /*
@@ -71,8 +73,53 @@ class TradeController extends Base_Contr
     /*
      * 加入新的学分规则
      */
-    public function insertNewRuleAction(){
+    public function newRuleAction(){
         $actionId = $this->get('actionId');
+        $name = $this->get('name');
+        $actionType = $this->get('actionType');
+        $outputInput = $this->get("io");
+        $creditAmount = $this->get('creditAmt');
+        $frequency = $this->get('freq');
+        $times = $this->get('times');
+        $action = $this->get('action');
+        $id = $this->get('id');
+        $tradeModel = new TradeModel();
 
+        $result = $tradeModel->newRule($actionId,$name,$actionType,$outputInput,$creditAmount,$frequency,$times,$action,$id);
+        $this->redirect("getCreditRules");
+    }
+
+    /*
+     * 删除当前学分规则
+     */
+    public function deleteRuleAction(){
+        $id = (int)$this->get('id');
+        $tradeModel = new TradeModel();
+        $result = $tradeModel->deleteRule($id);
+        return $result;
+    }
+
+    /*
+     * 删除U币或学分兑换信息
+     */
+    public function deleteCoinCreditAction(){
+        $id = (int)$this->get('id');
+        $type = (int)$this->get('type');
+        $tradeModel = new TradeModel();
+        $result = $tradeModel->deleteCoinCredit($id,$type);
+        return $result;
+    }
+
+    public function newExchangeAction(){
+        $amt = $this->get('amt');
+        $price = $this->get('price');
+        $order = (int)$this->get('order');
+        $type = $this->get('type');
+        $action = $this->get('action');
+        $id = (int)$this->get('id',0);
+
+        $tradeModel = new TradeModel();
+        $result = $tradeModel->newExchange($amt,$price,$order,$type,$action,$id);
+        $this->redirect("getCoinCredit");
     }
     }

@@ -387,10 +387,6 @@ class AccountController extends Base_Contr
 
         //此处为测试数据
         $resource = json_decode($resource,true);
-       /* $resource = [];
-        array_push($resource,array("resourceType"=>2,"resourceId"=>1547));*/
-        //array_push($resource,array("resourceType"=>2,"resourceId"=>1561));
-        //array_push($resource,array("resourceType"=>2,"resourceId"=>364));
 
         //接收参数判断
         if (!$ssotoken ||!$payType ||!$amt)
@@ -513,14 +509,23 @@ class AccountController extends Base_Contr
      * 测试上述的支付函数
      */
     function testPayAction(){
-        $url = "http://test.ihowdo.com/Account/pay/";
-        $ssotoken = "token40538786-da7e-4100-89fa-d2fbcf3b79a3SI2X3m7I";
+        $url = "http://182.92.118.115:8080/Account/pay/";
+        $ssotoken = "token6f610c8a-00ef-48fb-bc36-c4205942d58crzNie4gf";
         //$ssotoken = ""
-        $schoolId = 2751;
+        $schoolId = 10;
         $payType = 1;
-        $amt = 58;
+        $amt = 100;
         $resource = [];
-        array_push($resource,array("resourceType"=>2,"resourceId"=>1415));
+        array_push($resource,array("resourceType"=>2,"resourceId"=>350));
+        array_push($resource,array("resourceType"=>2,"resourceId"=>352));
+        array_push($resource,array("resourceType"=>2,"resourceId"=>354));
+        array_push($resource,array("resourceType"=>2,"resourceId"=>356));
+        array_push($resource,array("resourceType"=>2,"resourceId"=>358));
+        array_push($resource,array("resourceType"=>2,"resourceId"=>360));
+        array_push($resource,array("resourceType"=>2,"resourceId"=>362));
+        array_push($resource,array("resourceType"=>2,"resourceId"=>364));
+        array_push($resource,array("resourceType"=>2,"resourceId"=>366));
+        array_push($resource,array("resourceType"=>2,"resourceId"=>368));
         //array_push($resource,array("resourceType"=>2,"resourceId"=>1561));
 
         $json = json_encode($resource);
