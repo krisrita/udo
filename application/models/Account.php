@@ -198,7 +198,10 @@ class AccountModel
         //接下来对逐个课程，获取频道的具体信息和课程的具体信息
         foreach($bought as $k=>$value){
             $entrance = $tblEntrance->scalar("customer_name,customer_title,logo,api_udo_url","where id = {$value['schoolId']}");
-            $sta = $tblSta->queryCount("where schoolId = {$value['schoolId']} group by userId");
+            //$sta = $tblSta->queryCount("where schoolId = {$value['schoolId']} group by userId");
+            $staResult = $tblSta->fetchAll("*","where schoolId = {$value['schoolId']} group by userId");
+            $sta = count($staResult);
+            //print_r($sta." ");
             if(!$sta)
                 $sta = 0;
             $info = "共有".$sta."位小伙伴与你共同学习";

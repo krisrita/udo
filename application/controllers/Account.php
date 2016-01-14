@@ -569,6 +569,7 @@ class AccountController extends Base_Contr
             $isSolid = Common_Config::NOTIFY_NOT_SOLID;
         $accountModel = new AccountModel();
         $result = $accountModel->getPayResult($osid,$transNo,$status,$random,$notifyTime,$sign,$isSolid);
+        //return $result;
         $this->displayJsonUdo(Common_Error::ERROR_SUCCESS,$result);
     }
 
