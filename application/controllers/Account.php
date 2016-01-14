@@ -569,10 +569,11 @@ class AccountController extends Base_Contr
             $isSolid = Common_Config::NOTIFY_NOT_SOLID;
         $accountModel = new AccountModel();
         $result = $accountModel->getPayResult($osid,$transNo,$status,$random,$notifyTime,$sign,$isSolid);
+        $this->displayJsonUdo(Common_Error::ERROR_SUCCESS,$result);
     }
 
     function testNotifyAction(){
-        $url = "http://test.ihowdo.com/Account/getPayResult/";
+        $url = "http://182.92.118.115:8080/Account/getPayResult/";
         $osid = 1;
         $transNo = "123";
         $status = 1;

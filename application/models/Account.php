@@ -568,20 +568,26 @@ class AccountModel
         $trans = $tblTrans->scalar("transNo,status","where transNo = '{$transNo}' and isSolid = {$solid}","order by id desc");
         if( $trans ){
             if($trans['status'] == Common_Config::ORDER_SUCCESS)
-                return 1;
+                return 'SUCCESS';
             else{
                 if($status == $trans['status'])
-                    return 1;
+                    return 'SUCCESS';
                 else {
                     $update = $tblTrans->query("update udo_trans_notify set status = {$status} where id = {$trans}");
-                    return 1;
+                    if($update)
+                        return 'SUCCESS';
+                    else
+                        return 'FAIL';
                 }
             }
         }
         else{
             $insert = $tblTrans->insert(array("osid"=>$osid,"uid"=>$uid['userId'],"transNo"=>$transNo,"status"=>$status,"random"=>$random,"notifyTime"=>$notifyTime,"sign"=>$sign
             ,"isSolid"=>$isSolid,"createTime"=>time()));
-            return 1;
+            if($insert)
+                return 'SUCCESS';
+            else
+                return 'FAIL';
         }
 
     }
