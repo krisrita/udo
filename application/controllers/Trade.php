@@ -43,7 +43,8 @@ class TradeController extends Base_Contr
         $school = $tradeModel->getSingleSchoolPrice($schoolId);
 
         $this->assign('school',$school);
-        $this->assign('courseList',$courseList);
+        $this->assign('courseList',$courseList['courseList']);
+        $this->assign('resourceNum',$courseList['resourceNum']);
 
     }
 
@@ -130,11 +131,39 @@ class TradeController extends Base_Contr
      * 添加新的频道定价
      */
     public function newSchoolPriceAction(){
+
         $id = $this->get('id');
         $priceType = $this->get('priceType');
         $discount = $this->get('discount');
 
         $tradeModel = new TradeModel();
+        $result = $tradeModel->newSchoolPrice($id,$priceType,$discount);
 
+        //$this->redirect("/error/?errno=" . Common_Error::ERROR_PARAM);
+        $this->redirect("getSchoolPrice?schoolId=".$id);
+        //$this->redirect("getPrice");
+    }
+
+    /*
+     * 添加新的课程定价
+     */
+    public function newResourcePriceAction(){
+        $resourceNum = (int)$this->get('resourceNum');
+        $schoolId = (int)$this->get('schoolId');
+
+        $resourcePrice = [];
+        for($i=0;$i<=$resourceNum;$i++){
+            $priceNotFree = $this->get('priceType'.$i);
+            //print_r('priceType'.$i."notFree:".$priceNotFree." ");
+            $price = $this->get('price'.$i,0);
+            //print_r("price:".$price." ");
+            $resourceId = (int)substr($priceNotFree,1);
+            $notFree = (int)substr($priceNotFree,0,1);
+            array_push($resourcePrice,array("resourceId"=>$resourceId,"notFree"=>$notFree,"price"=>$price));
+        }
+        //print_r($resourcePrice);
+        $tradeModel = new TradeModel();
+        $result = $tradeModel->newResourcePrice($resourcePrice,$schoolId);
+        $this->redirect("getSchoolPrice?schoolId=".$schoolId);
     }
     }

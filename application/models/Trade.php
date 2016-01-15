@@ -308,16 +308,16 @@ class TradeModel
         $index = 0;
         foreach($courseList as $k=>$value){
             //push courseInfo
-            array_push($resultArr,array("course"=>$value['name'],"courseId"=>$value['id'],"type"=>$this->getPriceTypeName($value['price_type']),
+            array_push($resultArr,array("id"=>$value['id'],"course"=>$value['name'],"courseId"=>$value['id'],"type"=>$this->getPriceTypeName($value['price_type']),
                 "price_type"=>$value['price_type'],"price"=>$value['cur_price'],"chapter"=>"","chapterId"=>0,"section"=>"","sectionId"=>0,
-                "cusNumber"=>$this->getCustomerNumber($schoolId,$value['id']),"parentId"=>0,"No"=>$index,"resourceType"=>Common_Config::PUBLIC_COURSE_TYPE));
+                "cusNumber"=>$this->getCustomerNumber($schoolId,$value['id']),"parentId"=>0,"No"=>$index,"resourceType"=>Common_Config::PUBLIC_COURSE_TYPE,"parentType"=>""));
             $index++;
             $chapter = $tblResource->fetchAll("id,name,price_type,cur_price","where entrance_id = {$schoolId} and enabled = 1 and parent_id = {$value['id']}");
             foreach($chapter as $v=>$val){
                 //push chapter info
-                array_push($resultArr,array("course"=>$value['name'],"courseId"=>$value['id'],"type"=>$this->getPriceTypeName($val['price_type']),
+                array_push($resultArr,array("id"=>$val['id'],"course"=>$value['name'],"courseId"=>$value['id'],"type"=>$this->getPriceTypeName($val['price_type']),
                     "price_type"=>$val['price_type'],"price"=>$val['cur_price'],"chapter"=>$val['name'],"chapterId"=>$val['id'],"section"=>"","sectionId"=>0,
-                    "cusNumber"=>'-',"parentId"=>$value['id'],"No"=>$index,"resourceType"=>Common_Config::PUBLIC_CHAPTER_TYPE));
+                    "cusNumber"=>'-',"parentId"=>$value['id'],"No"=>$index,"resourceType"=>Common_Config::PUBLIC_CHAPTER_TYPE,"parentType"=>$this->getPriceTypeName($value['price_type'])));
                 /*array_push($resultArr,array("course"=>"","courseId"=>$value['id'],"type"=>$this->getPriceTypeName($val['price_type']),
                     "price_type"=>$val['price_type'],"price"=>$val['cur_price'],"chapter"=>$val['name'],"chapterId"=>$val['id'],"section"=>"","sectionId"=>0,
                     "cusNumber"=>'-',"parentId"=>$value['id'],"No"=>$index,"resourceType"=>Common_Config::PUBLIC_CHAPTER_TYPE));*/
@@ -325,9 +325,9 @@ class TradeModel
                 $section = $tblResource->fetchAll("id,name,price_type,cur_price","where entrance_id = {$schoolId} and enabled = 1 and parent_id = {$val['id']}");
                 foreach($section as $m=>$vm){
                     //push section info
-                    array_push($resultArr,array("course"=>$value['name'],"courseId"=>$value['id'],"type"=>$this->getPriceTypeName($vm['price_type']),
+                    array_push($resultArr,array("id"=>$vm['id'],"course"=>$value['name'],"courseId"=>$value['id'],"type"=>$this->getPriceTypeName($vm['price_type']),
                         "price_type"=>$vm['price_type'],"price"=>$vm['cur_price'],"chapter"=>$val['name'],"chapterId"=>$val['id'],"section"=>$vm['name'],"sectionId"=>$vm['id'],
-                        "cusNumber"=>'-',"parentId"=>$val['id'],"No"=>$index,"resourceType"=>Common_Config::PUBLIC_SECTION_TYPE));
+                        "cusNumber"=>'-',"parentId"=>$val['id'],"No"=>$index,"resourceType"=>Common_Config::PUBLIC_SECTION_TYPE,"parentType"=>$this->getPriceTypeName($val['price_type'])));
                     /*array_push($resultArr,array("course"=>"","courseId"=>$value['id'],"type"=>$this->getPriceTypeName($vm['price_type']),
                         "price_type"=>$vm['price_type'],"price"=>$vm['cur_price'],"chapter"=>"","chapterId"=>$val['id'],"section"=>$vm['name'],"sectionId"=>$vm['id'],
                         "cusNumber"=>'-',"parentId"=>$val['id'],"No"=>$index,"resourceType"=>Common_Config::PUBLIC_SECTION_TYPE));*/
@@ -336,7 +336,7 @@ class TradeModel
             }
         }
 
-        return $resultArr;
+        return array("courseList"=>$resultArr,"resourceNum"=>$index);
     }
 
     /*
@@ -642,10 +642,77 @@ class TradeModel
     function newSchoolPrice($id,$priceType,$discount){
         $tblSchoolPrice = new DB_Udo_SchoolPrice();
         $tblResource = new DB_Sso_Resource();
+        $courseType = Common_Config::PUBLIC_COURSE_TYPE;
 
         //当前频道是否已经定价
         $schoolPrice = $tblSchoolPrice->scalar("*","where resourceId = {$id}");
+        $resource = $tblResource->fetchAll("id,price_type,cur_price","where entrance_id = {$id} and type = {$courseType} and price_type = {$priceType}");
+
+        //计算当前频道下的课程总价
+        $totalPrice = 0;
+        foreach($resource as $k=>$val){
+            $totalPrice+=$val['cur_price'];
+        }
+        $finalPrice =  ceil($totalPrice*$discount);
+        //如果频道的定价已经存在，那么更新数据
         if($schoolPrice)
-            $tblSchoolPrice->query("update ");
+            $result = $tblSchoolPrice->query("update udo_school_price set priceType={$priceType},discount={$discount},price={$finalPrice}");
+        else
+            $result = $tblSchoolPrice->insert(array("priceType"=>$priceType,"price"=>$finalPrice,"discount"=>$discount,"createTime"=>time()));
+
+        //根据priceType判断，频道定价类型免费时，则所有下属resource的数据需更新为免费；如果定价类型不免费，那么所有不免费resource的类型也需同时改变
+        if($priceType == Common_Config::UDO_PRICETYPE_FREE)
+            $updateResource = $tblResource->query("update resource set price_type = 3,cur_price=0 where entrance_id = {$id}");
+        else
+        {
+            $updateResource = $tblResource->query("update resource set price_type = {$priceType} where entrance_id = {$id} and cur_price<>0");
+        }
+        return $result;
+    }
+
+    /*
+     * 编辑新课程定价
+     */
+    function newResourcePrice($resourcePrice,$schoolId){
+        $tblResource = new DB_Sso_Resource();
+        $tblSchoolPrice = new DB_Udo_SchoolPrice();
+        $priceSchool = 0;
+        $school = $tblSchoolPrice->scalar("*","where resourceId = {$schoolId}");
+        //print_r(count($resourcePrice));
+        foreach($resourcePrice as $k=>$val){
+            //print_r($val);
+            $resource = $tblResource->scalar("type,price_type,cur_price","where id ={$val['resourceId']}");
+            //print_r($resource);
+            $notFree = $val['notFree'];
+
+            $freeStr = "";
+            if(!$notFree){
+                $priceType = Common_Config::UDO_PRICETYPE_FREE;
+                $freeStr = ",price_type = 3";
+            }
+            else{
+                $priceType = $school['priceType'];
+                $freeStr = ",price_type={$priceType}";
+            }
+
+            $price = $val['price'];
+            $id = $val['resourceId'];
+            $resourceUpdate = $tblResource->query("update resource set cur_price = {$price}".$freeStr ." where id ={$id}");
+
+            //print_r($resource['type']." ");
+            if($resource['type'] == Common_Config::PUBLIC_COURSE_TYPE){
+                $priceSchool+=$price;
+                //print_r($priceSchool." ");
+            }
+
+        }
+
+
+        $priceSchool *= $school['discount'];
+        $priceSchool = ceil($priceSchool);
+        /*print_r($school['discount']);
+        print_r($priceSchool);*/
+        $schoolPrice = $tblSchoolPrice->query("update udo_school_price set price={$priceSchool} where resourceId={$schoolId}");
+        return $resourceUpdate;
     }
 }

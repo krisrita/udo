@@ -204,7 +204,7 @@ class AccountModel
             //print_r($sta." ");
             if(!$sta)
                 $sta = 0;
-            $info = "共有".$sta."位小伙伴与你共同学习";
+            $info = $sta."人已学";
             $resource = $tblResource->scalar("name","where id = {$value['resourceId']}");
             //获取课程的localId供在列表中进行跳转
             $localId = $tradeModel->getLocalId($value['resourceId'],$value['schoolId']);

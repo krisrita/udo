@@ -2,6 +2,25 @@
 <{block name="title" append}>
 活动编辑
 <{/block}>
+
+<{block name="header-script"}>
+<script>
+    //var course=<{$courseList|default :[]}> ;
+    var city_name='<{$school.school|default:'全国'}>';
+
+</script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".radioItem").change(function() {
+            //var $course=<{$school.school|default :0}>;
+            //alert($course);
+            var $selectedvalue = $("input[name='priceType6']:checked").val();
+            alert($selectedvalue);
+            alert(city_name);
+        });
+    });
+</script>
+<{/block}>
 <{block name="page-content" }>
 <!-- page content -->
 <div class="">
@@ -134,7 +153,7 @@
                                     </button>
                                     <h4 class="modal-title" id="myModalLabel2">编辑频道定价</h4>
                                 </div>
-                                <form class="form-horizontal form-label-left" action="newRule" method="get">
+                                <form class="form-horizontal form-label-left" action="newSchoolPrice" method="get">
                                     <div class="modal-body">
 
                                         <div class="form-group">
@@ -164,13 +183,12 @@
                                         <div class="col-md-9 col-sm-9 col-xs-12">
                                             选择折扣
                                             <select class="" name="discount">
-                                                <option>10</option>
-                                                <option>9.5</option>
-                                                <option>9</option>
+                                                <option>1</option>
+                                                <option>0.95</option>
+                                                <option>0.9</option>
                                             </select>
                                         </div>
 
-                                        <input type="text" name="action" value=1  style="display:none;"/>
                                         <input type="text" name="id" value="<{$school.schoolId}>"  style="display:none;"/>
 
                                     </div>
@@ -185,6 +203,7 @@
                     </div>
                     <!-- 模态框-->
 
+                    <form class="form-horizontal form-label-left" action="newResourcePrice" method="get">
                     <!-- 表格-->
                     <table id="example" class="table table-striped responsive-utilities jambo_table">
                         <!--表头-->
@@ -203,6 +222,7 @@
                         </thead>
                         <!--表头-->
                         <tbody>
+
                         <{foreach item=course from=$courseList}>
                         <tr class="even pointer">
                             <!--<td class="a-center ">
@@ -213,26 +233,28 @@
                             <td class=" "><{$course.chapter}> </td>
                             <td class=" "><{$course.section}></td>
                             <td class=" ">
+                                priceType<{$course.No}>
                                 <{if $school.type=='免费'}>
-                                免费<input type="radio" class="flat" name="priceType<{$course.No}>" id="priceFree<{$course.No}>" value="no" checked="yes"/></td>
+                                免费<input type="radio" class="flat" name="priceType<{$course.No}>" id="priceFree<{$course.No}>" value="0<{$course.id}>" checked="yes"/></td>
 
-                            <{else}>
-                            <{if $course.type == '免费'}>
-                                <{$school.type}><input type="radio" class="flat" name="priceType<{$course.No}>" id="priceNotFree<{$course.No}>" value="yes" />
-                                免费<input type="radio" class="flat" name="priceType<{$course.No}>" id="priceFree<{$course.No}>" value="no" checked="checked"/></td>
+
+                            <{elseif $course.type == '免费'}>
+                                <{$school.type}><input type="radio" class="flat" name="priceType<{$course.No}>" id="priceNotFree<{$course.No}>" value="1<{$course.id}>" />
+                                免费<input type="radio" class="flat" name="priceType<{$course.No}>" id="priceFree<{$course.No}>" value="0<{$course.id}>" checked="checked"/></td>
                             <{elseif $course.type != '免费'}>
-                                <{$school.type}><input type="radio" class="flat" name="priceType<{$course.No}>" id="priceNotFree<{$course.No}>" value="yes" checked="checked"/>
-                                免费<input type="radio" class="flat" name="priceType<{$course.No}>" id="priceFree<{$course.No}>" value="no" /></td>
+                                <{$school.type}><input type="radio" class="flat" name="priceType<{$course.No}>" id="priceNotFree<{$course.No}>" value="1<{$course.id}>" checked="checked"/>
+                                免费<input type="radio" class="flat" name="priceType<{$course.No}>" id="priceFree<{$course.No}>" value="0<{$course.id}>" /></td>
                             <{/if}>
-                            <{/if}>
+
+
                             <td class=" ">
                                 <!-- 仅课程类型显示修改价格的输入框 -->
                                 <{if $course.resourceType == 6 && $school.type=='免费'}>
-                                <input type="text" id="first-name<{$course.No}>" required="required" data-parsley-id="5718" value = '<{$course.price}>' disabled="disabled" >
+                                <input type="text" id="price<{$course.No}>" name="price<{$course.No}>" required="required" data-parsley-id="5718" value = '<{$course.price}>' disabled="disabled" >
                                 <{elseif $course.resourceType != 6}>
                                 -
                                 <{else}>
-                                <input type="text" id="first-name<{$course.No}>" required="required" data-parsley-id="5718" value = <{$course.price}> >
+                                <input type="text" id="price<{$course.No}>" name="price<{$course.No}>" required="required" data-parsley-id="5718" value = <{$course.price}> >
                                 <{/if}>
                             </td>
                             <td class=""><{$course.cusNumber}></td>
@@ -240,9 +262,12 @@
                         <{/foreach}>
 
                         </tbody>
-
                     </table>
                     <!-- 表格-->
+                    <input type="text" name="resourceNum" value="<{$resourceNum}>"  style="display:none;"/>
+                    <input type="text" name="schoolId" value="<{$school.schoolId}>"  style="display:none;"/>
+                    <div style = "position:fixed;bottom:0;left:250px;right:50px" class="x_panel"><button type="submit" class="btn btn-primary" >提交修改</button></div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -254,13 +279,57 @@
 
     </div>
 </div>
+<!--<script type="text/javascript">
+    $(document).ready(function() {
+        $(".flat").change(function() {
+            alert(1);
+            //var $selectedvalue = $("input[name='priceType6']:checked").val();
+            //alert($selectedvalue);
+        });
+    });
+</script>-->
 
 
-<div style = "position:fixed;bottom:0;left:250px;right:50px" class="x_panel"><button type="submit" class="btn btn-primary" >提交修改</button></div>
+
+
 <{/block}>
 
 <{block name="footer-script"}>
+<!-- 控制页面radio-->
+<!--<script type="text/javascript" language="javascript">
+    /*------判断radio是否有选中，获取选中的值--------*/
+    $(function(){
+            var val=$('input:radio[name="priceType1"]:checked').val();
+            if(val==null){
+                alert("什么也没选中!");
+                return false;
+            }
+            else{
+                alert(val);
+            }
+            var list= $('input:radio[name="list"]:checked').val();
+            if(list==null){
+                alert("请选中一个!");
+                return false;
+            }
+            else{
+                alert(list);
+            }
 
+    });
+</script>-->
+
+<!--<script type="text/javascript">
+    $(document).ready(function() {
+        $(".radioItem").change(function() {
+            var $selectedvalue = $("input[name='priceType1']:checked").val();
+             alert($selectedvalue);
+
+        });
+    });
+</script>-->
+
+<!-- 控制页面radio-->
 <!-- Datatables -->
 <script src="public/admin/js/datatables/js/jquery.dataTables.js"></script>
 <script src="js/datatables/tools/js/dataTables.tableTools.js"></script>
