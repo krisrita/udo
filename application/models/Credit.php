@@ -129,21 +129,27 @@ class CreditModel
         $retry = 0;
         $updateAccount = 0;
         $id = $tblAccount->scalar("id,amt,score","where sso_id = {$userId}");
+        //print_r($id);
+        $testUpdate = $tblAccount->query("update account set score = 1895 where id = {$id['id']}");
+        //print_r($testUpdate);
         while(!$updateAccount && $retry<=3){
             $score = $id['score']+$result['creditAmount'];
-            //$updateAccount = $tblAccount->query("update account set score = {$score} where id = {$id['id']}");
-            $remark = "日常活动";
+            //print_r($score);
+            $updateAccount = $tblAccount->query("update account set score = {$score} where id = {$id['id']}");
+/*            $remark = "日常活动";
             $random = $rand->getRandChar(8);
-            $sign = md5(Common_Config::PAY_OSID.$userId.$score,$remark,$random.Common_Config::PAY_SECRET);
-            $url = Common_Config::UDO_PAY_SERVICE;
+            $sign = md5(Common_Config::PAY_OSID.$userId.$score.$remark.$random.Common_Config::PAY_SECRET);
+            $url = Common_Config::CREDIT_UPDATE;
             $post_data = array("osid"=>Common_Config::PAY_OSID,"ssoid"=>$userId,"score"=>$result['creditAmount'],"remark"=>$score,"random"=>$random,"sign"=>$sign);
             $cl = new Common_Curl();
             $updateAccount = $cl->request($url, $post_data);
-            $retry ++;
+            $retry ++;*/
+            //print_r($updateAccount);
         }
         //账户更新失败返回失败信息
         if(!$updateAccount)
             return Common_Error::ERROR_UPDATE_BALANCE;
+
 
         //账户更新成功，插入学分和U币变动日支
         $tblCreditLog->insert(array("userId"=>$userId,"creditSource"=>Common_Config::DAILY_CREDIT_ACTION,"actionId"=>$actionId,"info"=>$result['name']."获得学分",
