@@ -459,7 +459,7 @@ class AccountController extends Base_Contr
                 $coinMoney = $tradeModel->getCoinMoney($coinId);
                 //实际
                 $chargeAmt = $amt;
-                $amt = $coinMoney['price']/1000;
+                $amt = $coinMoney['price'];
                 $subject = "U币充值";
                 $score = 0;
                 $balanceAmt = 0;
