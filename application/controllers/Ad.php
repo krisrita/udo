@@ -46,7 +46,7 @@ class AdController extends Base_Contr
         //$result = array ("id"=> 2779,"province"=> 0,"grade"=>11);
         //sso返回成功，开始进行广告过滤
 
-        print_r($result);
+        //print_r($result);
         //过滤出和用户所在地区和年级一致的广告
         $ad = new AdModel();
         $adlist = $ad -> getAd($result);
