@@ -387,12 +387,6 @@ class AccountController extends Base_Contr
 
         //此处为测试数据
         $resource = json_decode($resource,true);
-        /*$resource = [];
-        array_push($resource,array("resourceId"=>10,"resourceType"=>1));
-        array_push($resource,array("resourceId"=>350,"resourceType"=>2));
-        array_push($resource,array("resourceId"=>352,"resourceType"=>2));*/
-        /*$resource = [];
-        array_push($resource,array("resourceType"=>2,"resourceId"=>350));*/
 
         //接收参数判断
         if (!$ssotoken ||!$payType ||!$amt)
