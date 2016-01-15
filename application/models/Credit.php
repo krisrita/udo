@@ -130,20 +130,22 @@ class CreditModel
         $updateAccount = 0;
         $id = $tblAccount->scalar("id,amt,score","where sso_id = {$userId}");
         //print_r($id);
-        $testUpdate = $tblAccount->query("update account set score = 1895 where id = {$id['id']}");
+        //$testUpdate = $tblAccount->query("update account set score = 1895 where id = {$id['id']}");
         //print_r($testUpdate);
         while(!$updateAccount && $retry<=3){
             $score = $id['score']+$result['creditAmount'];
             //print_r($score);
-            $updateAccount = $tblAccount->query("update account set score = {$score} where id = {$id['id']}");
-/*            $remark = "日常活动";
+            //$updateAccount = $tblAccount->query("update account set score = {$score} where id = {$id['id']}");
+            $remark = "日常活动";
             $random = $rand->getRandChar(8);
-            $sign = md5(Common_Config::PAY_OSID.$userId.$score.$remark.$random.Common_Config::PAY_SECRET);
+
+            $sign = md5(Common_Config::PAY_OSID.$userId.$result['creditAmount'].$remark.$random.Common_Config::PAY_SECRET);
+            //print_r(Common_Config::PAY_OSID.(string)$userId.(string)$score.$remark.$random.Common_Config::PAY_SECRET);
             $url = Common_Config::CREDIT_UPDATE;
-            $post_data = array("osid"=>Common_Config::PAY_OSID,"ssoid"=>$userId,"score"=>$result['creditAmount'],"remark"=>$score,"random"=>$random,"sign"=>$sign);
+            $post_data = array("osid"=>Common_Config::PAY_OSID,"ssoId"=>$userId,"score"=>$result['creditAmount'],"remark"=>$remark,"random"=>$random,"sign"=>$sign);
             $cl = new Common_Curl();
             $updateAccount = $cl->request($url, $post_data);
-            $retry ++;*/
+            $retry ++;
             //print_r($updateAccount);
         }
         //账户更新失败返回失败信息

@@ -193,6 +193,7 @@ class MessageController extends Base_Contr
         $result = -1;
         $messageModel = new MessageModel();
         $receiveUserId = $messageModel->kaixinUser();
+        //print_r($receiveUserId);
         $text = "一个月作文技巧手到擒来，找回孩子“被忽视的情绪和思维”！";
         //print_r($receiveUserId);
         //print_r($text);
@@ -207,6 +208,8 @@ class MessageController extends Base_Contr
             //print_r($result);
             $retry++;
         }
+        //print_r($retry);
+        //print_r($result);
     }
 
 }

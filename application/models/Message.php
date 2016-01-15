@@ -117,12 +117,14 @@ class MessageModel
                 $receiveUserIds.= $val;
         }
 
+        //print_r($receiveUserIds);
         $post_data = array("type"=>$type,"customData"=>$custom_data,"accessKeyId"=>$accessKeyId,
             "sendUserId"=>$sendUserId,"receiveUserId"=>$receiveUserIds,"transmissionContent"=>$transmissionContent,
             "title"=>$title,"text"=>$text);
 
         $cl = new Common_Curl();
         $array = $cl->request($url, $post_data);
+        //print_r($array);
 
         //print_r($post_data);
         //判断是否返回失败信息
@@ -203,7 +205,7 @@ class MessageModel
 
     function kaixinUser(){
         $tblSchoolSta = new DB_Udo_SchoolStatistics();
-        $user = $tblSchoolSta->fetchAll("userId","where schoolId = 10 or schoolId = 2746");
+        $user = $tblSchoolSta->fetchAll("userId","where schoolId = 10 or schoolId = 2746 group by userId");
         $userIds = $tblSchoolSta->columnRow($user,"userId");
         return $userIds;
     }
