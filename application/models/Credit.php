@@ -104,6 +104,9 @@ class CreditModel
         $tblCredit = new DB_Udo_CreditAction();
         $tblAccount = new DB_Pay_Account();
         $tblCreditLog = new DB_Udo_UserCreditLog();
+        $rand = new Common_Char();
+
+
 
         //获取该动作的基础信息
         $result = $tblCredit -> scalar("creditAmount,name,outputInput,ratio,times,isSynthesized,actionType","where actionId = {$actionId} and isValid = 1");
@@ -128,8 +131,14 @@ class CreditModel
         $id = $tblAccount->scalar("id,amt,score","where sso_id = {$userId}");
         while(!$updateAccount && $retry<=3){
             $score = $id['score']+$result['creditAmount'];
-            $updateAccount = $tblAccount->query("update account set score = {$score} where id = {$id['id']}");
-            //$updateAccount = $tblAccount->update($id['id'],array("amt"=>$id['amt']-$creditInfo['price'],"score"=>$id['score']+$creditInfo['amt']));
+            //$updateAccount = $tblAccount->query("update account set score = {$score} where id = {$id['id']}");
+            $remark = "日常活动";
+            $random = $rand->getRandChar(8);
+            $sign = md5(Common_Config::PAY_OSID.$userId.$score,$remark,$random.Common_Config::PAY_SECRET);
+            $url = Common_Config::UDO_PAY_SERVICE;
+            $post_data = array("osid"=>Common_Config::PAY_OSID,"ssoid"=>$userId,"score"=>$result['creditAmount'],"remark"=>$score,"random"=>$random,"sign"=>$sign);
+            $cl = new Common_Curl();
+            $updateAccount = $cl->request($url, $post_data);
             $retry ++;
         }
         //账户更新失败返回失败信息
