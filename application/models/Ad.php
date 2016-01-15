@@ -149,5 +149,25 @@ class AdModel
 
         $tbl -> update($array['id'] ,$update_array);
     }
+
+    /*
+     * 小学广告推送
+     */
+    public function filterPrimary($uid){
+        $tblSchoolSta = new DB_Udo_SchoolStatistics();
+        $tblAd = new DB_Udo_Ad();
+        $adList = [];
+        $primary = $tblSchoolSta->query("select schoolId,userId from udo_school_statistics where (schoolId = 12 or schoolId = 2746) and userId = {$uid}");
+
+        if($primary){
+            $ad = $tblAd->scalar("id,price,url","where description = 'kaixinzuowen'");
+            array_push($adList,$ad);
+            return $adList;
+        }
+        else
+            return -1;
+
+
+    }
 }
 ?>
