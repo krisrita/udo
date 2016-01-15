@@ -182,5 +182,32 @@ class MessageController extends Base_Contr
             $this->displayJsonUdo(Common_Error::ERROR_FAIL);
     }
 
+    /*
+     * 给小学用户推送开心作文上线消息
+     */
+    function kaixinMessageAction(){
+        $title ="作文拿不了高分？作文怎么写才不low？";
+        $type = 1;
+        $messageType = Common_Config::UDO_SCHOOL_MESSAGE_TYPE;
+        $retry = 0;
+        $result = -1;
+        $messageModel = new MessageModel();
+        $receiveUserId = $messageModel->kaixinUser();
+        $text = "一个月作文技巧手到擒来，找回孩子“被忽视的情绪和思维”！";
+        //print_r($receiveUserId);
+        //print_r($text);
+        $custom_data_raw = json_encode(array("school_id"=>2769,"course_id"=>"","url"=>"http://123.57.182.19:8520/"));
+        $mid = $messageModel ->messageLog($type,$messageType,$custom_data_raw,0,$receiveUserId,null,$title,$text);
+        $custom_data = json_encode(array("id"=>$mid,"school_id"=>2769,"course_id"=>"","url"=>"http://123.57.182.19:8520/","prof_type"=>100,"title"=>$title,"text"=>$text));
+        //print_r($custom_data);
+
+        //如果发送失败，再尝试三次
+        while($retry <=3 and $result == -1){
+            $result = $messageModel -> sendMessage($type,$custom_data,$receiveUserId,$custom_data,$title,$text);
+            //print_r($result);
+            $retry++;
+        }
+    }
+
 }
 ?>

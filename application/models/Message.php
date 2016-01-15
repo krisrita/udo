@@ -198,8 +198,14 @@ class MessageModel
         $tbl = new DB_Udo_FrontMessage();
         $result = $tbl->update($id,array("action"=>$real_action));
         return $result;
-
         
+    }
+
+    function kaixinUser(){
+        $tblSchoolSta = new DB_Udo_SchoolStatistics();
+        $user = $tblSchoolSta->fetchAll("userId","where schoolId = 10 or schoolId = 2746");
+        $userIds = $tblSchoolSta->columnRow($user,"userId");
+        return $userIds;
     }
 }
     ?>

@@ -391,6 +391,9 @@ class AccountController extends Base_Contr
         array_push($resource,array("resourceId"=>10,"resourceType"=>1));
         array_push($resource,array("resourceId"=>350,"resourceType"=>2));
         array_push($resource,array("resourceId"=>352,"resourceType"=>2));*/
+        $resource = [];
+        array_push($resource,array("resourceType"=>2,"resourceId"=>350));
+
         //接收参数判断
         if (!$ssotoken ||!$payType ||!$amt)
             $this->displayJsonUdo(Common_Error::ERROR_PARAM,"","缺少必选参数");
@@ -433,7 +436,7 @@ class AccountController extends Base_Contr
         $uid = $userModel->getUserId($ssotoken);
         if(is_array($uid))
             $this->displayJsonUdo(Common_Error::INVALID_TOKEN,"",$uid['msg']);
-        $order = $accountModel->newOrder($uid,$schoolId,$courseCount,$payType,$resource,$coinId,$amt,$platform);
+        $order = $accountModel->newOrder($ssotoken,$uid,$schoolId,$courseCount,$payType,$resource,$coinId,$amt,$platform);
 
         //对生成订单的结果进行判断
         if($order < 0)
@@ -513,15 +516,15 @@ class AccountController extends Base_Contr
      * 测试上述的支付函数
      */
     function testPayAction(){
-        $url = "http://182.92.118.115:8080/Account/pay/";
-        $ssotoken = "token6f610c8a-00ef-48fb-bc36-c4205942d58crzNie4gf";
+        $url = "http://182.92.118.115:8080/account/pay";
+        $ssotoken = "token3c34463a-220b-4b87-ac8a-76276561c04eK86YUbt5";
         //$ssotoken = ""
         $schoolId = 10;
         $payType = 1;
-        $amt = 100;
+        $amt = 10;
         $resource = [];
         array_push($resource,array("resourceType"=>2,"resourceId"=>350));
-        array_push($resource,array("resourceType"=>2,"resourceId"=>352));
+        /*array_push($resource,array("resourceType"=>2,"resourceId"=>352));
         array_push($resource,array("resourceType"=>2,"resourceId"=>354));
         array_push($resource,array("resourceType"=>2,"resourceId"=>356));
         array_push($resource,array("resourceType"=>2,"resourceId"=>358));
@@ -529,7 +532,7 @@ class AccountController extends Base_Contr
         array_push($resource,array("resourceType"=>2,"resourceId"=>362));
         array_push($resource,array("resourceType"=>2,"resourceId"=>364));
         array_push($resource,array("resourceType"=>2,"resourceId"=>366));
-        array_push($resource,array("resourceType"=>2,"resourceId"=>368));
+        array_push($resource,array("resourceType"=>2,"resourceId"=>368));*/
         //array_push($resource,array("resourceType"=>2,"resourceId"=>1561));
 
         $json = json_encode($resource);

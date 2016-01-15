@@ -383,7 +383,7 @@ class AccountModel
     /*
      * 生成订单
      */
-    function newOrder($uid,$schoolId,$courseCount=0,$payType,$resource=[],$coinId=0,$amount,$platform=0,$couponId=0,$couponAmt=0){
+    function newOrder($ssotoken,$uid,$schoolId,$courseCount=0,$payType,$resource=[],$coinId=0,$amount,$platform=0,$couponId=0,$couponAmt=0){
         $tblOrder = new DB_Udo_Order();
         $tblSchoolPrice = new DB_Udo_SchoolPrice();
         $tblResource = new DB_Sso_Resource();
@@ -392,7 +392,7 @@ class AccountModel
         $tradeModel = new TradeModel();
         $correct = 0;
         $schoolPrice = $tblSchoolPrice->scalar("priceType,price","where resourceId = {$schoolId}");
-        $balance = $this->getBalance($uid)['balance'][0];
+        $balance = $this->getSsoBalance($ssotoken);
         $userModel = new UserModel();
 
         $mobile = $userModel->getUserName($uid)['mobile'];
@@ -411,6 +411,7 @@ class AccountModel
                     continue;
                 $resourcePrice = $tblResource->scalar("id,type,entrance_id,price_type,cur_price","where id = {$val['resourceId']}");
                 $totalPrice += $resourcePrice['cur_price'];
+                //print_r($resourcePrice['price_type']);
                 if(($payType==Common_Config::UDO_PAYTYPE_COIN && $resourcePrice['price_type']==Common_Config::UDO_PRICETYPE_COIN) ||
                     ($payType==Common_Config::UDO_PAYTYPE_CREDIT && $resourcePrice['price_type']==Common_Config::UDO_PRICETYPE_CREDIT))
                     $correct = 1;
