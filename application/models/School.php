@@ -662,6 +662,15 @@ class SchoolModel
         return $news;
     }
 
+    /*
+     * 获取单条news
+     */
+    function getSingleNews($newsId){
+        $tblNews = new DB_Udo_News();
+        $news = $tblNews->scalar("*","where id = {$newsId}");
+        return $news;
+    }
+
     /**
      * 记录用户的资讯访问日志
      */
@@ -888,6 +897,33 @@ class SchoolModel
         $courseType = Common_Config::PUBLIC_COURSE_TYPE;
         $queryCount = $tblResource->queryCount("where entrance_id = {$schoolId} and type = {$courseType} and enabled = 1");
         return $queryCount;
+    }
+
+    /*
+     * 根据id获取频道，课程，章节的名称信息
+     */
+    function getResourceInfo($type,$id=0,$localId=0,$name=""){
+        $tblEntrance = new DB_Sso_Entrance();
+        $tblResource = new DB_Sso_Resource();
+
+        switch ($type){
+            case Common_Config::PUBLIC_SCHOOL_TYPE:
+                $entrance = $tblEntrance->scalar("customer_name,customer_title,logo","where id = {$id}");
+                return $entrance;
+            case Common_Config::PUBLIC_COURSE_TYPE || Common_Config::PUBLIC_CHAPTER_TYPE || Common_Config::PUBLIC_SECTION_TYPE:
+                if($id){
+                    $course = $tblResource->scalar("name,entrance_id","where id = {$id}");
+                    $logo = $tblEntrance->scalar("logo","where id = {$id}");
+                    $course = array_merge($course,$logo);
+                    return $course;
+                }
+                else{
+                    $schoolId = $tblResource->scalar("entrance_id","where name='{$name}' and local_id = {$localId}");
+                    //print_r($schoolId);
+                    $logo = $tblEntrance->scalar("logo,customer_name","where id = {$schoolId['entrance_id']}");
+                    return $logo;
+                }
+        }
     }
 
 }

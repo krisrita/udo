@@ -96,7 +96,7 @@ class TradeModel
         $post_data = array ("domainId" => $domainId,"userId" => $userId,"parentId"=>$parentId,"localType"=>$localType);
         $cl= new Common_Curl();
         $array = $cl->request($url,$post_data);
-        //print_r($array);
+
         $schoolModel = new SchoolModel();
         $tblResource = new DB_Sso_Resource();
         $tblBought = new DB_Udo_UserBought();
@@ -140,10 +140,9 @@ class TradeModel
                 //返回章的定价信息和其子节点孩子的定价信息
                 $array[$k] = array_merge($array[$k],array("priceType"=>$priceInfo['price_type'],"price"=>$priceInfo['cur_price'],"isBought"=>$isBought,"children"=>$arraySection));
             }
-            //print_r($array[$k]['children']);
+
         }
 
-        //print_r($array);
         return $array;
     }
 
@@ -707,7 +706,6 @@ class TradeModel
 
         }
 
-
         $priceSchool *= $school['discount'];
         $priceSchool = ceil($priceSchool);
         /*print_r($school['discount']);
@@ -715,4 +713,6 @@ class TradeModel
         $schoolPrice = $tblSchoolPrice->query("update udo_school_price set price={$priceSchool} where resourceId={$schoolId}");
         return $resourceUpdate;
     }
+
+
 }
