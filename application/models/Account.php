@@ -248,7 +248,7 @@ class AccountModel
                     $sta = 0;
                 $entrance = $tblEntrance->scalar("customer_name,customer_title,logo,api_udo_url","where id = {$value['schoolId']}");
                 $resource = $tblResource->scalar("name","where id = {$value['resourceId']} ");
-                $info = "共有".$sta."位小伙伴与你共同学习";
+                $info = $sta."人已学";
                 //获取课程的localId供在列表中进行跳转
                 $localId = $tradeModel->getLocalId($value['resourceId'],$value['schoolId']);
                 array_push($resultArray,array("id"=>$value['resourceId'],"localId"=>$localId['local_id'],"logo"=>$entrance['logo'],"name"=>$resource['name'],"schoolName"=>$entrance['customer_name']
