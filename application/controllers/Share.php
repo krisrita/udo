@@ -30,9 +30,11 @@ class ShareController extends Base_Contr
     function schoolAction(){
         $name = $this->get('name');
         $title = $this->get('title');
+        $logo = $this->get('logo');
 
         $this->assign('name',$name);
         $this->assign('title',$title);
+        $this->assign('logo',$logo);
     }
 
     /*
@@ -79,7 +81,7 @@ class ShareController extends Base_Contr
                 $school = $schoolModel->getResourceInfo(Common_Config::UDO_RESOURCE_SCHOOL,$schoolId,0,0);
                 $title = "听课做题用UDO";
                 $info = "我在UDO微课堂看'".$school['customer_name']."'推出的'".$school['customer_title']."'微课，居然一不小心全懂了，快当学霸了好紧张....";
-                $url = Common_Config::STATIC_BASE_URL."/share/"."school?name=".$school['customer_name']."&title=".$school['customer_title'];
+                $url = Common_Config::STATIC_BASE_URL."/share/"."school?name=".$school['customer_name']."&title=".$school['customer_title']."&logo=".$school['logo'];
                 $this->displayJsonUdo(Common_Error::ERROR_SUCCESS,array("url"=>$url,"title"=>$title,"intro"=>$info,"logo"=>$school['logo']));
                 break;
             case Common_Config::SHARE_REPORT:
@@ -94,7 +96,7 @@ class ShareController extends Base_Contr
                 $course = $schoolModel->getResourceInfo(Common_Config::PUBLIC_COURSE_TYPE,0,$courseId,$courseName);
                 $info = "我在UDO微课堂看'".$course['customer_name']."'推出的'".$courseName."'微课，居然一不小心全懂了，快当学霸了好紧张....";
                 $title = "听课做题用UDO";
-                $url = Common_Config::STATIC_BASE_URL."/share/"."school?name=".$course['customer_name']."&title=".$courseName;
+                $url = Common_Config::STATIC_BASE_URL."/share/"."school?name=".$course['customer_name']."&title=".$courseName."&logo=".$course['logo'];
                 $this->displayJsonUdo(Common_Error::ERROR_SUCCESS,array("url"=>$url,"title"=>$title,"intro"=>$info,"logo"=>$course['logo']));
                 break;
             case Common_Config::SHARE_NEWS:
