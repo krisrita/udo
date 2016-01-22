@@ -671,6 +671,15 @@ class SchoolModel
         return $news;
     }
 
+    /*
+    *获取单条banner
+    */
+    function getSingleBanner($bannerId){
+        $tblBanner = new DB_Udo_Banner();
+        $banner = $tblBanner->scalar("*","where id = {$bannerId}");
+        return $banner;
+    }
+
     /**
      * 记录用户的资讯访问日志
      */

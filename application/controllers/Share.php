@@ -54,6 +54,8 @@ class ShareController extends Base_Contr
             $defeatRate = $this->post()->get('defeatRate');
             $rank = $this->post()->get('rank');
             $title = $this->post()->get('title');
+            $uid = $this->post()->get('uid');
+            $bannerId = $this->post()->get('bannerId');
         }
         else{
             $type = (int)$this->get('type');
@@ -67,6 +69,8 @@ class ShareController extends Base_Contr
             $defeatRate = $this->get('defeatRate');
             $rank = $this->get('rank');
             $title = $this->get('title');
+            $uid = $this->get('uid');
+            $bannerId = $this->get('bannerId');
         }
 
         $schoolModel = new SchoolModel();
@@ -96,6 +100,11 @@ class ShareController extends Base_Contr
             case Common_Config::SHARE_NEWS:
                 $news = $schoolModel->getSingleNews($newsId);
                 $this->displayJsonUdo(Common_Error::ERROR_SUCCESS,array("url"=>$news['url'],"title"=>$news['title'],"logo"=>$news['logo'],"intro"=>$news['intro']));
+                break;
+            case Common_Config::SHARE_BANNER:
+                $banner = $schoolModel->getSingleBanner($bannerId);
+                $this->displayJsonUdo(Common_Error::ERROR_SUCCESS,array("url"=>$banner['bannerUrl'],"title"=>$banner['customerName'],"logo"=>Common_Config::STATIC_BASE_URL.$banner['logo'],"intro"=>$banner['intro']));
+                break;
         }
 
     }
