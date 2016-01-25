@@ -451,7 +451,7 @@ class AccountModel
 
             //如果生成失败会再循环尝试三次
             while($retry<=3 && !$newOrder){
-                $newOrder = $tblOrder->insert(array("userId"=>$uid,"mobile"=>$mobile,"payType"=>$payType,"resource"=>$resource,
+                $newOrder = $tblOrder->insert(array("userId"=>$uid,"mobile"=>$mobile,"payType"=>$payType,"resource"=>json_encode($resource),
                     "amount"=>$amount,"createTime"=>time(),"status"=>Common_Config::ORDER_NOT_PAY));
                 $retry++;
                 //如果第三次仍失败，返回订单创建失败
