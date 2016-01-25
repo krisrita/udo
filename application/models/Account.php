@@ -394,7 +394,7 @@ class AccountModel
     /*
      * 生成订单
      */
-    function newOrder($ssotoken,$uid,$schoolId,$courseCount=0,$payType,$resource="",$coinId=0,$amount,$platform=0,$couponId=0,$couponAmt=0){
+    function newOrder($ssotoken,$uid,$schoolId,$courseCount=0,$payType,$resource=[],$coinId=0,$amount,$platform=0,$couponId=0,$couponAmt=0){
         $tblOrder = new DB_Udo_Order();
         $tblSchoolPrice = new DB_Udo_SchoolPrice();
         $tblResource = new DB_Sso_Resource();
