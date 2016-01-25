@@ -105,9 +105,28 @@ class ShareController extends Base_Contr
                 break;
             case Common_Config::SHARE_BANNER:
                 $banner = $schoolModel->getSingleBanner($bannerId);
+                
+                //如果是寒假宣传banner
+                if($val['id'] == 8){
+                $schoolModel = new SchoolModel();
+                $count = $schoolModel->bannerData(2780,$uid);
+
+                $boughtCount = $count['boughtCount'];
+                $courseCount = $count['courseCount'];
+                $banner['bannerUrl'] = Common_Config::STATIC_BASE_URL."/share/holiday?bCount={$boughtCount}&cCount={$courseCount}";
+            }
+        
                 $this->displayJsonUdo(Common_Error::ERROR_SUCCESS,array("url"=>$banner['bannerUrl'],"title"=>$banner['customerName'],"logo"=>Common_Config::STATIC_BASE_URL.$banner['logo'],"intro"=>$banner['intro']));
                 break;
         }
 
+    }
+
+
+    function holidayAction(){
+        $bCount = $this->get('bCount',958);
+        $cCount = $this->get('cCount',0);
+        $this->assign('bCount',$bCount);
+        $this->assign('cCount',$cCount);
     }
 }

@@ -1,0 +1,80 @@
+<{extends file="adminLayout.phtml"}>
+<{block name="title" append}>
+账户查询
+<{/block}>
+<{block name="page-content" }>
+<!-- page content -->
+<div class="">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>
+                修改账户
+            </h3>
+        </div>
+
+        <div class="title_right">
+            <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for...">
+                                    <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">Go!</button>
+                        </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+
+    <div class="row">
+
+        <div class="col-md-12 col-sm-12 col-xs-12">
+
+                    <div class="well" style="overflow: auto">
+                        <form action = "alterAccount" method = "get">
+
+
+                        <!-- 用户id -->
+                        <!--<div class="form-group">-->
+                            <label class="control-label col-md-1 col-sm-1 col-xs-12">用户id</label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                <input type="text" class="form-control" placeholder="输入用户id" name = "userId" >
+                            </div>
+                        <!--</div>-->
+                        <!-- 用户id-->
+
+
+                        <!-- 频道id -->
+                        <!--<div class="form-group">-->
+                            <label class="control-label col-md-1 col-sm-1 col-xs-12">频道id</label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                <input type="text" class="form-control" placeholder="输入频道id" name = "schoolId" >
+                            </div>
+                        <!--</div>-->
+                        <!-- 频道id-->
+
+                        <!-- 选择频道 -->
+<!--                         <label class="control-label col-md-1">定价类型</label>
+                        <div class="col-md-3">
+                            <input type="checkbox" name="priceType[]" id="type1" value="credit" data-parsley-mincheck="2" required class="flat" checked="" /> 学分
+
+                            <input type="checkbox" name="priceType[]" id="type2" value="coin" class="flat" checked="" /> U币
+
+                            <input type="checkbox" name="priceType[]" id="type3" value="free" class="flat" checked=""/> 免费
+
+                        </div> -->
+                        <!-- 选择频道-->
+
+
+                        <br><br><br>
+                        <div class="ln_solid"></div>
+                        <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                            <button type="reset" class="btn btn-primary">清空</button>
+                            <button type="submit" class="btn btn-success">确认</button>
+                        </div>
+                            </form>
+                    </div>
+
+                    
+    </div>
+</div>
+<{/block}>

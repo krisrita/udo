@@ -28,10 +28,21 @@ class AccountModel
        // if(!$mobile){
             $balance = $tblAccount->fetchLimit("sso_id,user_name,score,amt,created_time",$where,"order by id desc",$page,$pageSize);
             $balanceCount = $tblAccount->queryCount($where);
+            $newArray = [];
             foreach($balance as $k=>$val){
                 $balance[$k]['mobile'] = $userModel->getUserName($val['sso_id'])['mobile'];
+                /*print_r($balance[$k]['mobile']);
+                //如果不符合mobile条件
+                if($mobile && $balance[$k]['mobile']!=$mobile){
+                    $balanceCount--;
+                    print_r($balanceCount);
+                    continue;
+                }*/
+                array_push($newArray,$balance[$k]);
             }
-            $balance = array("balance"=>$balance,"balanceCount"=>$balanceCount);
+
+            
+            $balance = array("balance"=>$newArray,"balanceCount"=>$balanceCount);
        // }
 /*        else{
             $balance = $tblAccount->fetchAll("sso_id,user_name,score,amt,created_time",$where,"order by id desc");
@@ -782,8 +793,40 @@ class AccountModel
 
         //$orderList = $tblOrder->fetchAll("*",$where);
         $orderList = $tblOrder->fetchLimit("*",$where,"order by createTime asc",$page,$pageSize);
+    
         $orderCount = $tblOrder->queryCount($where);
         return array("orderList"=>$orderList,"orderCount"=>$orderCount);
+    }
+
+    /*
+    修改购买信息
+    */
+    function alterAccount($uid,$schoolId){
+        $tblSchoolPrice = new DB_Udo_SchoolPrice();
+        $tblResource = new DB_Sso_Resource();
+        $tblBought = new DB_Udo_UserBought();
+        $tblOrder = new DB_Udo_Order();
+
+
+        $schoolPrice = $tblSchoolPrice->scalar("*","where resourceId = {$schoolId}");
+        $courseType = Common_Config::PUBLIC_COURSE_TYPE;
+        $free = Common_Config::UDO_PRICETYPE_FREE;
+        $course = $tblResource->fetchAll("id","where type = {$courseType} and price_type <> {$free} and entrance_id = {$schoolId}");
+        $resource = [];
+        foreach ($course as $key => $value) {
+            array_push($resource,array("resourceType"=>2,"resourceId"=>$value['id']));
+        }
+        //print_r($resource);
+        $courseIds = $tblResource->columnRow($course,"id");
+
+        $resourceType = Common_Config::UDO_RESOURCE_COURSE;
+        $newOrder = $tblOrder->insert(array("userId"=>$uid,"resource"=>json_encode($resource),
+                    "createTime"=>time(),"status"=>Common_Config::ORDER_SUCCESS,"payType"=>$schoolPrice['priceType']==1?2:1));
+        foreach ($courseIds as $key => $value) {
+            
+            $tblBought->insert(array("resourceId"=>$value,"userId"=>$uid,"schoolId"=>$schoolId,"createTime"=>time(),"resourceType"=>$resourceType,"orderId"=>$newOrder));
+        }
+        return 1;
     }
 
 }

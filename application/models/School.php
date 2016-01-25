@@ -346,11 +346,33 @@ class SchoolModel
         $banner = $tbl -> fetchAll("id,logo,bannerType,bannerUrl,school,apiUdoUrl,customerName,customerTitle","where isValid=1","order by `order` asc");
         //print_r($banner?$banner:"null");
         foreach ($banner as $k=>$val){
+            //如果是寒假宣传banner
+            if($val['id'] == 8){
+                $count = $this->bannerData(2780,$uid);
+
+                $boughtCount = $count['boughtCount'];
+                $courseCount = $count['courseCount'];
+
+                $banner[$k]['bannerUrl'] = Common_Config::STATIC_BASE_URL."/share/holiday?bCount={$boughtCount}&cCount={$courseCount}";
+            }
+
             $banner[$k]['logo'] = Common_Config::SITE_DOMAIN.$val['logo'];
             $banner[$k]['isSubscribed'] = $this->getIfSub($val['school'],$uid);
             $banner[$k] = array_merge($banner[$k],$this->getSchoolPrice($val['school'],$uid));
         }
         return $banner;
+    }
+
+    function bannerData($schoolId,$uid){
+        $tblUserBought = new DB_Udo_UserBought();
+        $resourceCourse = Common_Config::UDO_RESOURCE_COURSE;
+        //$boughtCount = $tblUserBought->queryCount("where schoolId = {$schoolId} group by userId");
+        $boughtCount = count($tblUserBought->fetchAll("*","where schoolId = {$schoolId} group by userId"));
+        //print_r($boughtCount." ;");
+        $courseCount = $tblUserBought->queryCount("where schoolId = {$schoolId} and resourceType ={$resourceCourse} 
+            and userId = {$uid}");
+        //print_r($courseCount);
+        return array("boughtCount"=>$boughtCount,"courseCount"=>$courseCount);
     }
 
     function bannerStatistics($uid,$bannerId){

@@ -386,6 +386,7 @@ class AccountController extends Base_Contr
         }
 
         //此处为测试数据
+        $resourceRaw = $resource;
         $resource = json_decode($resource,true);
 
         //接收参数判断
@@ -430,7 +431,7 @@ class AccountController extends Base_Contr
         $uid = $userModel->getUserId($ssotoken);
         if(is_array($uid))
             $this->displayJsonUdo(Common_Error::INVALID_TOKEN,"",$uid['msg']);
-        $order = $accountModel->newOrder($ssotoken,$uid,$schoolId,$courseCount,$payType,$resource,$coinId,$amt,$platform);
+        $order = $accountModel->newOrder($ssotoken,$uid,$schoolId,$courseCount,$payType,$resourceRaw,$coinId,$amt,$platform);
 
         //对生成订单的结果进行判断
         if($order < 0)
@@ -708,8 +709,11 @@ class AccountController extends Base_Contr
             //resource取出来是序列化的字符串，首先先反序列化
             if($value['resource']){
                 $courseCount = 0;
-                $orderList[$k]['resource'] = unserialize($value['resource']);
+                //$value['resource'] = preg_replace('!s:(\d+):"(.*?)";!se', "'s:'.strlen('$2').':\"$2\";'", $value['resource']);
+                //print_r($value['resource']);
+                $orderList[$k]['resource'] = json_decode($value['resource'],true);
                 $schoolInfo = [];
+                //print_r($orderList[$k]['resource']);
                 foreach ($orderList[$k]['resource'] as $v=>$val){
                     if($val['resourceId']==1)
                         continue;
@@ -840,5 +844,24 @@ class AccountController extends Base_Contr
         }
 
     }*/
+
+
+    /*
+    异常情况下客服修改账户信息-添加购买
+    */
+
+    function manageAccountAction(){
+
+    }
+
+    function alterAccountAction(){
+        $userId = $this->get('userId');
+        $schoolId = $this->get('schoolId');
+
+        $accountModel = new AccountModel();
+        $result = $accountModel->alterAccount($userId,$schoolId);
+        $this->redirect('manageAccount');
+    }
+
 }
 
