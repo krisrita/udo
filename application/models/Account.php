@@ -394,7 +394,7 @@ class AccountModel
     /*
      * 生成订单
      */
-    function newOrder($ssotoken,$uid,$schoolId,$courseCount=0,$payType,$resource=[],$coinId=0,$amount,$platform=0,$couponId=0,$couponAmt=0){
+    function newOrder($ssotoken,$uid,$schoolId,$courseCount=0,$payType,$resource="",$coinId=0,$amount,$platform=0,$couponId=0,$couponAmt=0){
         $tblOrder = new DB_Udo_Order();
         $tblSchoolPrice = new DB_Udo_SchoolPrice();
         $tblResource = new DB_Sso_Resource();
@@ -451,7 +451,7 @@ class AccountModel
 
             //如果生成失败会再循环尝试三次
             while($retry<=3 && !$newOrder){
-                $newOrder = $tblOrder->insert(array("userId"=>$uid,"mobile"=>$mobile,"payType"=>$payType,"resource"=>serialize($resource),
+                $newOrder = $tblOrder->insert(array("userId"=>$uid,"mobile"=>$mobile,"payType"=>$payType,"resource"=>$resource,
                     "amount"=>$amount,"createTime"=>time(),"status"=>Common_Config::ORDER_NOT_PAY));
                 $retry++;
                 //如果第三次仍失败，返回订单创建失败
@@ -793,7 +793,7 @@ class AccountModel
 
         //$orderList = $tblOrder->fetchAll("*",$where);
         $orderList = $tblOrder->fetchLimit("*",$where,"order by createTime asc",$page,$pageSize);
-    
+
         $orderCount = $tblOrder->queryCount($where);
         return array("orderList"=>$orderList,"orderCount"=>$orderCount);
     }
