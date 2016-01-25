@@ -386,8 +386,7 @@ class AccountController extends Base_Contr
         }
 
         //此处为测试数据
-
-        $resource = [];
+        //$resource = [];
         $resource = json_decode($resource,true);
 
         //接收参数判断
