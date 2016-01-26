@@ -117,7 +117,7 @@ class ShareController extends Base_Contr
                 $banner['bannerUrl'] = Common_Config::STATIC_BASE_URL."/share/holiday?bCount={$boughtCount}&cCount={$courseCount}";
             }
         
-                $this->displayJsonUdo(Common_Error::ERROR_SUCCESS,array("url"=>$banner['bannerUrl'],"title"=>$banner['customerName'],"logo"=>Common_Config::STATIC_BASE_URL.$banner['logo'],"intro"=>$banner['intro']));
+                $this->displayJsonUdo(Common_Error::ERROR_SUCCESS,array("url"=>$banner['bannerUrl'],"title"=>$banner['customerName'],"logo"=>Common_Config::SITE_DOMAIN.$banner['logo'],"intro"=>$banner['intro']));
                 break;
         }
 
