@@ -107,7 +107,7 @@ class ShareController extends Base_Contr
                 $banner = $schoolModel->getSingleBanner($bannerId);
                 
                 //如果是寒假宣传banner
-                if($val['id'] == 8){
+                if($bannerId == 8){
                 $schoolModel = new SchoolModel();
                 $count = $schoolModel->bannerData(2780,$uid);
 
@@ -128,5 +128,9 @@ class ShareController extends Base_Contr
         $cCount = $this->get('cCount',0);
         $this->assign('bCount',$bCount);
         $this->assign('cCount',$cCount);
+    }
+
+    function ruleAction(){
+
     }
 }
