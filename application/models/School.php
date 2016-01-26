@@ -368,7 +368,7 @@ class SchoolModel
         $resourceCourse = Common_Config::UDO_RESOURCE_COURSE;
         //$boughtCount = $tblUserBought->queryCount("where schoolId = {$schoolId} group by userId");
         $boughtCount = count($tblUserBought->fetchAll("*","where schoolId = {$schoolId} group by userId"));
-        //print_r($boughtCount." ;");
+        print_r("model:".$boughtCount." ;");
         $courseCount = $tblUserBought->queryCount("where schoolId = {$schoolId} and resourceType ={$resourceCourse} 
             and userId = {$uid}");
         //print_r($courseCount);
