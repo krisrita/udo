@@ -105,13 +105,13 @@ class ShareController extends Base_Contr
                 break;
             case Common_Config::SHARE_BANNER:
                 $banner = $schoolModel->getSingleBanner($bannerId);
-                print_r($banner."banner");
+                //print_r($banner);
                 
                 //如果是寒假宣传banner
                 if($bannerId == 8){
                 $schoolModel = new SchoolModel();
                 $count = $schoolModel->bannerData(2780,$uid);
-                print_r($count."count");
+                //print_r($count);
                 $boughtCount = $count['boughtCount'];
                 $courseCount = $count['courseCount'];
                 $banner['bannerUrl'] = Common_Config::STATIC_BASE_URL."/share/holiday?bCount={$boughtCount}&cCount={$courseCount}";
