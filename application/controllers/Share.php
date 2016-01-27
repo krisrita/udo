@@ -128,8 +128,14 @@ class ShareController extends Base_Contr
 
 
     function holidayAction(){
-        $bCount = $this->get('bCount',958);
-        $cCount = $this->get('cCount',0);
+
+        $schoolModel = new SchoolModel();
+        $count = $schoolModel->bannerData(2780,0);
+        //print_r($count);
+
+        $bCount = $count['boughtCount'];
+        $cCount = $this->get($count['courseCount'],0);
+
         $this->assign('bCount',$bCount);
         $this->assign('cCount',$cCount);
     }

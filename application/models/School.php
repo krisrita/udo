@@ -334,6 +334,11 @@ class SchoolModel
                 array_push($private_forbid,$val);
         }
         //$new_array = $pri;
+        rsort($private_entry);
+        rsort($pri_entry);
+        rsort($public_entry);
+        rsort($public_forbid);
+        rsort($private_forbid);
         $new_array = array_merge($private_entry,$pri_entry,$public_entry,$public_forbid,$private_forbid);
 
         //print_r($array);
