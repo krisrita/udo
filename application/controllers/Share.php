@@ -75,6 +75,9 @@ class ShareController extends Base_Contr
             $bannerId = $this->get('bannerId');
         }
 
+        $creditModel = new CreditModel();
+        $increase = $creditModel->getCredit($uid,201,0);
+
         $schoolModel = new SchoolModel();
         switch($type){
             case Common_Config::SHARE_SCHOOL:

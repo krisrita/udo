@@ -16,6 +16,9 @@ class CreditModel
     function getCredit1($userId,$actionId,$userAuth){
        $tblCredit = new DB_Udo_CreditAction();
         $tblLog = new DB_Udo_UserCreditLog();
+
+        if($actionId == 200)
+            $actionId = -1;
         //获取该动作的基础信息
         $result = $tblCredit -> scalar("creditAmount,outputInput,ratio,times,isSynthesized,actionType","where actionId = {$actionId}");
 
@@ -105,7 +108,6 @@ class CreditModel
         $tblAccount = new DB_Pay_Account();
         $tblCreditLog = new DB_Udo_UserCreditLog();
         $rand = new Common_Char();
-
 
 
         //获取该动作的基础信息
