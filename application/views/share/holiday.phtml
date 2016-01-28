@@ -44,9 +44,8 @@
         font-size: 5.4vw;
         color: #ffea00;
     }
-    //动画背景切换
-    @keyframes animatedBackground { from { background-image: url(img/holiday/button-up.png); } to { background-image: url(img/holiday/button-down.png); } }
-    .button {
+
+    #button {
         position: absolute;
         top: 44%;
         left: 64%;
@@ -55,7 +54,6 @@
         background-image: url(img/holiday/button-up.png);
         background-repeat: no-repeat;
         background-size: 100% auto;
-        /*animation: animatedBackground 0.3s ease-in-out infinite;*/
     }
     .process {
         display: none;
@@ -100,7 +98,7 @@
         <div class="time minute number"></div>
 
     <div class="amount number"  style="margin:0 auto" align="center"><{$bCount}></div>
-    <div class="button"></div>
+    <div id="button" class="button"></div>
     
         <div id="pro-1" class="process"></div>
         <div id="pro-2" class="process"></div>
@@ -144,14 +142,13 @@
             window.open("rule");
         });
 
+
         //显示当前进度
         var cur = <{$cCount|default:0}>;
         for(i=1;i<=cur;i++){
             $('#pro-'+i).show();
         }
         
-
-
     })
 </script>
 </body>
