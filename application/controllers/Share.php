@@ -134,7 +134,7 @@ class ShareController extends Base_Contr
         //print_r($count);
 
         $bCount = $count['boughtCount'];
-        $cCount = $this->get($count['courseCount'],0);
+        $cCount = $this->get('cCount');
 
         $this->assign('bCount',$bCount);
         $this->assign('cCount',$cCount);
