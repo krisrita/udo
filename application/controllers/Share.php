@@ -117,7 +117,7 @@ class ShareController extends Base_Contr
                 //print_r($count);
                 $boughtCount = $count['boughtCount'];
                 $courseCount = $count['courseCount'];
-                $banner['bannerUrl'] = Common_Config::STATIC_BASE_URL."/share/holiday?bCount={$boughtCount}&cCount={$courseCount}";
+                $banner['bannerUrl'] = Common_Config::STATIC_BASE_URL."/share/holiday1?bCount={$boughtCount}&cCount={$courseCount}";
             }
         
                 $this->displayJsonUdo(Common_Error::ERROR_SUCCESS,array("url"=>$banner['bannerUrl'],"title"=>$banner['customerName'],"logo"=>Common_Config::SITE_DOMAIN.$banner['logo'],"intro"=>$banner['intro']));
@@ -127,7 +127,7 @@ class ShareController extends Base_Contr
     }
 
 
-    function holidayAction(){
+    function holiday1Action(){
 
         $schoolModel = new SchoolModel();
         $count = $schoolModel->bannerData(2780,0);

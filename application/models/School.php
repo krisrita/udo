@@ -358,7 +358,7 @@ class SchoolModel
                 $boughtCount = $count['boughtCount'];
                 $courseCount = $count['courseCount'];
 
-                $banner[$k]['bannerUrl'] = Common_Config::STATIC_BASE_URL."/share/holiday?bCount={$boughtCount}&cCount={$courseCount}";
+                $banner[$k]['bannerUrl'] = Common_Config::STATIC_BASE_URL."/share/holiday1?bCount={$boughtCount}&cCount={$courseCount}";
             }
 
             $banner[$k]['logo'] = Common_Config::SITE_DOMAIN.$val['logo'];

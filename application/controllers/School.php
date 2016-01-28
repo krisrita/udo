@@ -108,11 +108,15 @@ class SchoolController extends Base_Contr
     function getSchoolAction()
     {
         $request = $this->getRequest();
+        //print_r($request->getMethod());
+        // die();
         if('POST' == $request->getMethod())
         {
-            $ssotoken = $this->post()->get("ssotoken");
+            //var_dump($this->post());
+
+            $ssotoken = $this->post("ssotoken");//->get();
             $type = $this->post()->get("type");
-            $schoolId = $this->post()->get("schoolId");
+            $schoolId = $this->post()->get("schoolId");            //die($ssotoken);
         }
         else{
             //$ssotoken = "token439f0036-e5c7-4053-a48e-0c23c91ec41epylmt67C";
@@ -120,6 +124,8 @@ class SchoolController extends Base_Contr
             $type = $this->get("type");
             $schoolId = $this->get("schoolId");
         }
+
+
         $type = $type?$type:1;
         if(!$ssotoken || !$type)
             $this->displayJsonUdo(Common_Error::ERROR_PARAM);
