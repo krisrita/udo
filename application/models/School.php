@@ -319,7 +319,7 @@ class SchoolModel
                 //print_r($val['id']." ");
             }
             //重点公开频道排序第二靠前
-            else if(($val['id']==2748 || $val['id']==2753 || $val['id']==2746 ||$val['id']==11 ||$val['id']==2780)&&$val['isPublic']){
+            else if(($val['id']==2748 || $val['id']==2753 || $val['id']==2782 ||$val['id']==2769 ||$val['id']==2780)&&$val['isPublic']){
                 array_push($pri_entry,$val);
                 continue;
             }
