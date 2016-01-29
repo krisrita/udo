@@ -52,9 +52,9 @@ class AdController extends Base_Contr
         $adlist = $ad -> getAd($result);
 
         $uid = $userModel->getUserId($token);
-        $kaixin = $ad->filterPrimary($uid);
+        /*$kaixin = $ad->filterPrimary($uid);
         if(is_array($kaixin))
-            $adlist = $kaixin;
+            $adlist = $kaixin;*/
         //计算总竞价值
         $price_sum = 0;
         $temp_arr = array();
