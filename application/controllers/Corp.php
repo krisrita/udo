@@ -21,6 +21,10 @@ class CorpController extends Base_Contr
     {
     }
 
+    function protocol1Action(){
+
+    }
+
     function copyrightAction()
     {
     }
