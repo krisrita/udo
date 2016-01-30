@@ -33,4 +33,12 @@ class CorpController extends Base_Contr
     {
 
     }
+
+    function guide1Action(){
+
+    }
+
+    function guide2Action(){
+        
+    }
 }
