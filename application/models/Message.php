@@ -203,11 +203,18 @@ class MessageModel
         
     }
 
-    function kaixinUser(){
+/*    function kaixinUser(){
         $tblSchoolSta = new DB_Udo_SchoolStatistics();
-        $user = $tblSchoolSta->fetchAll("userId","where schoolId = 10 or schoolId = 2746 group by userId");
+        $user = $tblSchoolSta->fetchAll("userId","where schoolId = 10 or schoolId = 2746 schoolId = 2769 group by userId");
         $userIds = $tblSchoolSta->columnRow($user,"userId");
         return $userIds;
+    }*/
+
+    function kaixinUser(){
+        $tblUser = new  DB_Sso_User();
+        $user = $tblUser->fetchAll("id");
+        $userIds = $tblUser->columnRow($user,"id");
+        return $userIds;  
     }
 }
     ?>

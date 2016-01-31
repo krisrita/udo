@@ -186,7 +186,7 @@ class MessageController extends Base_Contr
      * 给小学用户推送开心作文上线消息
      */
     function kaixinMessageAction(){
-        $title ="作文拿不了高分？作文怎么写才不low？";
+        $title ="寒假不规划，开学差距大";
         $type = 1;
         $messageType = Common_Config::UDO_SCHOOL_MESSAGE_TYPE;
         $retry = 0;
@@ -194,12 +194,13 @@ class MessageController extends Base_Contr
         $messageModel = new MessageModel();
         $receiveUserId = $messageModel->kaixinUser();
         //print_r($receiveUserId);
-        $text = "一个月作文技巧手到擒来，找回孩子“被忽视的情绪和思维”！";
+        //print_r($receiveUserId);
+        $text = "乐学课堂2016年最走心的陪伴式学习";
         //print_r($receiveUserId);
         //print_r($text);
-        $custom_data_raw = json_encode(array("school_id"=>2769,"course_id"=>"","url"=>"http://123.57.182.19:8520/"));
+        $custom_data_raw = json_encode(array("school_id"=>2782,"course_id"=>"","url"=>"http://123.57.182.19:8520/"));
         $mid = $messageModel ->messageLog($type,$messageType,$custom_data_raw,0,$receiveUserId,null,$title,$text);
-        $custom_data = json_encode(array("id"=>$mid,"school_id"=>2769,"course_id"=>"","url"=>"http://123.57.182.19:8520/","prof_type"=>100,"title"=>$title,"text"=>$text));
+        $custom_data = json_encode(array("id"=>$mid,"school_id"=>2782,"course_id"=>"","url"=>"http://123.57.224.126:8524/","prof_type"=>100,"title"=>$title,"text"=>$text));
         //print_r($custom_data);
 
         //如果发送失败，再尝试三次
