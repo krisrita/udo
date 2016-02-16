@@ -361,7 +361,9 @@ class SchoolModel
                 $banner[$k]['bannerUrl'] = Common_Config::STATIC_BASE_URL."/share/holiday1?bCount={$boughtCount}&cCount={$courseCount}";
             }
 
-            $banner[$k]['logo'] = Common_Config::SITE_DOMAIN.$val['logo'];
+            if(!strstr( $val['logo'],'http://')) {
+                $banner[$k]['logo'] = Common_Config::SITE_DOMAIN . $val['logo'];
+            }
             $banner[$k]['isSubscribed'] = $this->getIfSub($val['school'],$uid);
             $banner[$k] = array_merge($banner[$k],$this->getSchoolPrice($val['school'],$uid));
         }
