@@ -1,0 +1,5 @@
+.idea/*
+conf/*
+conf*/*
+!conf.tar.gz
+.idea_bak/
